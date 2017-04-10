@@ -7,11 +7,14 @@ class Movie extends \frontend\models\Movie
     public function fields()
     {
         return [
+            'id',
             'name_cn',
             'name_en',
             'poster',
             'director',
-            'actor',
+            'actor' => function(self $model) {
+                return \yii\helpers\Json::decode($model->actor);
+            },
             'grade_db',
             'show_time'
         ];
