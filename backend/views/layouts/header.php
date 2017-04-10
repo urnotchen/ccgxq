@@ -32,6 +32,12 @@ use yii\helpers\Html;
                 'activeModule' => 'movie',
             ];
 
+            $items[] = [
+                'text' => '设置',
+                'url' => ['/setting/misc/policy'],
+                'activeModule' => 'setting',
+            ];
+
             echo \bluelive\adminlte\widgets\TopMenu::widget(['items' => $items]);
 
             ?>

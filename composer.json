@@ -25,7 +25,8 @@
         "blue-components/yii2-adminlte-generators": "dev-master",
         "blue-components/yii2-components": "dev-master",
         "blue-components/shell-scripts": "dev-master",
-        "kartik-v/yii2-widget-datepicker": "@dev"
+        "kartik-v/yii2-widget-datepicker": "@dev",
+        "xj/yii2-ueditor-widget": "1.0.10"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

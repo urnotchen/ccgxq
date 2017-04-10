@@ -25,6 +25,18 @@ return [
                 ],
             ],
         ],
+        'setting' => [
+            'class' => 'backend\modules\setting\Module',
+            'as access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ],
     ],
     'components' => [
         'request' => [
