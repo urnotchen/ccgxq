@@ -46,6 +46,11 @@ class Movie extends \yii\db\ActiveRecord
             [['name_cn', 'name_en', 'poster', 'director', 'grade_db', 'actor'], 'required'],
             [['name_cn', 'name_en', 'poster', 'director', 'grade_db'], 'string', 'max' => 255],
             ['actor', 'string'],
+            ['actor', 'filter', 'filter' => function($value) {
+                $value = str_replace('，', ',', $value);
+
+                return \yii\helpers\Json::encode(explode(',', $value));
+            }],
             ['show_time', 'validateTime']
         ];
     }
@@ -101,6 +106,9 @@ class Movie extends \yii\db\ActiveRecord
         return $this->hasOne(MovieResource::className(), ['movie_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getOnlineResource()
     {
         return $this->hasOne(OnlineResource::className(), ['movie_id' => 'id']);

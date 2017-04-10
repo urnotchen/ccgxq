@@ -45,8 +45,11 @@ use backend\modules\movie\models\Movie;
             'label'=>'演员',
             'format'=>'raw',
             'value' => function(Movie $model){
+                $actors = implode(',', \yii\helpers\Json::decode($model->actor));
 
-                return $model->actor;
+                return <<<HTML
+<div style="word-wrap: break-word;word-break: break-all;white-space: pre-wrap;">{$actors}</div>
+HTML;
             },
             'options' => ['class' => 'movie-actor']
         ],
@@ -55,7 +58,7 @@ use backend\modules\movie\models\Movie;
             'label'=>'评分/上映时间',
             'format'=>'raw',
             'value' => function(Movie $model){
-                $time = Yii::$app->dateFormat->humanReadableDateTime($model->show_time);
+                $time = Yii::$app->dateFormat->humanReadableDate($model->show_time);
 
                 return <<<HTML
 <div>豆瓣评分：{$model->grade_db}</div>

@@ -12,13 +12,22 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'db' => [
+            'enableQueryCache' => true,
+            'enableSchemaCache' => true,
+        ],
+        'dbUser' => [
+            'enableQueryCache' => true,
+            'enableSchemaCache' => true,
+        ],
         'request' => [
-            'csrfParam' => '_csrf-frontend',
+            'class' => 'frontend\components\rest\Request',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'class'         => 'frontend\components\rest\User',
+            'identityClass' => 'frontend\models\User',
+            'enableSession' => false,
+            'loginUrl' => null,
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
@@ -36,14 +45,30 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'enablePrettyUrl'     => true,
+            'enableStrictParsing' => true,
+            'showScriptName'      => false,
             'rules' => [
+
+                '' => 'site/index',
+
+                'v1' => 'v1',
+                'v1/<controller:[a-z-]+>/<action:[a-z-]+>' => 'v1/<controller>/<action>',
+
+                '<controller:[a-z-]+>/<action:[a-z-]+>' => '<controller>/<action>',
+
             ],
         ],
-        */
+        'assetManager' => [
+            'appendTimestamp' => true,
+            'forceCopy' => false,
+        ]
+    ],
+    'modules' => [
+        'v1' => [
+            'class' => 'frontend\modules\v1\Module',
+        ],
     ],
     'params' => $params,
 ];
