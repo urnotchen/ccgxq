@@ -22,6 +22,7 @@ Thumbs.db
 
 # composer itself is not needed
 composer.phar
+composer.lock
 
 # Mac DS_Store Files
 .DS_Store
@@ -33,3 +34,14 @@ phpunit.phar
 
 # vagrant runtime
 /.vagrant
+
+# vim
+*.un~
+.*.un~
+*.vim
+*.swp
+.netrwhist
+tags
+
+# test shell
+/test_shell
