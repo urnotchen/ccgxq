@@ -35,8 +35,11 @@ use backend\modules\movie\models\Movie;
             'label'=>'导演',
             'format'=>'raw',
             'value' => function(Movie $model){
+                $director = implode(',', \yii\helpers\Json::decode($model->director));
 
-                return $model->director;
+                return <<<HTML
+<div style="word-wrap: break-word;word-break: break-all;white-space: pre-wrap;">{$director}</div>
+HTML;
             },
             'options' => ['class' => 'movie-director']
         ],

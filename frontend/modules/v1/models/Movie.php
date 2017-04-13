@@ -11,7 +11,9 @@ class Movie extends \frontend\models\Movie
             'name_cn',
             'name_en',
             'poster',
-            'director',
+            'director' => function(self $model) {
+                return \yii\helpers\Json::decode($model->director);
+            },
             'actor' => function(self $model) {
                 return \yii\helpers\Json::decode($model->actor);
             },

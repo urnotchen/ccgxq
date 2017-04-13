@@ -44,9 +44,9 @@ class Movie extends \yii\db\ActiveRecord
     {
         return [
             [['name_cn', 'name_en', 'poster', 'director', 'grade_db', 'actor'], 'required'],
-            [['name_cn', 'name_en', 'poster', 'director', 'grade_db'], 'string', 'max' => 255],
-            ['actor', 'string'],
-            ['actor', 'filter', 'filter' => function($value) {
+            [['name_cn', 'name_en', 'poster', 'grade_db'], 'string', 'max' => 255],
+            [['director', 'actor'], 'string'],
+            [['director', 'actor'], 'filter', 'filter' => function($value) {
                 $value = str_replace('，', ',', $value);
 
                 return \yii\helpers\Json::encode(explode(',', $value));

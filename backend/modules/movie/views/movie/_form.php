@@ -34,9 +34,9 @@ $model->show_time = $model->show_time ?
         'placeholder' => '海报链接'
     ]) ?>
 
-    <?= $form->field($model, 'director')->textInput([
+    <?= $form->field($model, 'director')->textarea([
         'maxlength' => true,
-        'placeholder' => '导演'
+        'placeholder' => '逗号分隔'
     ]) ?>
 
     <?= $form->field($model, 'actor')->textarea([

@@ -2,6 +2,7 @@
 
 namespace backend\modules\movie\controllers;
 
+use yii\helpers\Json;
 use yii\data\ActiveDataProvider;
 
 use backend\modules\movie\models\Movie;
@@ -98,6 +99,9 @@ class MovieController extends \yii\web\Controller
 
             return $this->redirect('index');
         }
+
+        $model->director = implode(',', Json::decode($model->director));
+        $model->actor = implode(',', Json::decode($model->actor));
 
         return $this->render('update', [
             'model' => $model,
