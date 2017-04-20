@@ -13,7 +13,9 @@ namespace common\models;
  * @property string $director
  * @property string $grade_db
  * @property string $actor
+ * @property string $imdb
  * @property integer $show_time
+ * @property integer $douban
  * @property integer $created_at
  * @property integer $created_by
  * @property integer $updated_at
@@ -44,7 +46,8 @@ class Movie extends \yii\db\ActiveRecord
     {
         return [
             [['name_cn', 'name_en', 'poster', 'director', 'grade_db', 'actor'], 'required'],
-            [['name_cn', 'name_en', 'poster', 'grade_db'], 'string', 'max' => 255],
+            [['name_cn', 'name_en', 'poster', 'grade_db', 'imdb'], 'string', 'max' => 255],
+            ['douban', 'integer'],
             [['director', 'actor'], 'string'],
             [['director', 'actor'], 'filter', 'filter' => function($value) {
                 $value = str_replace('，', ',', $value);
@@ -78,6 +81,8 @@ class Movie extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name_cn' => '中文名',
             'name_en' => '英文名',
+            'douban' => '豆瓣',
+            'imdb' => 'imdb',
             'poster' => '海报',
             'director' => '导演',
             'grade_db' => '豆瓣评分',

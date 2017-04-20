@@ -18,7 +18,9 @@ class Movie extends \frontend\models\Movie
                 return \yii\helpers\Json::decode($model->actor);
             },
             'grade_db',
-            'show_time'
+            'show_time',
+            'imdb',
+            'douban'
         ];
     }
 

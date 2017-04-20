@@ -22,6 +22,19 @@ use backend\modules\movie\models\Movie;
         ],
 
         [
+            'label'=>'豆瓣/imdb',
+            'format'=>'raw',
+            'value' => function(Movie $model){
+
+                return <<<HTML
+<div>豆瓣：{$model->douban}</div>
+<div>imdb：{$model->imdb}</div>
+HTML;
+            },
+            'options' => ['class' => 'movie-id']
+        ],
+
+        [
             'label'=>'海报',
             'format'=>'raw',
             'value' => function(Movie $model){

@@ -8,7 +8,7 @@ $this->title = 'MOVIE';
 ?>
 
 <div class="row" id="movie-index">
-    <div class="col-md-10">
+    <div class="col-md-12">
         <?= \yii\helpers\Html::a('添加电影', ['create'], ['class' => 'btn btn-success', 'style' => 'margin-bottom: 10px'])?>
 
         <?= $this->render('index_content', [

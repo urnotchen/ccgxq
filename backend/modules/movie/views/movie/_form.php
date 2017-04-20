@@ -29,6 +29,16 @@ $model->show_time = $model->show_time ?
         'placeholder' => '英文名'
     ]) ?>
 
+    <?= $form->field($model, 'douban')->textInput([
+        'maxlength' => true,
+        'placeholder' => '豆瓣id'
+    ]) ?>
+
+    <?= $form->field($model, 'imdb')->textInput([
+        'maxlength' => true,
+        'placeholder' => 'imdb id'
+    ]) ?>
+
     <?= $form->field($model, 'poster')->textInput([
         'maxlength' => true,
         'placeholder' => '海报链接'
