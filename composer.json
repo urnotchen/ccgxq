@@ -1,6 +1,6 @@
 {
-    "name": "movie-server",
-    "description": "movie server",
+    "name": "cmovie-server",
+    "description": "cmovie server",
     "keywords": ["yii2", "framework", "advanced", "movie"],
     "homepage": "http://www.yiiframework.com/",
     "type": "project",
