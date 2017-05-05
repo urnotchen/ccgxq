@@ -127,7 +127,15 @@ a.desc:after {
     padding: 15px;
     color: #fff;
 }
+/* side-bar */
 
+.sidebar-menu > .treeview > .treeview-menu > li > a {
+    font-size: 12px !important;
+}
+
+.active-item {
+    color: #fff !important;
+}
 .menu-item:hover, .menu-item:active, .menu-item:focus, .menu-item-active {
     color: #fff !important;
     background-color: #008d4c;
@@ -140,4 +148,10 @@ a.desc:after {
 }
 .sidebar-menu > .treeview > .treeview-menu > li > a {
     font-size: 12px !important;
+}
+
+.user-avatar {
+    width:50px;
+    height: 50px;
+    vertical-align:top;
 }
