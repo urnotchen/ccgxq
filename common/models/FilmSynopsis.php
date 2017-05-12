@@ -32,9 +32,8 @@ class FilmSynopsis extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['movie_id', 'source', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['movie_id', 'source', 'created_at', 'created_by', 'updated_at', 'updated_by','user_id','source'], 'integer'],
             [['text'], 'string'],
-            [['source'], 'required'],
         ];
     }
 

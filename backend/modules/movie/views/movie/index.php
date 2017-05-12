@@ -16,21 +16,25 @@ $this->title = 'MOVIE';
 
         <?= \yii\helpers\Html::a('添加电影', ['create'], ['class' => 'btn btn-success', 'style' => 'margin-bottom: 10px'])?>
 
-        <?php
-            if(isset(Yii::$app->request->queryParams['MovieSearch']['film_property'])) {
-                echo MovieGridView::widget([
-                    'stringColumns' => ['order','pic_id', 'title', 'director', 'actor', 'comment_num', 'score','sequence'],
-                    'dataProvider' => $dataProvider,
-                    'property' => Yii::$app->request->queryParams['MovieSearch']['film_property'],
-                ]);
-            }else{
-               echo MovieGridView::widget([
-                    'stringColumns' => ['pic_id', 'title', 'director', 'actor', 'comment_num', 'score'],
-                    'dataProvider' => $dataProvider,
-                ]);
-            }
+        <?php \bluelive\adminlte\widgets\BoxWidget::begin()?>
 
-        ?>
+            <?php
+                if(isset(Yii::$app->request->queryParams['MovieSearch']['film_property'])) {
+                    echo MovieGridView::widget([
+                        'stringColumns' => ['order','pic_id', 'title', 'director', 'actor', 'comment_num', 'score','sequence'],
+                        'dataProvider' => $dataProvider,
+                        'property' => Yii::$app->request->queryParams['MovieSearch']['film_property'],
+                    ]);
+                }else{
+                   echo MovieGridView::widget([
+                        'stringColumns' => ['pic_id', 'title', 'director', 'actor', 'comment_num', 'score'],
+                        'dataProvider' => $dataProvider,
+                    ]);
+                }
+            ?>
+
+        <?php \bluelive\adminlte\widgets\BoxWidget::end()?>
+
     </div>
 </div>
 <?php

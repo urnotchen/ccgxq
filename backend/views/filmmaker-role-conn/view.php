@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\movie\models\VideoWebsite */
+/* @var $model app\models\FilmmakerRoleConn */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Video Websites', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Filmmaker Role Conns', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="video-website-view">
+<div class="filmmaker-role-conn-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,8 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'name',
-            'sub_name',
+            'movie_id',
+            'filmmaker_id',
+            'role_id',
         ],
     ]) ?>
 

@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\movie\models\VideoConn */
+/* @var $model app\models\Filmmaker */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Video Conns', 'url' => ['index']];
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Filmmakers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="video-conn-view">
+<div class="filmmaker-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,11 +29,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'movie_id',
-            'website_id',
-            'price',
-            'type',
-            'url:url',
+            'pic_id',
+            'filmmaker_url:url',
+            'name',
+            'sex',
+            'constellation',
+            'birthday',
+            'birthplace',
+            'occupation',
+            'more_foreign_name',
+            'more_chinese_name',
+            'family_member',
+            'imdb',
+            'imdb_title',
+            'synopsis:ntext',
+            'created_at',
+            'created_by',
+            'updated_at',
+            'updated_by',
         ],
     ]) ?>
 

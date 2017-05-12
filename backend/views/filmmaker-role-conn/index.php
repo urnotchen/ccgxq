@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\movie\models\search\VideoConnSearch */
+/* @var $searchModel app\modules\movie\models\search\FilmmakerRoleConnSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Video Conns';
+$this->title = 'Filmmaker Role Conns';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="video-conn-index">
+<div class="filmmaker-role-conn-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Video Conn', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Filmmaker Role Conn', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -26,10 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'movie_id',
-            'website_id',
-            'price',
-            'type',
-            // 'url:url',
+            'filmmaker_id',
+            'role_id',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

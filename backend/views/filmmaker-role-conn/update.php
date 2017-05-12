@@ -3,14 +3,14 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\movie\models\VideoConn */
+/* @var $model app\models\FilmmakerRoleConn */
 
-$this->title = 'Update Video Conn: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Video Conns', 'url' => ['index']];
+$this->title = 'Update Filmmaker Role Conn: ' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Filmmaker Role Conns', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="video-conn-update">
+<div class="filmmaker-role-conn-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

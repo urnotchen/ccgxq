@@ -99,6 +99,10 @@ class FilmVideoConn extends \yii\db\ActiveRecord
     }
 
     public function getWebsite(){
-        return $this->hasOne(VideoWebsite::className(),['id' => 'website_id']);
+        return $this->hasOne(FilmVideoWebsite::className(),['id' => 'website_id']);
+    }
+
+    public function getMovie(){
+        return $this->hasOne(Movie::className(),['id' => 'movie_id']);
     }
 }

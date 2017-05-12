@@ -16,7 +16,7 @@ class MovieController extends \frontend\components\rest\Controller
 
     public function actionMovieList()
     {
-        return Movie::find()->all();
+        return (Movie::find()->limit(10)->all());
     }
 
 }

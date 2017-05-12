@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\movie\models\search\VideoWebsiteSearch */
+/* @var $model app\modules\movie\models\search\FilmmakerRoleConnSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="video-website-search">
+<div class="filmmaker-role-conn-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,9 +17,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'movie_id') ?>
 
-    <?= $form->field($model, 'sub_name') ?>
+    <?= $form->field($model, 'filmmaker_id') ?>
+
+    <?= $form->field($model, 'role_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

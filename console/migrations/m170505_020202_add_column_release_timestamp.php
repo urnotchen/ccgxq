@@ -8,7 +8,7 @@ class m170505_020202_add_column_release_timestamp extends Migration
 
     public function up()
     {
-        $res = \backend\modules\movie\models\Movie::find()->where(['release_timestamp' => null])->limit(10000)->all();
+        $res = \backend\modules\movie\models\Movie::find()->where(['release_timestamp' => null])->all();
 //        $res = '2013-9(日本)1023';
 
 
