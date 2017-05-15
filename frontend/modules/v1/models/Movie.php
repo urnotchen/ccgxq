@@ -4,31 +4,36 @@ namespace frontend\modules\v1\models;
 
 class Movie extends \frontend\models\Movie
 {
-//    public function fields()
-//    {
-//        return [
-//            'id',
-//            'name_cn',
-//            'name_en',
-//            'poster',
-//            'director' => function(self $model) {
-//                return \yii\helpers\Json::decode($model->director);
-//            },
-//            'actor' => function(self $model) {
-//                return \yii\helpers\Json::decode($model->actor);
-//            },
-//            'grade_db',
-//            'show_time',
-//            'imdb',
-//            'douban'
-//        ];
-//    }
+    public function fields()
+    {
+        return [
+            'id',
+            'name' => function($model){
+                $titleList = explode(' ',$model->title,2);
+
+                return $titleList[0];
+            },
+            'local_name'=> function($model){
+                $titleList = explode(' ',$model->title,2);
+                $alias = count($titleList) == 2 ? $titleList[1] : '';
+
+                return $alias;
+            },
+            'director'=> function($model){
+                return $model->director?explode('/',$model->director):[];
+            },
+            'actor'=> function($model){
+                return $model->actor?explode('/',$model->actor):[];
+            },
+        ];
+    }
 
     public function extraFields()
     {
         return [
             'movieResource',
-            'onlineResource'
+            'onlineResource',
+            'image',
         ];
     }
 
@@ -46,6 +51,13 @@ class Movie extends \frontend\models\Movie
     public function getOnlineResource()
     {
         return $this->hasOne(OnlineResource::className(), ['movie_id' => 'id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImage()
+    {
+        return $this->hasOne(Image::className(), ['id' => 'pic_id']);
     }
 }
 

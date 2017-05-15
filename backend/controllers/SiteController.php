@@ -57,17 +57,7 @@ class SiteController extends \yii\web\Controller
      */
     public function actionIndex()
     {
-//        return $this->render('index');
-        $res = \backend\modules\movie\models\Image::find()->all();
-//        $res = '2013-9(日本)1023';
-
-
-        foreach($res as $movie) {
-           if("pictures" == substr($movie->path,0,8)){
-                $movie->path = str_replace("\\",'/',substr($movie->path,9));
-               $movie->save();
-           }
-        }
+        return $this->render('index');
     }
 
     /**

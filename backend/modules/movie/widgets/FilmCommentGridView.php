@@ -84,7 +84,7 @@ HTML;
                     return date("Y-m-d",$model->comment_date);
                 }
             ],
-            'score' => 'score',
+            'star' => 'star',
             'good_num' => 'good_num',
             'comment' => [
                 'attribute' => 'comment',

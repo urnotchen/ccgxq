@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         FilmCommentGridView::widget([
             'stringColumns' => null,
             'dataProvider'  => $dataProvider,
-            'stringColumns' => 'pic_id,comment_date,score,good_num,comment'
+            'stringColumns' => 'pic_id,comment_date,star,good_num,comment'
         ])
     ?>
 

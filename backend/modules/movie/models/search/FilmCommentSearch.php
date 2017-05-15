@@ -18,7 +18,7 @@ class FilmCommentSearch extends FilmComment
     public function rules()
     {
         return [
-            [['id', 'movie_id', 'pic_id', 'comment_date', 'score', 'good_num', 'updated_at'], 'integer'],
+            [['id', 'movie_id', 'pic_id', 'comment_date', 'star', 'good_num', 'updated_at'], 'integer'],
             [['user_id', 'username', 'userhome_url', 'comment'], 'safe'],
         ];
     }
@@ -64,14 +64,13 @@ class FilmCommentSearch extends FilmComment
             'movie_id' => $this->movie_id,
             'pic_id' => $this->pic_id,
             'comment_date' => $this->comment_date,
-            'score' => $this->score,
+            'star' => $this->star,
             'good_num' => $this->good_num,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'user_id', $this->user_id])
             ->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'userhome_url', $this->userhome_url])
             ->andFilterWhere(['like', 'comment', $this->comment]);
 
         return $dataProvider;

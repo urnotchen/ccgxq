@@ -37,8 +37,8 @@ class FilmComment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['movie_id', 'pic_id', 'comment_date', 'score', 'good_num', 'updated_at'], 'integer'],
-            [['user_id', 'username', 'userhome_url'], 'string', 'max' => 255],
+            [['movie_id', 'pic_id', 'star', 'good_num','type','created_at','created_by','updated_at','updated_by'], 'integer'],
+            [['user_id', 'username',], 'string', 'max' => 255],
             [['comment'], 'string', 'max' => 1000],
         ];
     }
@@ -56,7 +56,7 @@ class FilmComment extends \yii\db\ActiveRecord
             'userhome_url' => '用户首页',
             'pic_id' => '用户头像',
             'comment_date' => '评论日期',
-            'score' => '打分',
+            'star' => '打分',
             'good_num' => '有用',
             'comment' => '内容',
             'updated_at' => '更新时间',
