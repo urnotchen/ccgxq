@@ -31,8 +31,8 @@ class Image extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['movie_id', 'filmmaker_id'], 'integer'],
-            [['user_id', 'pic_id', 'path', 'douban_url'], 'string', 'max' => 255],
+            [['movie_id', 'filmmaker_id','type','source'], 'integer'],
+            [['user_id','item_id', 'pic_id', 'path', 'url'], 'string', 'max' => 255],
         ];
     }
 
