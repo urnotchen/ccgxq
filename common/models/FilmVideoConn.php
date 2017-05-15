@@ -35,7 +35,7 @@ class FilmVideoConn extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['movie_id', 'website_id', 'type'], 'integer'],
+            [['movie_id', 'website_id', 'type','created_at','created_by','updated_at','updated_by'], 'integer'],
             [['price'], 'number'],
             [['url'], 'string', 'max' => 1000],
         ];

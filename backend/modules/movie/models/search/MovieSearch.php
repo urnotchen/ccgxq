@@ -2,7 +2,7 @@
 
 namespace backend\modules\movie\models\search;
 
-use backend\modules\movie\models\TypeConn;
+use backend\modules\movie\models\FilmTypeConn;
 use common\models\FilmProperty;
 use Yii;
 use yii\base\Model;
@@ -100,7 +100,7 @@ class MovieSearch extends Movie
             ->andFilterWhere(['like', 'synopsis', $this->synopsis]);
         if($this->film_type){
             //join the type_conn for searching
-            $query->join('join',TypeConn::tableName(),Movie::tableName().'.id = '.TypeConn::tableName().'.movie_id' )->andFilterWhere([TypeConn::tableName().'.type_id' => $this->film_type]);
+            $query->join('join',FilmTypeConn::tableName(),Movie::tableName().'.id = '.FilmTypeConn::tableName().'.movie_id' )->andFilterWhere([FilmTypeConn::tableName().'.type_id' => $this->film_type]);
 
         }
         if($this->film_property){

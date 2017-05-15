@@ -80,45 +80,10 @@ class ResponseCode
     # 重置密码不能与原密码相同
     const USER_PASSWORD_NOT_CHANGE                   = 40040;
 
-    # 项目数超过上线
-    const PROJECT_OVER_MAX                           = 40041;
-    # 场数超过上线
-    const SCENE_OVER_MAX                             = 40042;
-    # 镜数超过上线
-    const CUT_OVER_MAX                               = 40043;
-
-    # 过期VIP只允许编辑前两个项目
-    const EXPIRED_VIP_EDIT_TWO                       = 40045;
-
-    # 收据与订单不符
-    const RECEIPT_NOT_MATCH_PURCHASE                 = 40046;
-
-    # 产品不存在
-    const PRODUCT_NOT_EXIST                          = 40047;
 
     # 无效设备码
     const INVALID_DEVICE                             = 40049;
 
-    # 手机超过上限
-    const PHONE_OVER_MAX                             = 40051;
-    # 平板超过上限
-    const PAD_OVER_MAX                               = 40052;
-
-    # 项目已创建
-    const PROJECT_CREATED                            = 40055;
-    # 场已创建
-    const SCENE_CREATED                              = 40056;
-    # 镜已创建
-    const CUT_CREATED                                = 40057;
-    # 镜图片已创建
-    const IMAGE_CREATED                              = 40058;
-
-    # 标准用户才能购买升级包
-    const ONLY_VIP_UPGRADE_SVIP                      = 40061;
-    # 高级用户不能购买标准用户
-    const SVIP_NOT_BUG_VIP                           = 40062;
-    # 标准用户不能购买高级用户
-    const VIP_NOT_BUG_SVIP                           = 40063;
 
     # 下载次数超过限制
     const DOWNLOAD_TIMES_OVER_MAX                    = 40067;

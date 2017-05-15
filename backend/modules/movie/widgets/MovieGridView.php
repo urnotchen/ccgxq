@@ -109,7 +109,7 @@ class MovieGridView extends GridView
                 'format' => 'raw',
                 'value' => function($model){
                     if($sequence = $model->getProperty($this->property)->one()->sequence) {
-                        return FilmProperty::find()->max('sequence') - $sequence + 1;
+                        return FilmProperty::find()->where(['property' => $this->property])->max('sequence') - $sequence + 1;
                     }
                 }
             ],
