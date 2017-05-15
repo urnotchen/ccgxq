@@ -2,13 +2,15 @@
 
 namespace backend\modules\movie\controllers;
 
+use yii\base\ErrorException;
+use yii\base\Exception;
 use yii\helpers\Json;
 use yii\data\ActiveDataProvider;
-
+use backend\modules\movie\models\search\MovieSearch;
 use backend\modules\movie\models\Movie;
 use backend\modules\movie\models\MovieResource;
 use backend\modules\movie\models\OnlineResource;
-
+use backend\modules\movie\models\FilmProperty;
 
 class MovieController extends \yii\web\Controller
 {
@@ -19,7 +21,7 @@ class MovieController extends \yii\web\Controller
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'update', 'view', 'delete'],
+                        'actions' => ['index', 'create', 'update', 'view', 'delete','test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -42,17 +44,12 @@ class MovieController extends \yii\web\Controller
 
     public function actionIndex()
     {
-        $query = Movie::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => ['defaultOrder' => ['updated_at' => SORT_DESC]],
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
+        $searchModel = new MovieSearch();
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ]);
     }
 
@@ -125,6 +122,15 @@ class MovieController extends \yii\web\Controller
 
         return $this->redirect('index');
     }
-}
 
+    public function actionTest(){
+//        $query = Movie::find();
+//        $query->join('join',FilmProperty::tableName(),Movie::tableName().'.id='. FilmProperty::tableName().'.movie_id' )->andFilterWhere([FilmProperty::tableName().'.property' => 2]);
+//
+//        var_dump($query->createCommand()->getRawSql());
+       $datetime1 = new \DateTime("@-713347200");
+        $datetime1->setTimezone(new \DateTimeZone('PRC'));
+        print( $datetime1->format("Y-m-d H:i:s"));
+    }
+}
 ?>

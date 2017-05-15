@@ -1,0 +1,14 @@
+/*强制换行*/
+.force_new_line{
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
+    /*width:15%;*/
+}
+
+/*电影海报图片*/
+.movie_poster{
+    max-width:200px;
+    max-height: 200px;
+    vertical-align:top;
+}

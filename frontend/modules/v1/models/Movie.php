@@ -4,25 +4,25 @@ namespace frontend\modules\v1\models;
 
 class Movie extends \frontend\models\Movie
 {
-    public function fields()
-    {
-        return [
-            'id',
-            'name_cn',
-            'name_en',
-            'poster',
-            'director' => function(self $model) {
-                return \yii\helpers\Json::decode($model->director);
-            },
-            'actor' => function(self $model) {
-                return \yii\helpers\Json::decode($model->actor);
-            },
-            'grade_db',
-            'show_time',
-            'imdb',
-            'douban'
-        ];
-    }
+//    public function fields()
+//    {
+//        return [
+//            'id',
+//            'name_cn',
+//            'name_en',
+//            'poster',
+//            'director' => function(self $model) {
+//                return \yii\helpers\Json::decode($model->director);
+//            },
+//            'actor' => function(self $model) {
+//                return \yii\helpers\Json::decode($model->actor);
+//            },
+//            'grade_db',
+//            'show_time',
+//            'imdb',
+//            'douban'
+//        ];
+//    }
 
     public function extraFields()
     {

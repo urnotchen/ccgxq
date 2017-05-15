@@ -4,19 +4,16 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\modules\movie\models\Movie */
+/* @var $model app\modules\movie\models\Movie */
 
-$this->title = $model->name_cn;
-
+$this->title = $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Movies', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="movie-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], [
-            'class' => 'btn btn-primary'
-        ]) ?>
+        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -30,42 +27,36 @@ $this->title = $model->name_cn;
         'model' => $model,
         'attributes' => [
             'id',
-            'name_cn',
-            'name_en',
-            'poster',
+            ['attribute' => 'movie_url','format' => ['url',['target' => '_blank']]],
+            'pic_id',
+            'title',
             'director',
-            'actor:ntext',
-            'grade_db',
-            'show_time:datetime'
-        ],
-    ]) ?>
-
-    <?= DetailView::widget([
-        'model' => $model->movieResource,
-        'attributes' => [
-            'bilibili',
-            'vqq',
-            'iqiyi',
-            'youku',
-            'souhu',
-            'acfun'
-        ],
-    ]) ?>
-
-    <?= DetailView::widget([
-        'model' => $model->onlineResource,
-        'attributes' => [
-            'url',
-            [
-                'attribute' => 'definition',
-                'value' => function ($model, $widget) {
-                    if (empty($model->definition)) {
-                        return '';
-                    }
-
-                    return \backend\modules\movie\models\OnlineResource::enum('definition', $model->definition);
-                }
-            ],
+            'screen_writer',
+            'actor',
+            'type',
+            'producer_country',
+            'language',
+            'release_date',
+            'alias',
+            'imdb',
+            'imdb_title',
+            'official_website',
+            'premiere',
+            'release_year',
+            'running_time',
+            'comment_num',
+            'score',
+            'one_star',
+            'two_star',
+            'three_star',
+            'four_star',
+            'five_star',
+            'episodes',
+            'single_running_time',
+            'synopsis:html',
+            ['label' => '标签','value' => implode(\backend\modules\movie\models\TagConn::getMovieTag($model->id),',')],
+            ['label' => '推荐','value' => implode(\backend\modules\movie\models\Recommend::getRecommend($model->id),',')],
+            ['label' => '在哪看','value' =>\backend\modules\movie\models\VideoConn::getVideoLink($model->id),'format'=>'raw'],
         ],
     ]) ?>
 

@@ -1,6 +1,8 @@
 <?php
 
 namespace common\models;
+use common\models\queries\MovieQuery;
+
 
 /**
  * Class Movie
@@ -44,79 +46,99 @@ class Movie extends \yii\db\ActiveRecord
 
     public function rules()
     {
+//        return [
+//            [['name_cn', 'name_en', 'poster', 'director', 'grade_db', 'actor'], 'required'],
+//            [['name_cn', 'name_en', 'poster', 'grade_db', 'imdb'], 'string', 'max' => 255],
+//            ['douban', 'integer'],
+//            [['director', 'actor'], 'string'],
+//            [['director', 'actor'], 'filter', 'filter' => function($value) {
+//                $value = str_replace('，', ',', $value);
+//
+//                return \yii\helpers\Json::encode(explode(',', $value));
+//            }],
+//            ['show_time', 'validateTime']
+//        ];
         return [
-            [['name_cn', 'name_en', 'poster', 'director', 'grade_db', 'actor'], 'required'],
-            [['name_cn', 'name_en', 'poster', 'grade_db', 'imdb'], 'string', 'max' => 255],
-            ['douban', 'integer'],
-            [['director', 'actor'], 'string'],
-            [['director', 'actor'], 'filter', 'filter' => function($value) {
-                $value = str_replace('，', ',', $value);
-
-                return \yii\helpers\Json::encode(explode(',', $value));
-            }],
-            ['show_time', 'validateTime']
+            [['id'], 'required'],
+            [['id', 'pic_id', 'release_year', 'comment_num', 'episodes', 'single_running_time','release_timestamp'], 'integer'],
+            [['score', 'one_star', 'two_star', 'three_star', 'four_star', 'five_star'], 'number'],
+            [['synopsis'], 'string'],
+            [['movie_url', 'director', 'type', 'producer_country', 'language', 'release_date', 'imdb', 'imdb_title', 'official_website', 'premiere', 'running_time'], 'string', 'max' => 255],
+            [['title', 'screen_writer', 'alias'], 'string', 'max' => 500],
+            [['actor'], 'string', 'max' => 1000],
         ];
-    }
-
-    public function validateTime($attr, $params)
-    {
-        if (empty($this->$attr)) {
-            $this->$attr = 0;
-
-            return true;
-        }
-
-        if (is_integer($this->$attr)) {
-
-            return true;
-        }
-
-        $this->$attr = strtotime($this->$attr);
-        return true;
     }
 
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name_cn' => '中文名',
-            'name_en' => '英文名',
-            'douban' => '豆瓣',
-            'imdb' => 'imdb',
-            'poster' => '海报',
+            'id' => '豆瓣id',
+            'movie_url' => '豆瓣链接',
+            'pic_id' => 'Pic ID',
+            'title' => '片名',
             'director' => '导演',
-            'grade_db' => '豆瓣评分',
+            'screen_writer' => '编剧',
             'actor' => '演员',
-            'show_time' => '上映时间',
-            'created_at' => 'CREATED AT',
-            'created_by' => 'CREATED BY',
-            'updated_at' => 'UPDATED AT',
-            'updated_by' => 'UPDATED BY'
+            'type' => '类型',
+            'producer_country' => '制片国家',
+            'language' => '语言',
+            'release_date' => '上映日期',
+            'alias' => '别名',
+            'imdb' => 'Imdb链接',
+            'imdb_title' => 'Imdb',
+            'official_website' => '官方网站',
+            'premiere' => '首播',
+            'release_year' => '年份',
+            'running_time' => '片场',
+            'comment_num' => '评价人数',
+            'score' => '评分',
+            'one_star' => '一星',
+            'two_star' => '二星',
+            'three_star' => '三星',
+            'four_star' => '四星',
+            'five_star' => '五星',
+            'episodes' => '集数',
+            'single_running_time' => '单集时长',
+            'synopsis' => '简介',
         ];
     }
+    public static function find(){
 
-    public function delete()
-    {
-        MovieResource::deleteAll(['movie_id' => $this->id]);
-        OnlineResource::deleteAll(['movie_id' => $this->id]);
-
-        return parent::delete();
+        return new MovieQuery(get_called_class());
     }
+//    public function delete()
+//    {
+//        MovieResource::deleteAll(['movie_id' => $this->id]);
+//        OnlineResource::deleteAll(['movie_id' => $this->id]);
+//
+//        return parent::delete();
+//    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMovieResource()
-    {
-        return $this->hasOne(MovieResource::className(), ['movie_id' => 'id']);
-    }
+//    public function getMovieResource()
+//    {
+//        return $this->hasOne(MovieResource::className(), ['movie_id' => 'id']);
+//    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getOnlineResource()
-    {
-        return $this->hasOne(OnlineResource::className(), ['movie_id' => 'id']);
+//    public function getOnlineResource()
+//    {
+//        return $this->hasOne(OnlineResource::className(), ['movie_id' => 'id']);
+//    }
+
+    public function getImage(){
+        return $this->hasOne(Image::className(),['id' => 'pic_id']);
+    }
+
+    /*
+     * join film_property table and select property
+     * */
+    public function getProperty($property_id ){
+        return $this->hasOne(FilmProperty::className(),['movie_id' => 'id'])->where(['property' => $property_id,'status' => FilmProperty::STATUS_NORMAL]);
     }
 }
 
