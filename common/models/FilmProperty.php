@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use backend\modules\movie\models\Movie;
+
 use Codeception\Exception\ElementNotFound;
 use common\models\queries\FilmPropertyQuery;
 use common\models\queries\MovieQuery;
@@ -153,5 +153,13 @@ class FilmProperty extends \yii\db\ActiveRecord
         }
 
         return $motion;
+    }
+
+    public static function getSequenceMax($property){
+
+        self::validateProperty($property);
+
+        return self::find()->where(['property' => $property])->max('sequence');
+
     }
 }

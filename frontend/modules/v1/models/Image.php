@@ -8,6 +8,15 @@
 
 namespace frontend\modules\v1\models;
 
-class Image extends \common\models\Image{
+class Image extends \frontend\models\Image{
+
+    public function fields()
+    {
+        return [
+            'url' => function($model){
+                return \Yii::$app->params['qiniuDomain'].$model->path;
+            }
+        ];
+    }
 
 }

@@ -9,7 +9,7 @@ class OnlineResource extends \yii\db\ActiveRecord
     use \common\traits\InstanceTrait;
     use \common\traits\FindOrExceptionTrait;
 
-    const DEFINITION_BLURAY = 1, DEFINITION_HIGH = 2;
+    const DEFINITION_OTHER = 1, DEFINITION_720P = 2,DEFINITION_1080P = 3,DEFINITION_BLURAY = 4;
 
     public static function tableName()
     {
