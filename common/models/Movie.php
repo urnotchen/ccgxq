@@ -137,9 +137,23 @@ class Movie extends \yii\db\ActiveRecord
     /*
      * join film_property table and select property
      * */
-    public function getProperty($property_id ){
-        return $this->hasOne(FilmProperty::className(),['movie_id' => 'id'])->where(['property' => $property_id,'status' => FilmProperty::STATUS_NORMAL]);
+    public function getProperty($property_id  ){
+        return $this->hasOne(FilmProperty::className(),['movie_id' => 'id'])->onCondition(['property' => $property_id,'status' => FilmProperty::STATUS_NORMAL]);
     }
+
+
+    public function getOnlineResource(){
+//        return $this->
+        return $this->hasOne(MovieIndex::className(),['douban' => 'id']);
+    }
+    public function getOnlineResource2(){
+        return $this->hasOne(MovieIndex::className(),['imdb' => 'imdb_title']);
+    }
+
+
+
+
+//    }
 }
 
 ?>

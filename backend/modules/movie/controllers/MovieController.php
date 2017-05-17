@@ -2,6 +2,8 @@
 
 namespace backend\modules\movie\controllers;
 
+use backend\modules\movie\models\FilmVideoWebsite;
+use backend\modules\movie\models\Image;
 use yii\base\ErrorException;
 use yii\base\Exception;
 use yii\helpers\Json;
@@ -123,14 +125,8 @@ class MovieController extends \yii\web\Controller
         return $this->redirect('index');
     }
 
-    public function actionTest(){
-//        $query = Movie::find();
-//        $query->join('join',FilmProperty::tableName(),Movie::tableName().'.id='. FilmProperty::tableName().'.movie_id' )->andFilterWhere([FilmProperty::tableName().'.property' => 2]);
-//
-//        var_dump($query->createCommand()->getRawSql());
-       $datetime1 = new \DateTime("@-713347200");
-        $datetime1->setTimezone(new \DateTimeZone('PRC'));
-        print( $datetime1->format("Y-m-d H:i:s"));
+    public function actionTest(){//
+        var_dump(gettype(Movie::findOne(26977216)->id));
     }
 }
 ?>

@@ -26,4 +26,5 @@ class MovieQuery extends \yii\db\ActiveQuery{
         $this->orderBy(['updated_at' => SORT_DESC]);
         return $this;
     }
+
 }
