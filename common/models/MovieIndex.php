@@ -58,4 +58,10 @@ class MovieIndex extends \yii\db\ActiveRecord
     public function getMovieLink(){
         return $this->hasMany(MovieLink::className(),['movie_id' => 'id']);
     }
+
+
+    public static function isOnlineResource($movie_id){
+        return self::findOne(['douban' => $movie_id])?True:False;
+
+    }
 }

@@ -9,18 +9,17 @@
 namespace frontend\modules\v1\models\forms;
 
 use frontend\components\rest\TimelineModel;
-use frontend\modules\v1\models\FilmProperty;
-use frontend\modules\v1\models\Movie;
 
-class MovieTimeline extends TimelineModel{
+
+class MovieListNewestTimeline extends TimelineModel{
 
     protected $_modelClass = 'frontend\modules\v1\models\Movie';
 
-    protected  $_orderBy = 'sequence DESC,release_timestamp DESC';
+    protected  $_orderBy = 'film_property.sequence DESC,film_property.created_at DESC,movie_index.create_at DESC,movie.release_timestamp DESC';
 
-    protected $_line = 'release_timestamp';
+    protected $_line = 'movie.id';
 
-    protected $_primaryKey = 'id';
+    protected $_primaryKey = 'movie.id';
 
     public $type;
 
@@ -47,6 +46,7 @@ class MovieTimeline extends TimelineModel{
             $closure($timeline->query);
         }
 
+//        return $timeline->query->createCommand()->getRawSql();
         return $timeline->preparePullQuery()->findAll();
     }
 
