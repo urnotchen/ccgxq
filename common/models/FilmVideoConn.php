@@ -105,4 +105,8 @@ class FilmVideoConn extends \yii\db\ActiveRecord
     public function getMovie(){
         return $this->hasOne(Movie::className(),['id' => 'movie_id']);
     }
+
+    public static function getResourceNum($movie_id){
+        return self::find()->where(['movie_id' => $movie_id])->count();
+    }
 }

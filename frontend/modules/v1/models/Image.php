@@ -14,7 +14,7 @@ class Image extends \frontend\models\Image{
     {
         return [
             'url' => function($model){
-                return \Yii::$app->params['qiniuDomain'].$model->path;
+                return $model->path?\Yii::$app->params['qiniuDomain'].$model->path:'';
             }
         ];
     }

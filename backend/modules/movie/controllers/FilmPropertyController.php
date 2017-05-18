@@ -144,14 +144,14 @@ class FilmPropertyController extends Controller
 
             if ($res) {
                 $res->status = FilmProperty::STATUS_NORMAL;
-                $res->sequence = FilmProperty::getSequenceMax($property_id) + 1;
+                $res->sequence = 0;
                 $res->save();
                 return '添加成功';
             } else {
                 $filmProperty = new FilmProperty();
                 $filmProperty->movie_id = $movie_id;
                 $filmProperty->property = $property_id;
-                $filmProperty->sequence = FilmProperty::getSequenceMax($property_id) + 1;
+                $filmProperty->sequence = 0;
                 $filmProperty->save();
                 return '添加成功';
             }

@@ -18,6 +18,7 @@ class MovieIndex extends \frontend\models\MovieIndex{
 
                if($model->movieDisk){
                    foreach($model->movieDisk as $eachMovieDisk){
+                       $temp['id'] = $eachMovieDisk->id;
                        $temp['name'] = $eachMovieDisk->name;
                        $temp['url'] = $eachMovieDisk->url;
                        $temp['password'] = $eachMovieDisk->passwd;
@@ -31,6 +32,7 @@ class MovieIndex extends \frontend\models\MovieIndex{
                 $arr = [];
                 if($model->movieLink){
                     foreach($model->movieLink as $eachMovieLink){
+                        $temp['id'] = $eachMovieLink->id;
                         $temp['name'] = $eachMovieLink->name;
                         $temp['url'] = $eachMovieLink->url;
                         $temp['definition'] = $eachMovieLink->definition;

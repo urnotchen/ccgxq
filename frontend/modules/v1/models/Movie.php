@@ -13,7 +13,7 @@ class Movie extends \frontend\models\Movie
             'name' => function($model){
                 $titleList = explode(' ',$model->title,2);
 
-                return $titleList[0];
+                return $titleList?$titleList[0]:'';
             },
             'local_name'=> function($model){
                 $titleList = explode(' ',$model->title,2);
@@ -27,10 +27,17 @@ class Movie extends \frontend\models\Movie
             'actor'=> function($model){
                 return $model->actor?explode('/',$model->actor):[];
             },
-            'score'=>function($model){
-                return $model->score?$model->score:'';
+            'producer_country' => function($model){
+                return $model->producer_country?explode('/',trim($model->producer_country)):[];
             },
+            'score',
             'release_date',
+            'play_video_num' => function($model){
+                $onlineResource =  MovieIndex::isOnlineResource($model->id)?1:0 ;
+                $websiteResource = FilmVideoConn::getResourceNum($model->id);
+                return $onlineResource + $websiteResource;
+            },
+
         ];
     }
 
@@ -47,9 +54,16 @@ class Movie extends \frontend\models\Movie
                 return '';
             },
             'image',
+            'filmmaker' => function($model){
+                return  $model->filmmaker;
+            },
+            'synopsis',
+            'websiteResource',
         ];
     }
-
+    public function getWebsiteResource(){
+        return $this->hasMany(FilmVideoConn::className(),['movie_id' => 'id']);
+    }
     public function getOnlineResource(){
         return $this->hasOne(MovieIndex::className(),['douban' => 'id']);
     }
@@ -60,6 +74,14 @@ class Movie extends \frontend\models\Movie
 
     public function getImage(){
         return $this->hasOne(Image::className(),['id' => 'pic_id']);
+    }
+
+    public function getFilmmaker(){
+        return $this->hasMany(FilmmakerRoleConn::className(),['movie_id' => 'id']);
+    }
+
+    public function getSynopsis(){
+        return $this->hasMany(FilmSynopsis::className(),['movie_id' => 'id']);
     }
 
 }
