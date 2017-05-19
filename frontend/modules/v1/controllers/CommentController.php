@@ -9,7 +9,9 @@
 namespace frontend\modules\v1\controllers;
 
 use frontend\components\rest\Controller;
+use frontend\modules\v1\models\FilmComment;
 use frontend\modules\v1\models\forms\MovieDetailsForm;
+use yii\data\ActiveDataProvider;
 
 class CommentController extends Controller{
 
@@ -17,17 +19,24 @@ class CommentController extends Controller{
     public function verbs()
     {
         return [
-            'video-index'    => ['get'],
+            'index'    => ['get'],
         ];
     }
 
+    /*
+     * 评论列表
+     * */
     public function actionIndex(){
 
         $rawParams = \Yii::$app->getRequest()->get();
 
         $form = new MovieDetailsForm();
         $movie = $form->prepare($rawParams);
-
-        return $movie;
+        return new ActiveDataProvider([
+            'query' => FilmComment::find()->where(['movie_id' => $movie->id])->typeSequence()->goodNumSequence(),
+            'pagination' => [
+                'defaultPageSize' => 10,
+            ],
+        ]);
     }
 }
