@@ -19,7 +19,7 @@ class m170524_050605_create_tablle_message extends Migration
             'movie_id'           => $this->integer()->unsigned()->notNull(). " COMMENT '电影id'",
             'user_id'           => $this->integer()->unsigned()->notNull(). " COMMENT '用户'",
             'status'            => $this->smallInteger()->notNull()." COMMENT '状态",
-            'content'            => $this->string(255)." COMMENT '内容",
+            'content'            => $this->string(255)." COMMENT '内容'",
 
             'created_at'        => $this->integer()->unsigned(),
             'created_by'        => $this->integer()->unsigned(),
