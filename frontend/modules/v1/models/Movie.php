@@ -65,7 +65,7 @@ class Movie extends \frontend\models\Movie
             'comment' => function($model){
                 return FilmComment::getUserComment(\Yii::$app->getUser()->id,$model->id);
             },
-            'synopsiss'
+            'synopsis'
         ];
     }
     public function getWebsiteResource(){
@@ -87,7 +87,7 @@ class Movie extends \frontend\models\Movie
         return $this->hasMany(FilmmakerRoleConn::className(),['movie_id' => 'id']);
     }
 
-    public function getSynopsiss(){
+    public function getSynopsis(){
         return $this->hasOne(FilmSynopsis::className(),['movie_id' => 'id']);
     }
 
