@@ -18,16 +18,14 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
     {
         return [
             'email',
-            'vip' => function(self $model) {
-                return $this->isSvip() ?
-                    self::USER_SVIP :
-                    ($this->isVip() ? self::USER_VIP : self::USER_NORMAL);
-            },
-            'expired_at' => function(self $model) {
-                return $this->isSvip() ?
-                    $model->svip_expired_at :
-                    ($this->isVip() ? $model->vip_expired_at : 0);
-            }
+//            'vip' => function(self $model) {
+//                return $this->isSvip() ?
+//                    self::USER_SVIP :
+//                    ($this->isVip() ? self::USER_VIP : self::USER_NORMAL);
+//            },
+//            'expired_at' => function(self $model) {
+//                return UserToken::findOne(['user_id' => $model->id,'device' => $model->device]);
+//            }
         ];
     }
 
@@ -157,27 +155,27 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
      * @param $expiration
      * @return bool
      */
-    public function becomeVip($vip, $expiration)
-    {
-        $time = time();
-
-        if ($vip == self::USER_SVIP) {
-            $this->scenario = self::SCENARIO_SVIP;
-
-            //续订累加
-            $this->svip_expired_at = $expiration + ($this->svip_expired_at>$time ? $this->svip_expired_at : $time);
-            //若存在剩余vip时间则向后顺延
-            $this->vip_expired_at += $this->vip_expired_at>$time ? $expiration : 0;
-
-        } elseif ($vip == self::USER_VIP) {
-            $this->scenario = self::SCENARIO_VIP;
-
-            //续订累加
-            $this->vip_expired_at = $expiration + ($this->vip_expired_at>$time ? $this->vip_expired_at : $time);
-        }
-
-        return true;
-    }
+//    public function becomeVip($vip, $expiration)
+//    {
+//        $time = time();
+//
+//        if ($vip == self::USER_SVIP) {
+//            $this->scenario = self::SCENARIO_SVIP;
+//
+//            //续订累加
+//            $this->svip_expired_at = $expiration + ($this->svip_expired_at>$time ? $this->svip_expired_at : $time);
+//            //若存在剩余vip时间则向后顺延
+//            $this->vip_expired_at += $this->vip_expired_at>$time ? $expiration : 0;
+//
+//        } elseif ($vip == self::USER_VIP) {
+//            $this->scenario = self::SCENARIO_VIP;
+//
+//            //续订累加
+//            $this->vip_expired_at = $expiration + ($this->vip_expired_at>$time ? $this->vip_expired_at : $time);
+//        }
+//
+//        return true;
+//    }
 }
 
 ?>

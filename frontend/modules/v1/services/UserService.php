@@ -137,7 +137,7 @@ class UserService extends \common\services\BizService
 
             $transaction->commit();
 
-            Yii::$app->deviceCache->operateLogin($userToken);
+//            Yii::$app->deviceCache->operateLogin($userToken);
 
             $response['userToken'] = $userToken;
             $response['userDetails'] = $userDetails;
@@ -177,7 +177,7 @@ class UserService extends \common\services\BizService
 
             $transaction->commit();
 
-            Yii::$app->deviceCache->operateLogin($userToken);
+//            Yii::$app->deviceCache->operateLogin($userToken);
 
         } catch (DbException $e) {
             $transaction->rollBack();

@@ -114,10 +114,11 @@ class User extends \yii\db\ActiveRecord
             ['email', 'email'],
 
             ['email', 'unique', 'targetClass' => self::className()],
-            [['last_use_time', 'allowance', 'allowance_updated_at', 'vip_expired_at', 'svip_expired_at'], 'integer'],
-
-            ['vip_expired_at', 'required', 'on' => self::SCENARIO_VIP],
-            ['svip_expired_at', 'required', 'on' => self::SCENARIO_SVIP]
+            [['last_use_time', 'allowance', 'allowance_updated_at'], 'integer'],
+//            [['last_use_time', 'allowance', 'allowance_updated_at', 'vip_expired_at', 'svip_expired_at'], 'integer'],
+//
+//            ['vip_expired_at', 'required', 'on' => self::SCENARIO_VIP],
+//            ['svip_expired_at', 'required', 'on' => self::SCENARIO_SVIP]
         ];
     }
 

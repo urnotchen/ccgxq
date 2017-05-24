@@ -60,11 +60,12 @@ class Movie extends \frontend\models\Movie
             'filmmaker' => function($model){
                 return  $model->filmmaker;
             },
-            'synopsis',
+
             'websiteResource',
             'comment' => function($model){
                 return FilmComment::getUserComment(\Yii::$app->getUser()->id,$model->id);
-            }
+            },
+            'synopsis'
         ];
     }
     public function getWebsiteResource(){
@@ -87,7 +88,7 @@ class Movie extends \frontend\models\Movie
     }
 
     public function getSynopsis(){
-        return $this->hasMany(FilmSynopsis::className(),['movie_id' => 'id']);
+        return $this->hasOne(FilmSynopsis::className(),['movie_id' => 'id'])->onCondition(['source' => FilmSynopsis::SOURCE_DOUBAN]);
     }
 
 }
