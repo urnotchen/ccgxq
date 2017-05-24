@@ -3,7 +3,7 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m170524_050610_alter_tablle_film_recommend_user_add_column_user_id extends Migration
+class m170524_050610_alter_table_film_recommend_user_add_column_user_id extends Migration
 {
 
     public $tableName = 'film_recommend_user';
