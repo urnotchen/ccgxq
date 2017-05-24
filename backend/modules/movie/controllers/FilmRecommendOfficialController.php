@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\movie\controllers;
+namespace backend\modules\movie\controllers;
 
 use Yii;
-use app\models\FilmRecommendOfficial;
-use app\modules\movie\models\search\FilmRecommendOfficialSearch;
+use backend\modules\movie\models\FilmRecommendOfficial;
+use backend\modules\movie\models\search\FilmRecommendOfficialSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

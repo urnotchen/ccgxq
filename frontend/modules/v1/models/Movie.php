@@ -32,6 +32,9 @@ class Movie extends \frontend\models\Movie
             },
             'score',
             'release_date',
+            'release_year' => function($model){
+                return (int)$model->release_year;
+            },
             'play_video_num' => function($model){
                 $onlineResource =  MovieIndex::isOnlineResource($model->id)?1:0 ;
                 $websiteResource = FilmVideoConn::getResourceNum($model->id);

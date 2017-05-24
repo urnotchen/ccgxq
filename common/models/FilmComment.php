@@ -38,15 +38,26 @@ class FilmComment extends \yii\db\ActiveRecord
         return 'film_comment';
     }
 
+    public function behaviors()
+    {/*{{{*/
+        return [
+            'timestamp' => \yii\behaviors\TimestampBehavior::classname(),
+        ];
+    }/*}}}*/
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['movie_id', 'pic_id', 'star', 'good_num','type','created_at','created_by','updated_at','updated_by','type'], 'integer'],
-            [['user_id', 'username',], 'string', 'max' => 255],
+            [['id','movie_id', 'pic_id', 'star', 'good_num','type','created_at','updated_at','type'], 'integer'],
+            [['username',], 'string', 'max' => 255],
             [['comment'], 'string', 'max' => 1000],
+            [['movie_id','user_id'],'unique','targetAttribute'=>['movie_id','user_id']],
+            [['user_id'],'safe'],
+            [['type'],'default','value' => self::TYPE_USER],
+            [['good_num'],'default','value' => 0],
         ];
     }
 

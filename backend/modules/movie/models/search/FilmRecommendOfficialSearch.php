@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\movie\models\search;
+namespace backend\modules\movie\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\FilmRecommendOfficial;
+use backend\modules\movie\models\FilmRecommendOfficial;
 
 /**
  * FilmRecommendOfficialSearch represents the model behind the search form about `app\models\FilmRecommendOfficial`.

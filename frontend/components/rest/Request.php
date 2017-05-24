@@ -16,7 +16,6 @@ class Request extends \yii\web\Request
                 $this->_accessToken = '';
             }
         }
-
         return $this->_accessToken;
     }/*}}}*/
 

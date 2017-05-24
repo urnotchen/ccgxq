@@ -108,7 +108,11 @@ class MovieGridView extends GridView
                 'label' => '位置',
                 'format' => 'raw',
                 'value' => function($model){
-                    if($sequence = $model->getProperty($this->property)->one()->sequence) {
+//                    if($sequence = $model->property->sequence) {
+//                        return FilmProperty::find()->where(['property' => $this->property])->max('sequence') - $sequence + 1;
+//                    }
+//                    return $this->property;
+                    if($sequence = Movie::getProperty($this->property,$model->id)->sequence) {
                         return FilmProperty::find()->where(['property' => $this->property])->max('sequence') - $sequence + 1;
                     }
                 }
@@ -117,7 +121,7 @@ class MovieGridView extends GridView
                 'label' => '顺序',
                 'format' => 'raw',
                 'value' => function($model){
-                    $property_id = $model->getProperty($this->property)->one()->id;
+                    $property_id = Movie::getProperty($this->property,$model->id)->id;
                     $motionPossible = FilmProperty::getMotionPossible($property_id);
                     $button = '';
                     if($motionPossible['up']){
