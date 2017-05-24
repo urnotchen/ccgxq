@@ -88,7 +88,7 @@ class Movie extends \frontend\models\Movie
     }
 
     public function getSynopsis(){
-        return $this->hasOne(FilmSynopsis::className(),['movie_id' => 'id'])->onCondition(['source' => FilmSynopsis::SOURCE_DOUBAN]);
+        return $this->hasOne(FilmSynopsis::className(),['movie_id' => 'id']);
     }
 
 }
