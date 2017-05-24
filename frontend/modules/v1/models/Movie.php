@@ -88,6 +88,7 @@ class Movie extends \frontend\models\Movie
     }
 
     public function getSynopsis(){
+        return 'test';
         return $this->hasOne(FilmSynopsis::className(),['movie_id' => 'id']);
     }
 
