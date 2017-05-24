@@ -85,6 +85,9 @@ class ResponseCode
     const INVALID_DEVICE                             = 40049;
 
 
-    # 下载次数超过限制
-    const DOWNLOAD_TIMES_OVER_MAX                    = 40067;
+    # 无效电影列表类型
+    const INVALID_MOVIE_LIST_PROPERTY               = 40050;
+
+    # 不支持的用户操作
+    const INVALID_USER_ACTION                       = 40051;
 }

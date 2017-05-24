@@ -7,6 +7,8 @@
  */
 
 namespace frontend\modules\v1\models\forms;
+
+use frontend\modules\v1\models\FilmProperty;
 use yii\base\Model;
 
 
@@ -21,7 +23,7 @@ class MovieListForm extends Model{
         return [
             [['type'] , 'required'],
             [['type'], 'integer',],
-            [['type'], 'in','range' => [1,2,3]],
+            [['type'], 'in','range' => FilmProperty::$propertyList],
         ];
     }
 

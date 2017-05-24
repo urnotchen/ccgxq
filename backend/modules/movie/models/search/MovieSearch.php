@@ -3,11 +3,12 @@
 namespace backend\modules\movie\models\search;
 
 use backend\modules\movie\models\FilmTypeConn;
-use common\models\FilmProperty;
+use backend\modules\movie\services\MovieListService;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use backend\modules\movie\models\Movie;
+
 
 /**
  * MovieSearch represents the model behind the search form about `app\modules\movie\models\Movie`.
@@ -20,12 +21,13 @@ class MovieSearch extends Movie
 
     //search field from external table
     public $film_type,$film_property;
+    protected $_service;
 
     public function rules()
     {
         return [
             [['id', 'pic_id', 'release_year', 'comment_num', 'episodes', 'single_running_time','release_timestamp','film_type','film_property'], 'integer'],
-            [['movie_url', 'title', 'director', 'screen_writer', 'actor', 'type', 'producer_country', 'language', 'release_date', 'alias', 'imdb', 'imdb_title', 'official_website', 'premiere', 'running_time', 'synopsis'], 'safe'],
+            [['movie_url', 'title', 'director', 'screen_writer', 'actor', 'type', 'producer_country', 'language', 'release_date', 'alias', 'imdb', 'imdb_title', 'official_website', 'premiere', 'running_time'], 'string'],
             [['score', 'one_star', 'two_star', 'three_star', 'four_star', 'five_star'], 'number'],
         ];
     }
@@ -96,8 +98,7 @@ class MovieSearch extends Movie
             ->andFilterWhere(['like', 'imdb_title', $this->imdb_title])
             ->andFilterWhere(['like', 'official_website', $this->official_website])
             ->andFilterWhere(['like', 'premiere', $this->premiere])
-            ->andFilterWhere(['like', 'running_time', $this->running_time])
-            ->andFilterWhere(['like', 'synopsis', $this->synopsis]);
+            ->andFilterWhere(['like', 'running_time', $this->running_time]);
         if($this->film_type){
             //join the type_conn for searching
             $query->join('join',FilmTypeConn::tableName(),Movie::tableName().'.id = '.FilmTypeConn::tableName().'.movie_id' )->andFilterWhere([FilmTypeConn::tableName().'.type_id' => $this->film_type]);
@@ -105,19 +106,21 @@ class MovieSearch extends Movie
         }
         if($this->film_property){
             //join the film_property for searching
-            $query->join('join',FilmProperty::tableName(),Movie::tableName().'.id='. FilmProperty::tableName().'.movie_id' )->andFilterWhere([FilmProperty::tableName().'.property' => $this->film_property])->andWhere(['not',[FilmProperty::tableName().'.status' => FilmProperty::STATUS_TRASH]]);
-            //order
-            switch($this->film_property){
-                case FilmProperty::PROPERTY_SELECTED:
-                    $query->orderBy(['release_timestamp' => SORT_DESC]);break;
-                case FilmProperty::PROPERTY_HOT:
-                    //todo what's the meaning of updated time ??
-                    $query->orderBy(['sequence' => SORT_DESC,FilmProperty::tableName().'.created_at' => SORT_DESC]);break;
-                case FilmProperty::PROPERTY_NEWEST:
-                    //todo  which table should I put resource time
-                    $query->orderBy(['sequence' => SORT_DESC,FilmProperty::tableName().'.created_at' => SORT_DESC]);break;
-            }
+//            var_dump($query);echo "<br/><br/>";
+            $query =  $this->getService()->movieList($this->film_property,$query);
+//            var_dump($query);die;
         }
+
+
         return $dataProvider;
+    }
+
+    protected function getService()
+    {
+        if ($this->_service === null) {
+            $this->_service = new MovieListService();
+        }
+
+        return $this->_service;
     }
 }

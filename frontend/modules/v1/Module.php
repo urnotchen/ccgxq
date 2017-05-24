@@ -30,7 +30,16 @@ class Module extends \yii\base\Module
         ]);
 
         \Yii::configure(\Yii::$app, ['components' => [
-
+            'deviceCache' => [
+                'class' => 'frontend\modules\v1\components\DeviceCache',
+            ],
+            'passwordTokenCache' => [
+                'class' => 'frontend\modules\v1\components\TokenCache',
+                'keyString' => "sb_%s_chgPwdToken",
+            ],
+            'captchaCache' => [
+                'class' => 'frontend\modules\v1\components\CaptchaCache',
+            ],
         ]]);
 
         //返回响应前执行，格式化响应

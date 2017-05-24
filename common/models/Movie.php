@@ -106,44 +106,17 @@ class Movie extends \yii\db\ActiveRecord
 
         return new MovieQuery(get_called_class());
     }
-//    public function delete()
-//    {
-//        MovieResource::deleteAll(['movie_id' => $this->id]);
-//        OnlineResource::deleteAll(['movie_id' => $this->id]);
-//
-//        return parent::delete();
-//    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-//    public function getMovieResource()
-//    {
-//        return $this->hasOne(MovieResource::className(), ['movie_id' => 'id']);
-//    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-//    public function getOnlineResource()
-//    {
-//        return $this->hasOne(OnlineResource::className(), ['movie_id' => 'id']);
-//    }
 
     public function getImage(){
         return $this->hasOne(Image::className(),['id' => 'pic_id']);
     }
 
-    /*
-     * join film_property table and select property
-     * */
-    public function getProperty($property_id  ){
-        return $this->hasOne(FilmProperty::className(),['movie_id' => 'id'])->onCondition(['property' => $property_id,'status' => FilmProperty::STATUS_NORMAL]);
+    public static function getProperty($property,$movie_id){
+        return FilmProperty::findOne(['property' => $property,'status' => FilmProperty::STATUS_NORMAL,'movie_id' => $movie_id]);
     }
 
-
     public function getOnlineResource(){
-//        return $this->
+
         return $this->hasOne(MovieIndex::className(),['douban' => 'id']);
     }
     public function getOnlineResource2(){
@@ -152,8 +125,6 @@ class Movie extends \yii\db\ActiveRecord
 
 
 
-
-//    }
 }
 
 ?>

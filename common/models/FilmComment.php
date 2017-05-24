@@ -26,10 +26,24 @@ class FilmComment extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    const TYPE_DOUBAN = 1 , TYPE_MTIME = 2 , TYPE_USER=3;
+
+    const TYPE_RANGE = [self::TYPE_USER,self::TYPE_DOUBAN,self::TYPE_MTIME];
+
+
+
     public static function tableName()
     {
         return 'film_comment';
     }
+
+    public function behaviors()
+    {/*{{{*/
+        return [
+            'timestamp' => \yii\behaviors\TimestampBehavior::classname(),
+        ];
+    }/*}}}*/
 
     /**
      * @inheritdoc
@@ -37,9 +51,13 @@ class FilmComment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['movie_id', 'pic_id', 'star', 'good_num','type','created_at','created_by','updated_at','updated_by'], 'integer'],
-            [['user_id', 'username',], 'string', 'max' => 255],
+            [['id','movie_id', 'pic_id', 'star', 'good_num','type','created_at','updated_at','type'], 'integer'],
+            [['username',], 'string', 'max' => 255],
             [['comment'], 'string', 'max' => 1000],
+            [['movie_id','user_id'],'unique','targetAttribute'=>['movie_id','user_id']],
+            [['user_id'],'safe'],
+            [['type'],'default','value' => self::TYPE_USER],
+            [['good_num'],'default','value' => 0],
         ];
     }
 
@@ -62,6 +80,12 @@ class FilmComment extends \yii\db\ActiveRecord
             'updated_at' => '更新时间',
         ];
     }
+
+    public static function find()
+    {/*{{{*/
+        return new \common\models\queries\FilmCommentQuery(get_called_class());
+    }/*}}}*/
+
 
     public function getImage(){
         return $this->hasOne(Image::className(),['id' => 'pic_id']);
