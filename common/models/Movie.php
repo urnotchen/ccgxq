@@ -61,7 +61,6 @@ class Movie extends \yii\db\ActiveRecord
             [['id'], 'required'],
             [['id', 'pic_id', 'release_year', 'comment_num', 'episodes', 'single_running_time','release_timestamp'], 'integer'],
             [['score', 'one_star', 'two_star', 'three_star', 'four_star', 'five_star'], 'number'],
-            [['synopsis'], 'string'],
             [['movie_url', 'director', 'type', 'producer_country', 'language', 'release_date', 'imdb', 'imdb_title', 'official_website', 'premiere', 'running_time'], 'string', 'max' => 255],
             [['title', 'screen_writer', 'alias'], 'string', 'max' => 500],
             [['actor'], 'string', 'max' => 1000],
