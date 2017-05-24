@@ -10,20 +10,20 @@ use frontend\components\rest\ARExpand;
 /**
  * TimelineModel class file.
  * @Author haoliang
- * @Date 
+ * @Date
  *
- /**
-  * @brief timeline
-  *
-  * # simply you can do that:
-  *
-  * public static function timeline($rawParams)
-  * {
-  *     // and add your filter logic in here.
-  *     return $this->preparePullQuery()->findAll();
-  * }
-  *
-  * @return [ActiveRecord,]
+/**
+ * @brief timeline
+ *
+ * # simply you can do that:
+ *
+ * public static function timeline($rawParams)
+ * {
+ *     // and add your filter logic in here.
+ *     return $this->preparePullQuery()->findAll();
+ * }
+ *
+ * @return [ActiveRecord,]
  */
 abstract class TimelineModel extends \yii\base\Model
 {
@@ -72,7 +72,7 @@ abstract class TimelineModel extends \yii\base\Model
             throw new InvalidConfigException(' property "primaryKey" should be set.');
         }
     }/*}}}*/
-    
+
     /*
      * 参数的验证规则
      */
@@ -111,15 +111,15 @@ abstract class TimelineModel extends \yii\base\Model
         if ($this->max === null && $this->since === null) {
             $this->pullZero();
             #Yii::trace('pull zero');
-        # 如果存在max 不存在since ，则为上滑操作，获取下面的数据
+            # 如果存在max 不存在since ，则为上滑操作，获取下面的数据
         } elseif ($this->max !== null && $this->since === null) {
-            return $this->pullUp();
+            $this->pullUp();
             #Yii::trace('pull up');
-        # 如果不存在max 存在since ，则为下滑操作，获取最新的数据
+            # 如果不存在max 存在since ，则为下滑操作，获取最新的数据
         } elseif ($this->since !== null && $this->max === null) {
             $this->pullDown();
             #Yii::trace('pull down');
-        # 如果存在max 也存在since，则获取中间的内容
+            # 如果存在max 也存在since，则获取中间的内容
         } elseif ($this->since !== null && $this->max !== null) {
             $this->pullInternal();
             #Yii::trace('pull internal');
@@ -129,7 +129,7 @@ abstract class TimelineModel extends \yii\base\Model
 
         return $this;
     }/*}}}*/
-    
+
     /*
      * 限制每次返回数据的条数
      */
@@ -149,10 +149,10 @@ abstract class TimelineModel extends \yii\base\Model
      */
     protected function pullUp()
     {/*{{{*/
-        return $this->query->orderBy($this->_orderBy)
+        $this->query->orderBy($this->_orderBy)
             ->andWhere(['<=', $this->_line, $this->maxAt])
-            ->andWhere(['not', [$this->_primaryKey => $this->max]])->createCommand()->getRawSql()
-            ;
+            ->andWhere(['not', [$this->_primaryKey => $this->max]])
+        ;
     }/*}}}*/
 
     /*
@@ -163,9 +163,9 @@ abstract class TimelineModel extends \yii\base\Model
         $this->query->orderBy($this->_orderBy)
             ->andWhere(['>=', $this->_line, $this->sinceAt])
             ->andWhere(['not', [$this->_primaryKey => $this->since]])
-            ;
+        ;
     }/*}}}*/
-    
+
     /*
      * 获取中间数据的操作
      */
@@ -175,7 +175,7 @@ abstract class TimelineModel extends \yii\base\Model
             ->andWhere(['>=', $this->_line, $this->sinceAt])
             ->andWhere(['<=', $this->_line, $this->maxAt])
             ->andWhere(['not', [$this->_primaryKey => [$this->since, $this->max]]])
-            ;
+        ;
     }/*}}}*/
 
     protected function getQuery()
@@ -204,7 +204,7 @@ abstract class TimelineModel extends \yii\base\Model
 
         return $this->_maxAt;
     }/*}}}*/
-    
+
     /*
      * 获取指定字段的下限值，用于筛选
      */
@@ -251,7 +251,7 @@ abstract class TimelineModel extends \yii\base\Model
             $this->_primaryKey => $this->max
         ]);
     }/*}}}*/
-    
+
     //获取主键为since的实例
     protected function getSinceModelInternal()
     {/*{{{*/
@@ -267,7 +267,7 @@ abstract class TimelineModel extends \yii\base\Model
         $this->_terminate = true;
         $this->_terminateWith = [];
     }/*}}}*/
-    
+
     /*
      * 获取扩展参数
      */

@@ -10,5 +10,4 @@ namespace frontend\models;
 
 class Image extends \common\models\Image{
 
-
 }

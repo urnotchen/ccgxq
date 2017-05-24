@@ -11,7 +11,6 @@ namespace frontend\modules\v1\controllers;
 use frontend\components\rest\Controller;
 use frontend\modules\v1\models\FilmChoiceUser;
 use frontend\modules\v1\models\forms\UserActionForm;
-use frontend\modules\v1\models\forms\UserChoiceList;
 use frontend\modules\v1\models\forms\UserChoiceListForm;
 
 class UserChoiceController extends Controller{

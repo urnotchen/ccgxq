@@ -49,6 +49,17 @@ class FilmComment extends \frontend\models\FilmComment
             },
             'source' => function($model){
                 return $model->type;
+            },
+            'url' => function($model){
+                if($model->pic_id){
+                    return $model->image->path?\Yii::$app->params['qiniuDomain'].$model->image->path:'';
+                }else{
+                    return \Yii::$app->getUser()->avatar;
+                }
+            },
+            'zan' => function($model){
+
+                return CommentZan::existZan(\Yii::$app->getUser()->id,$model->id)?CommentZan::ZAN_YES:CommentZan::ZAN_CANCEL;
             }
         ];
     }
@@ -56,8 +67,7 @@ class FilmComment extends \frontend\models\FilmComment
     public function extraFields()
     {
         return [
-            'image',
-        ];
+          ];
     }
 
     public function getImage(){
@@ -89,6 +99,17 @@ class FilmComment extends \frontend\models\FilmComment
 //        }else{
 //            throw new HttpE
         }
+    }
+
+    public static function getUserComment($user_id,$movie_id){
+
+        return FilmComment::find()->where(['user_id'=> $user_id,'movie_id' => $movie_id,'type' => FilmComment::TYPE_USER])->all();
+
+    }
+
+    public static function getCommentListQuery($movie_id){
+
+        return self::find()->where(['movie_id' => $movie_id])->typeSequence()->goodNumSequence();
 
     }
 }

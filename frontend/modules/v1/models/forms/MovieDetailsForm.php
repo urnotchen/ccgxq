@@ -25,6 +25,7 @@ class MovieDetailsForm extends Model{
         return [
             [['id'],'required'],
             [['id'],'integer'],
+            ['id' ,'exist', 'targetClass' => Movie::className(),'targetAttribute' => 'id'],
 
         ];
     }

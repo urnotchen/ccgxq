@@ -9,8 +9,11 @@
 namespace frontend\modules\v1\controllers;
 
 use frontend\components\rest\Controller;
+use frontend\modules\v1\models\CommentZan;
 use frontend\modules\v1\models\FilmComment;
+use frontend\modules\v1\models\forms\CommentZanForm;
 use frontend\modules\v1\models\forms\FilmCommentForm;
+use frontend\modules\v1\models\forms\FilmCommentIndexForm;
 use frontend\modules\v1\models\forms\MovieDetailsForm;
 use yii\data\ActiveDataProvider;
 
@@ -22,7 +25,7 @@ class CommentController extends Controller{
         $inherit = parent::behaviors();
 
         $inherit['authenticator']['only'] = [
-            'index','permit-comment','create-comment',
+            'index','permit-comment','create-comment','zan',
         ];
         $inherit['authenticator']['authMethods'] = [
             \frontend\modules\v1\components\AccessTokenAuth::className(),
@@ -38,6 +41,7 @@ class CommentController extends Controller{
             'index'    => ['get'],
             'permit-comment'    => ['get'],
             'create-comment'    => ['get'],
+            'zan'    => ['post'],
         ];
     }
 
@@ -48,10 +52,10 @@ class CommentController extends Controller{
 
         $rawParams = \Yii::$app->getRequest()->get();
 
-        $form = new MovieDetailsForm();
-        $movie = $form->prepare($rawParams);
+        $form = new FilmCommentIndexForm();
+        $form->prepare($rawParams);
         return new ActiveDataProvider([
-            'query' => FilmComment::find()->where(['movie_id' => $movie->id])->typeSequence()->goodNumSequence(),
+            'query' => FilmComment::getCommentListQuery($form->movie_id),
             'pagination' => [
                 'defaultPageSize' => 10,
             ],
@@ -82,5 +86,18 @@ class CommentController extends Controller{
         $form = new FilmCommentForm();
         $comment = $form->prepare($rawParams);
         return FilmComment::addComment($comment,$this->getUser()->id);
+    }
+
+    /*
+     * 点赞
+     *
+     * */
+    public function actionZan(){
+
+        $rawParams = \Yii::$app->getRequest()->get();
+        $form = new CommentZanForm();
+        $form->prepare($rawParams);
+
+        return CommentZan::zan(\Yii::$app->getUser()->id,$form->id);
     }
 }

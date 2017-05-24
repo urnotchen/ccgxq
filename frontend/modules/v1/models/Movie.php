@@ -62,6 +62,9 @@ class Movie extends \frontend\models\Movie
             },
             'synopsis',
             'websiteResource',
+            'comment' => function($model){
+                return FilmComment::getUserComment(\Yii::$app->getUser()->id,$model->id);
+            }
         ];
     }
     public function getWebsiteResource(){

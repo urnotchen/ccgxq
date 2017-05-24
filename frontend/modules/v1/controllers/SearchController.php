@@ -5,7 +5,6 @@ namespace frontend\modules\v1\controllers;
 use frontend\modules\v1\models\forms\MovieDetailsForm;
 use frontend\modules\v1\models\forms\MovieListForm;
 use frontend\modules\v1\models\forms\UserChoiceListForm;
-use frontend\modules\v1\models\forms\UserStarSawListForm;
 use frontend\modules\v1\models\Movie;
 use frontend\modules\v1\services\MovieListService;
 use Yii;
@@ -13,7 +12,7 @@ use yii\data\ActiveDataProvider;
 
 
 
-class MovieController extends \frontend\components\rest\Controller
+class SearchController extends \frontend\components\rest\Controller
 {
 
     protected $_service;
@@ -22,9 +21,9 @@ class MovieController extends \frontend\components\rest\Controller
     {
         $inherit = parent::behaviors();
 
-        $inherit['authenticator']['only'] = [
-            'user-choice-list','movie-list','search-star'
-        ];
+//        $inherit['authenticator']['only'] = [
+//
+//        ];
         $inherit['authenticator']['authMethods'] = [
             \frontend\modules\v1\components\AccessTokenAuth::className(),
         ];
@@ -36,22 +35,20 @@ class MovieController extends \frontend\components\rest\Controller
     public function verbs()
     {
         return [
-            'movie-list'    => ['get'],
-            'movie-details'    => ['get'],
-            'user-choice-list'    => ['get'],
-            'search-star'    => ['get'],
+            'keyword'    => ['get'],
+
         ];
     }
 
-    public function actionMovieList()
+    public function actionKeyword()
     {
 
         $rawParams = Yii::$app->getRequest()->get();
-        $form = new MovieListForm;
-        $form->prepare($rawParams);
+//        $form = new MovieListForm;
+//        $form->prepare($rawParams);
 
 
-        $dataProvider = $this->getService()->movieList($rawParams['type']);
+        $dataProvider = $this->getService()->keyword($rawParams);
 
         return $dataProvider;
     }
@@ -76,16 +73,6 @@ class MovieController extends \frontend\components\rest\Controller
         $form->prepare($rawParams);
 
         return $this->getService()->userChoiceList(Yii::$app->getUser()->id,$form->type);
-
-    }
-
-
-    public function actionSearchStar(){
-
-        $rawParams = Yii::$app->getRequest()->get();
-        $form = new UserStarSawListForm();
-        $form->prepare($rawParams);
-        return $this->getService()->userStarSawList(Yii::$app->getUser()->id,$form->star);
 
     }
 

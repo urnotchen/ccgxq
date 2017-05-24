@@ -7,9 +7,11 @@
  */
 namespace frontend\modules\v1\services;
 use frontend\modules\v1\models\FilmChoiceUser;
+use frontend\modules\v1\models\FilmComment;
 use frontend\modules\v1\models\Movie;
 use frontend\modules\v1\models\FilmProperty;
 use frontend\modules\v1\models\MovieIndex;
+use frontend\modules\v1\models\forms\SearchTimeline;
 use yii\data\ActiveDataProvider;
 use frontend\modules\v1\models\FilmRecommendUser;
 use frontend\modules\v1\models\FilmRecommend;
@@ -88,7 +90,7 @@ class MovieListService extends  \common\services\MovieListService{
         $query = Movie::find()
             ->join('join',FilmChoiceUser::tableName(),FilmChoiceUser::tableName().'.movie_id='.Movie::tableName().'.id')
             ->where([FilmChoiceUser::tableName().'.type' => $type,FilmChoiceUser::tableName().'.user_id' => $user_id])
-            ->andWhere(['not',[FilmChoiceUser::tableName().'status' => FilmChoiceUser::STATUS_TRASH]])
+            ->andWhere(['not',[FilmChoiceUser::tableName().'.status' => FilmChoiceUser::STATUS_TRASH]])
             ->orderBy([FilmChoiceUser::tableName().'.updated_at' => SORT_DESC]);
 
         return new ActiveDataProvider([
@@ -97,6 +99,35 @@ class MovieListService extends  \common\services\MovieListService{
                 'defaultPageSize' => 10,
             ],
         ]);
+    }
+
+    /*
+     * 用户个人电影数据列表筛选
+     * */
+    public function userStarSawList($user_id,$star){
+
+        $query = Movie::find()
+            ->join('join',FilmChoiceUser::tableName(),FilmChoiceUser::tableName().'.movie_id='.Movie::tableName().'.id')
+            ->join('join',FilmComment::tableName(),FilmComment::tableName().'.user_id='.FilmChoiceUser::tableName().'.user_id')
+            ->where([FilmChoiceUser::tableName().'.type' => FilmChoiceUser::TYPE_SAW,FilmChoiceUser::tableName().'.user_id' => $user_id])
+            ->andWhere(['not',[FilmChoiceUser::tableName().'.status' => FilmChoiceUser::STATUS_TRASH]])
+            ->andWhere([FilmComment::tableName().'.star' => $star,FilmComment::tableName().'.type' => FilmComment::TYPE_USER])
+            ->orderBy([FilmChoiceUser::tableName().'.updated_at' => SORT_DESC]);
+
+        return new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'defaultPageSize' => 10,
+            ],
+        ]);
+    }
+
+    public function keyword($rawParams){
+
+        return SearchTimeline::timeline($rawParams, [
+            'title','alias','actor','director','screen_writer'
+        ]);
+
     }
 
 

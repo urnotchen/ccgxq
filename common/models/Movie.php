@@ -40,7 +40,6 @@ class Movie extends \yii\db\ActiveRecord
     {
         return [
             'timestamp' => \yii\behaviors\TimestampBehavior::className(),
-            'blameable' => \yii\behaviors\BlameableBehavior::className()
         ];
     }
 
