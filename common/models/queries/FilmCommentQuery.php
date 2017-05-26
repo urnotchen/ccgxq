@@ -31,6 +31,13 @@ class FilmCommentQuery extends \yii\db\ActiveQuery{
 
         }
 
+    public function from($tables){
+        if (!is_array($tables)) {
+            $tables = preg_split('/\s*,\s*order/', trim($tables), -1, PREG_SPLIT_NO_EMPTY);
+        }
+        $this->from = $tables;
+        return $this;
+    }
 
 
 

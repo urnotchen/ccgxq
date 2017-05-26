@@ -51,10 +51,11 @@ class MovieController extends \frontend\components\rest\Controller
         $form->prepare($rawParams);
 
 
-        $dataProvider = $this->getService()->movieList($rawParams['type']);
+        $dataProvider = $this->getService()->movieList($rawParams);
 
         return $dataProvider;
     }
+
 
 
     public function actionMovieDetails(){
@@ -88,6 +89,8 @@ class MovieController extends \frontend\components\rest\Controller
         return $this->getService()->userStarSawList(Yii::$app->getUser()->id,$form->star);
 
     }
+
+
 
     protected function getService()
     {

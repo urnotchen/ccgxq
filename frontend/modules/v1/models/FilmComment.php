@@ -15,6 +15,7 @@ class FilmComment extends \frontend\models\FilmComment
     use \common\traits\SaveExceptionTrait;
 
     const PERMIT_COMMENT_YES = 1 , PERMIT_COMMENT_NO = 2;
+    public $idTemp;
 
     public function behaviors()
     {
@@ -110,6 +111,7 @@ class FilmComment extends \frontend\models\FilmComment
     public static function getCommentListQuery($movie_id){
 
         return self::find()->where(['movie_id' => $movie_id])->typeSequence()->goodNumSequence();
+
 
     }
 }

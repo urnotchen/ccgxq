@@ -57,7 +57,7 @@ class ZhanController extends Controller{
             return $this->getService()->userRecommend($this->getUser()->id);
         } else {
             //没被推荐过 推荐官方的
-            return $this->getService()->movieList(FilmProperty::PROPERTY_RECOMMEND_OFFICIAL);
+            return $this->getService()->movieList(array_merge($rawParams,['type' => FilmProperty::PROPERTY_RECOMMEND_OFFICIAL]));
         }
 
     }

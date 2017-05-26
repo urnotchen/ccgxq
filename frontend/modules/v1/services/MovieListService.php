@@ -6,8 +6,10 @@
  * Time: 18:44
  */
 namespace frontend\modules\v1\services;
+use frontend\modules\v1\helpers\QueryHelper;
 use frontend\modules\v1\models\FilmChoiceUser;
 use frontend\modules\v1\models\FilmComment;
+use frontend\modules\v1\models\forms\MovieListTimeline;
 use frontend\modules\v1\models\Movie;
 use frontend\modules\v1\models\FilmProperty;
 use frontend\modules\v1\models\MovieIndex;
@@ -19,44 +21,25 @@ use yii\db\Query;
 
 class MovieListService extends  \common\services\MovieListService{
 
-    public function movieList($property)
+    public function movieList($rawParams)
     {
-        switch ($property) {
-            case FilmProperty::PROPERTY_NEWEST:
-                $query = Movie::find()->join('join', MovieIndex::tableName(), Movie::tableName() . '.id=' . MovieIndex::tableName() . '.douban')
-                    ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
-                    ->andWhere(['or', ['property' => $property], ['property' => null]])
-                    ->propertyNewestSequence();
-                break;
-            case FilmProperty::PROPERTY_SELECTED:
-                $query = Movie::find()->join('join', MovieIndex::tableName(), Movie::tableName() . '.id=' . MovieIndex::tableName() . '.douban')
-                    ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
-                    ->andWhere(['or', ['property' => $property], ['property' => null]])
-                    ->releaseTimestampSequence();
-                break;
-            case FilmProperty::PROPERTY_HOT:
-                $query =Movie::find()->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
-                    ->where(['or', ['property' => $property], ['property' => null]])
-                    ->propertyHotSequence();
-                break;
-            case FilmProperty::PROPERTY_RECOMMEND_OFFICIAL:
-                $query = Movie::find()->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
-                    ->where(['or', ['property' => $property], ['property' => null]])
-                    ->propertyHotSequence();
-                break;
-            default :
-                throw new \yii\web\HttpException(
-                    400, "movie list doesn't have this property",
-                    \common\components\ResponseCode::INVALID_MOVIE_LIST_PROPERTY
-                );
+        $max = isset($rawParams['max'])?$rawParams['max']:0;
+        $since = isset($rawParams['since'])?$rawParams['since']:0;
+        $count = isset($rawParams['count'])?$rawParams['count']:0;
+        $type = $rawParams['type'];
+
+
+        $cache = \Yii::$app->cache;
+
+        if ($cache->get("movie_list_{$type}_{$max}_{$since}_{$count}")) {
+            return $cache->get("movie_list_{$type}_{$max}_{$since}_{$count}");
+        } else {
+            $query = Movie::getMovieListByProperty($type);
+            $res = MovieListTimeline::timeline($rawParams,QueryHelper::executeMultiTimelineQuery($query));
+            $cache->set("movie_list_{$type}_{$max}_{$since}_{$count}", $res, 60 * 60);
+
+            return $res;
         }
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'defaultPageSize' => 10,
-            ]
-        ]);
-        return $dataProvider;
     }
 
     /*
@@ -129,6 +112,8 @@ class MovieListService extends  \common\services\MovieListService{
         ]);
 
     }
+
+
 
 
 }

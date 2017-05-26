@@ -9,11 +9,13 @@
 namespace frontend\modules\v1\controllers;
 
 use frontend\components\rest\Controller;
+use frontend\modules\v1\helpers\QueryHelper;
 use frontend\modules\v1\models\CommentZan;
 use frontend\modules\v1\models\FilmComment;
 use frontend\modules\v1\models\forms\CommentZanForm;
 use frontend\modules\v1\models\forms\FilmCommentForm;
 use frontend\modules\v1\models\forms\FilmCommentIndexForm;
+use frontend\modules\v1\models\forms\FilmCommentTimeline;
 use frontend\modules\v1\models\forms\MovieDetailsForm;
 use yii\data\ActiveDataProvider;
 
@@ -54,12 +56,14 @@ class CommentController extends Controller{
 
         $form = new FilmCommentIndexForm();
         $form->prepare($rawParams);
-        return new ActiveDataProvider([
-            'query' => FilmComment::getCommentListQuery($form->movie_id),
-            'pagination' => [
-                'defaultPageSize' => 10,
-            ],
-        ]);
+        return FilmCommentTimeline::timeline($rawParams,QueryHelper::executeMultiTimelineQuery(FilmComment::getCommentListQuery($form->movie_id)));
+//        $query = FilmComment::getCommentListQuery($form->movie_id);
+//        return new ActiveDataProvider([
+//            'query' => FilmComment::getCommentListQuery($form->movie_id),
+//            'pagination' => [
+//                'defaultPageSize' => 10,
+//            ],
+//        ]);
     }
 
     /*
