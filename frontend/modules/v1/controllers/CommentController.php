@@ -98,10 +98,10 @@ class CommentController extends Controller{
      * */
     public function actionZan(){
 
-        $rawParams = \Yii::$app->getRequest()->get();
+        $rawParams = \Yii::$app->getRequest()->post();
         $form = new CommentZanForm();
         $form->prepare($rawParams);
 
-        return CommentZan::zan(\Yii::$app->getUser()->id,$form->id);
+        return CommentZan::zan($form->id);
     }
 }

@@ -39,7 +39,7 @@ class CommentZan extends \yii\db\ActiveRecord
         return [
             [['comment_id', 'user_id', 'status'], 'required'],
             [['comment_id', 'user_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['comment_id','user_id'],'unique'],
+            [['comment_id','user_id'],'unique','targetAttribute' => ['comment_id','user_id']],
         ];
     }
     public function behaviors()

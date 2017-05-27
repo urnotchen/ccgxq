@@ -5,6 +5,7 @@ namespace frontend\modules\v1\controllers;
 use frontend\modules\v1\models\forms\MovieDetailsForm;
 use frontend\modules\v1\models\forms\MovieListForm;
 use frontend\modules\v1\models\forms\UserChoiceListForm;
+use frontend\modules\v1\models\forms\UserStarSawListForm;
 use frontend\modules\v1\models\Movie;
 use frontend\modules\v1\services\MovieListService;
 use Yii;
@@ -73,6 +74,15 @@ class SearchController extends \frontend\components\rest\Controller
         $form->prepare($rawParams);
 
         return $this->getService()->userChoiceList(Yii::$app->getUser()->id,$form->type);
+
+    }
+
+    public function actionUserStar(){
+
+        $rawParams = Yii::$app->getRequest()->get();
+        $form = new UserStarSawListForm();
+        $form->prepare($rawParams);
+        return $this->getService()->userStarSawList($rawParams,Yii::$app->getUser()->id);
 
     }
 

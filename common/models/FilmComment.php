@@ -22,7 +22,12 @@ use Yii;
  */
 class FilmComment extends \yii\db\ActiveRecord
 {
-    use FindOrExceptionTrait;
+    use \common\traits\FindOrExceptionTrait;
+    use \common\traits\LoadExceptionTrait;
+    use \common\traits\ErrorsJsonTrait;
+    use \common\traits\ValidateExceptionTrait;
+    use \common\traits\SaveExceptionTrait;
+
     /**
      * @inheritdoc
      */

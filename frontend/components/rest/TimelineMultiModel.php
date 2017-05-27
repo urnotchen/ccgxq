@@ -97,8 +97,8 @@ abstract class TimelineMultiModel extends \yii\base\Model
         if ($this->_terminate)
             return $this->_terminateWith;
 
-        return $this->query->createCommand()->getRawSql();
-//        $res =  $this->query->all();
+//        return $this->query->createCommand()->getRawSql();
+        $res =  $this->query->all();
 
         return $res;
         //下面这种方法占用内存过大 废除

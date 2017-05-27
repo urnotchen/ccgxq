@@ -54,7 +54,7 @@ class ZhanController extends Controller{
         //是否推荐过电影斩
         if (FilmRecommendUser::yetRecommend($this->getUser()->id)) {
             //已经推荐过了 就推荐个人的
-            return $this->getService()->userRecommend($this->getUser()->id);
+            return $this->getService()->userRecommend($rawParams);
         } else {
             //没被推荐过 推荐官方的
             return $this->getService()->movieList(array_merge($rawParams,['type' => FilmProperty::PROPERTY_RECOMMEND_OFFICIAL]));

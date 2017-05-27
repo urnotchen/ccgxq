@@ -90,4 +90,7 @@ class ResponseCode
 
     # 不支持的用户操作
     const INVALID_USER_ACTION                       = 40051;
+
+    # 用户没有订阅/想看 无法取消
+    const INVALID_CANCEL_ACTION                     = 40052;
 }

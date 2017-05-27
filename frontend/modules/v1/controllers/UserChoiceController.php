@@ -40,6 +40,9 @@ class UserChoiceController extends Controller{
         ];
     }
 
+    /*
+     * 用户想看/订阅操作(添加/取消)
+     * */
     public function actionUserAction(){
 
         $rawParams = \Yii::$app->getRequest()->post();
@@ -47,7 +50,7 @@ class UserChoiceController extends Controller{
         $form = new UserActionForm();
         $form->prepare($rawParams);
 
-        return FilmChoiceUser::userAction($form->movie_id,$form->type,$form->action,\Yii::$app->getUser()->id);
+        return FilmChoiceUser::userAction($form->movie_id,$form->type,$form->action);
 
     }
 
@@ -55,8 +58,8 @@ class UserChoiceController extends Controller{
 
         $rawParams = \Yii::$app->getRequest()->get();
 
-        $form = new UserChoiceListForm();
-        $form->prepare($rawParams);
+//        $form = new UserChoiceListForm();
+//        $form->prepare($rawParams);
 
         $typeArr =  FilmChoiceUser::getTypeNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_SAW);
         $movCount = array_sum(array_column($typeArr,'type_num'));
@@ -68,10 +71,10 @@ class UserChoiceController extends Controller{
         }
 
         $starArr = FilmChoiceUser::getStarNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_SAW);
-        $arr['star'][] = $starArr;
-        $arr['saw_num'] = FilmChoiceUser::getUserTypeNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_SAW);
-        $arr['want_num'] = FilmChoiceUser::getUserTypeNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_WANT);
-        $arr['subscribe_num'] = FilmChoiceUser::getUserTypeNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_SUBSCRIBE);
+        $arr['star'] = $starArr;
+        $arr['saw_num'] = (int)FilmChoiceUser::getUserTypeNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_SAW);
+        $arr['want_num'] = (int)FilmChoiceUser::getUserTypeNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_WANT);
+        $arr['subscribe_num'] = (int)FilmChoiceUser::getUserTypeNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_SUBSCRIBE);
         return $arr;
 
     }

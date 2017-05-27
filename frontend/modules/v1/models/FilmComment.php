@@ -7,14 +7,8 @@ use frontend\modules\v1\behaviors\AddUserChoiceBehavior;
 
 class FilmComment extends \frontend\models\FilmComment
 {
-
-    use \common\traits\FindOrExceptionTrait;
-    use \common\traits\LoadExceptionTrait;
-    use \common\traits\ErrorsJsonTrait;
-    use \common\traits\ValidateExceptionTrait;
-    use \common\traits\SaveExceptionTrait;
-
     const PERMIT_COMMENT_YES = 1 , PERMIT_COMMENT_NO = 2;
+
     public $idTemp;
 
     public function behaviors()
@@ -110,8 +104,19 @@ class FilmComment extends \frontend\models\FilmComment
 
     public static function getCommentListQuery($movie_id){
 
-        return self::find()->where(['movie_id' => $movie_id])->typeSequence()->goodNumSequence();
+        return self::find()->select('film_comment.*,(select @rownum:=0)')->where(['movie_id' => $movie_id])->typeSequence()->goodNumSequence();
 
+    }
 
+    /*
+     * 点赞数+1 / -1
+     * */
+    public static function changeZanNum($comment_id,$action){
+
+        $comment = self::findOneOrException(['id' => $comment_id]);
+
+        $comment->good_num += $action;
+
+        $comment->save();
     }
 }

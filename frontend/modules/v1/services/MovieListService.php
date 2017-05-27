@@ -7,14 +7,9 @@
  */
 namespace frontend\modules\v1\services;
 use frontend\modules\v1\helpers\QueryHelper;
-use frontend\modules\v1\models\FilmChoiceUser;
-use frontend\modules\v1\models\FilmComment;
 use frontend\modules\v1\models\forms\MovieListTimeline;
 use frontend\modules\v1\models\Movie;
-use frontend\modules\v1\models\FilmProperty;
-use frontend\modules\v1\models\MovieIndex;
 use frontend\modules\v1\models\forms\SearchTimeline;
-use yii\data\ActiveDataProvider;
 use frontend\modules\v1\models\FilmRecommendUser;
 use frontend\modules\v1\models\FilmRecommend;
 use yii\db\Query;
@@ -45,64 +40,35 @@ class MovieListService extends  \common\services\MovieListService{
     /*
      * 电影斩用户个人推荐
      * */
-    public function userRecommend($user_id){
+    public function userRecommend($rawParams){
 
-        $query = Movie::find();
-        $subQuery = (new Query())->select('recommend_movie_id')->from(FilmRecommendUser::tableName())
-            ->join('join',FilmRecommend::tableName(),FilmRecommend::tableName().'.movie_id='.FilmRecommendUser::tableName().'.movie_id')
-            ->where([FilmRecommendUser::tableName().'.user_id' => $user_id])
-            ->andWhere([FilmRecommendUser::tableName().'.status' => FilmRecommendUser::STATUS_WAIT_RECOMMEND])
-            ->createCommand()->getRawSql();
+        $query = Movie::userRecommendQuery();
 
-        $query->join('join',"({$subQuery}) as k",'movie.id = '.'k.recommend_movie_id')->limit(13);
-//        return $query->createCommand()->getRawSql();
-//        $query = 'select movie.* from film_recommend_user join film_recommend on film_recommend_user.movie_id = film_recommend.movie_id join movie on movie.id=film_recommend.recommend_movie_id where user_id = 2 and status = 1;';
-        return new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'defaultPageSize' => 20,
-            ]
-        ]);
+        return MovieListTimeline::timeline($rawParams,QueryHelper::executeMultiTimelineQuery($query));
+
     }
 
     /*
      * 用户个人电影数据列表
      * */
-    public function userChoiceList($user_id,$type){
+    public function userChoiceList($rawParams,$user_id){
 
-        $query = Movie::find()
-            ->join('join',FilmChoiceUser::tableName(),FilmChoiceUser::tableName().'.movie_id='.Movie::tableName().'.id')
-            ->where([FilmChoiceUser::tableName().'.type' => $type,FilmChoiceUser::tableName().'.user_id' => $user_id])
-            ->andWhere(['not',[FilmChoiceUser::tableName().'.status' => FilmChoiceUser::STATUS_TRASH]])
-            ->orderBy([FilmChoiceUser::tableName().'.updated_at' => SORT_DESC]);
+        $query = Movie::userChoiceListQuery($rawParams['type'],$user_id);
 
-        return new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'defaultPageSize' => 10,
-            ],
-        ]);
+        return MovieListTimeline::timeline($rawParams,QueryHelper::executeMultiTimelineQuery($query));
+
+
     }
 
     /*
      * 用户个人电影数据列表筛选
      * */
-    public function userStarSawList($user_id,$star){
+    public function userStarSawList($rawParams,$user_id){
 
-        $query = Movie::find()
-            ->join('join',FilmChoiceUser::tableName(),FilmChoiceUser::tableName().'.movie_id='.Movie::tableName().'.id')
-            ->join('join',FilmComment::tableName(),FilmComment::tableName().'.user_id='.FilmChoiceUser::tableName().'.user_id')
-            ->where([FilmChoiceUser::tableName().'.type' => FilmChoiceUser::TYPE_SAW,FilmChoiceUser::tableName().'.user_id' => $user_id])
-            ->andWhere(['not',[FilmChoiceUser::tableName().'.status' => FilmChoiceUser::STATUS_TRASH]])
-            ->andWhere([FilmComment::tableName().'.star' => $star,FilmComment::tableName().'.type' => FilmComment::TYPE_USER])
-            ->orderBy([FilmChoiceUser::tableName().'.updated_at' => SORT_DESC]);
 
-        return new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'defaultPageSize' => 10,
-            ],
-        ]);
+        $query = Movie::userStarSawListQuery($user_id,$rawParams['star']);
+        return MovieListTimeline::timeline($rawParams,QueryHelper::executeMultiTimelineQuery($query));
+
     }
 
     public function keyword($rawParams){

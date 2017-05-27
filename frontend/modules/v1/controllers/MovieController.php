@@ -64,7 +64,7 @@ class MovieController extends \frontend\components\rest\Controller
 
         $form = new MovieDetailsForm();
 
-//        $movie = $form->prepare($rawParams);
+        $form->prepare($rawParams);
 
         return  Movie::findOneOrException(['id' => $rawParams['id']]);
     }
@@ -76,7 +76,7 @@ class MovieController extends \frontend\components\rest\Controller
         $form = new UserChoiceListForm();
         $form->prepare($rawParams);
 
-        return $this->getService()->userChoiceList(Yii::$app->getUser()->id,$form->type);
+        return $this->getService()->userChoiceList($rawParams,Yii::$app->getUser()->id);
 
     }
 
@@ -86,7 +86,7 @@ class MovieController extends \frontend\components\rest\Controller
         $rawParams = Yii::$app->getRequest()->get();
         $form = new UserStarSawListForm();
         $form->prepare($rawParams);
-        return $this->getService()->userStarSawList(Yii::$app->getUser()->id,$form->star);
+        return $this->getService()->userStarSawList($rawParams,Yii::$app->getUser()->id);
 
     }
 
