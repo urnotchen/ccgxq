@@ -54,7 +54,7 @@ class FilmRecommendUser extends \yii\db\ActiveRecord
     {
         return [
             [['movie_id','user_id','type'],'required'],
-            [['movie_id', 'user_id','type', 'star','status','source', 'created_at', 'updated_at'], 'integer'],
+            [['movie_id', 'user_id','type', 'star','status','source', 'created_at', 'updated_at','choice',], 'integer'],
             [['movie_id','user_id'],'unique','targetAttribute'=>['movie_id','user_id']],
             [['status'],'default','value' => self::STATUS_WAIT_RECOMMEND]
         ];
