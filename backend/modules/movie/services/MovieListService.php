@@ -8,6 +8,8 @@
 
 namespace backend\modules\movie\services;
 
+use backend\modules\movie\models\FilmType;
+use backend\modules\movie\models\FilmTypeConn;
 use backend\modules\movie\models\Movie;
 use yii\data\ActiveDataProvider;
 use backend\modules\movie\models\FilmProperty;
@@ -49,13 +51,35 @@ class MovieListService extends  \common\services\MovieListService{
                     \common\components\ResponseCode::INVALID_MOVIE_LIST_PROPERTY
                 );
         }
-//        $dataProvider = new ActiveDataProvider([
-//            'query' => $query,
-//            'pagination' => [
-//                'defaultPageSize' => 10,
-//            ]
-//        ]);
-//        return $dataProvider;
 
+    }
+
+    /*
+     * 定时更新电影斩
+     * */
+    public static function updateZhan(){
+
+        //定时更新电影斩的300部电影(有可能不到300部)
+        //筛选一下电影类型数量排名前15的类型
+        $typeList = FilmTypeConn::getTopTypes();
+
+        //筛选电影斩需要的电影
+        $arr = Movie::getMovieZhanIds($typeList,15);
+
+//        $randNumArr = [];
+//
+//        while(count($randNumArr) != 20){
+//            $num = rand(0,count($arr) - 1 );
+//            if(in_array($num,$randNumArr)){
+//                continue;
+//            }else{
+//                $randNumArr[] = $num;
+//            }
+//        }
+
+
+
+        //加入到电影斩列表
+        FilmProperty::updateZhan($arr);
     }
 }

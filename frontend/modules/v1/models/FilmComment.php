@@ -7,7 +7,6 @@ use frontend\modules\v1\behaviors\AddUserChoiceBehavior;
 
 class FilmComment extends \frontend\models\FilmComment
 {
-    const PERMIT_COMMENT_YES = 1 , PERMIT_COMMENT_NO = 2;
 
     public $idTemp;
 
@@ -49,11 +48,11 @@ class FilmComment extends \frontend\models\FilmComment
                 if($model->pic_id){
                     return $model->image->path?\Yii::$app->params['qiniuDomain'].$model->image->path:'';
                 }else{
-                    return \Yii::$app->getUser()->avatar;
+                    $user = UserDetails::findOne(\Yii::$app->getUser()->id);
+                    return $user->avatar;
                 }
             },
             'zan' => function($model){
-
                 return CommentZan::existZan(\Yii::$app->getUser()->id,$model->id)?CommentZan::ZAN_YES:CommentZan::ZAN_CANCEL;
             }
         ];
@@ -70,35 +69,29 @@ class FilmComment extends \frontend\models\FilmComment
     }
 
     /*
-     * 是否允许评论
-     * */
-    public static function permitComment($movie_id,$user_id){
-
-        return self::find()->where(['movie_id' => $movie_id,'user_id' => $user_id])?self::PERMIT_COMMENT_NO:self::PERMIT_COMMENT_YES;
-    }
-
-    /*
      * 添加评论
      * */
     public static function addComment($userComment,$user_id){
 
-        $comment = new static;
+        $comment = self::existComment($userComment->movie_id,$user_id);
+        if(!$comment){
+            $comment = new static;
+        }
         $comment->setAttributes([
             'user_id'         => $user_id,
             'star'            => $userComment->star,
             'movie_id'        => $userComment->movie_id,
             'comment'         => $userComment->content,
         ]);
-        if($comment->save()){
-            return $comment;
-//        }else{
-//            throw new HttpE
-        }
+        $comment->save();
+
+        return $comment;
+
     }
 
     public static function getUserComment($user_id,$movie_id){
 
-        return FilmComment::find()->where(['user_id'=> $user_id,'movie_id' => $movie_id,'type' => FilmComment::TYPE_USER])->all();
+        return FilmComment::findOne((['user_id'=> $user_id,'movie_id' => $movie_id,'type' => FilmComment::TYPE_USER]));
 
     }
 
@@ -118,5 +111,11 @@ class FilmComment extends \frontend\models\FilmComment
         $comment->good_num += $action;
 
         $comment->save();
+    }
+
+    public static function existComment($movie_id,$user_id){
+
+        $res = self::findOne(['movie_id' => $movie_id,'user_id' => $user_id]);
+        return $res;
     }
 }

@@ -10,9 +10,21 @@ namespace common\models\queries;
 
 class MovieQuery extends \yii\db\ActiveQuery{
 
+    public function choiceMovie(){
+
+        $this->andwhere(['episodes' => null,'single_running_time' => null]);
+        return $this;
+    }
+
     public function orderSequence(){
 
         $this->orderBy(['sequence' => SORT_DESC]);
+        return $this;
+    }
+
+    public function commentNumSequence(){
+
+        $this->orderBy(['comment_num' => SORT_DESC]);
         return $this;
     }
 

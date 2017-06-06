@@ -27,7 +27,7 @@ class CommentController extends Controller{
         $inherit = parent::behaviors();
 
         $inherit['authenticator']['only'] = [
-            'index','permit-comment','create-comment','zan',
+            'index','create-comment','zan',
         ];
         $inherit['authenticator']['authMethods'] = [
             \frontend\modules\v1\components\AccessTokenAuth::className(),
@@ -41,8 +41,7 @@ class CommentController extends Controller{
     {
         return [
             'index'    => ['get'],
-            'permit-comment'    => ['get'],
-            'create-comment'    => ['get'],
+            'create-comment'    => ['post'],
             'zan'    => ['post'],
         ];
     }
@@ -57,27 +56,22 @@ class CommentController extends Controller{
         $form = new FilmCommentIndexForm();
         $form->prepare($rawParams);
         return FilmCommentTimeline::timeline($rawParams,QueryHelper::executeMultiTimelineQuery(FilmComment::getCommentListQuery($form->movie_id)));
-//        $query = FilmComment::getCommentListQuery($form->movie_id);
-//        return new ActiveDataProvider([
-//            'query' => FilmComment::getCommentListQuery($form->movie_id),
-//            'pagination' => [
-//                'defaultPageSize' => 10,
-//            ],
-//        ]);
+
     }
 
     /*
      * 是否允许添加评论
+     * 废弃
      * */
-    public function actionPermitComment(){
-
-        $rawParams = \Yii::$app->getRequest()->get();
-        $form = new FilmCommentForm();
-        $form->prepare($rawParams);
-
-        return FilmComment::permitComment($rawParams['movie_id'],$this->getUser()->id);
-
-    }
+//    public function actionPermitComment(){
+//
+//        $rawParams = \Yii::$app->getRequest()->get();
+//        $form = new FilmCommentForm();
+//        $form->prepare($rawParams);
+//
+//        return FilmComment::permitComment($rawParams['movie_id'],$this->getUser()->id);
+//
+//    }
 
 
     /*
@@ -86,7 +80,7 @@ class CommentController extends Controller{
      * */
     public function  actionCreateComment(){
 
-        $rawParams = \Yii::$app->getRequest()->get();
+        $rawParams = \Yii::$app->getRequest()->post();
         $form = new FilmCommentForm();
         $comment = $form->prepare($rawParams);
         return FilmComment::addComment($comment,$this->getUser()->id);

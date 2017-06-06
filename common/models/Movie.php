@@ -3,7 +3,6 @@
 namespace common\models;
 use common\models\queries\MovieQuery;
 
-
 /**
  * Class Movie
  * @package common\models
@@ -122,7 +121,21 @@ class Movie extends \yii\db\ActiveRecord
     }
 
 
+    public function getType(){
 
+        return $this->hasMany(FilmTypeConn::className(),['movie_id' => 'id']);
+
+    }
+
+    public function getFilmRecommendUser(){
+
+        return $this->hasOne(FilmRecommendUser::className(),['movie_id' => 'id']);
+    }
+
+    public function getFilmRecommend(){
+
+        return $this->hasOne(FilmRecommend::className(),['movie_id' => 'id']);
+    }
 }
 
 ?>

@@ -43,9 +43,7 @@ class FilmChoiceUser extends \frontend\models\FilmChoiceUser
     /*
      * 添加/删除用户的订阅/想看/已看等个人
      * */
-    public static function userAction($movie_id,$type,$action){
-
-        $user_id = \Yii::$app->getUser()->id;
+    public static function userAction($user_id,$movie_id,$type,$action){
 
         switch($action){
             case self::ACTION_ADD:

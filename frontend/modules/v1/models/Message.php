@@ -12,6 +12,20 @@ class Message extends \frontend\models\Message
             'id',
             'status',
             'content',
+            'movie_id' => function($model){
+                return (int)$model->movie_id;
+            },
+            'local_name' => function($model){
+                    $titleList = explode(' ',$model->movie->title,2);
+                    $alias = count($titleList) == 2 ? $titleList[1] : '';
+                    return $alias;
+            },
+            'image' => function($model){
+                return $model->movie->image;
+            },
+            'created_at' => function($model){
+                return (int)$model->created_at;
+            }
         ];
     }
 
@@ -28,6 +42,8 @@ class Message extends \frontend\models\Message
     public function getMovie(){
         return $this->hasOne(Movie::className(),['id' => 'movie_id']);
     }
+
+
 
     public static function toYetRead($id){
 

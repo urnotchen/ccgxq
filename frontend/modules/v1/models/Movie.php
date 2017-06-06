@@ -100,7 +100,7 @@ class Movie extends \frontend\models\Movie
         return $this->hasOne(FilmSynopsis::className(),['movie_id' => 'id']);
     }
 
-    public static function getMovieListByProperty($property){
+    public static function getMovieListByProperty($property,$user_id = null ){
 
         switch ($property) {
             case FilmProperty::PROPERTY_NEWEST:
@@ -123,7 +123,10 @@ class Movie extends \frontend\models\Movie
             case FilmProperty::PROPERTY_RECOMMEND_OFFICIAL:
                 $query = self::find()->select('movie.*,(select @rownum:=0)')->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
                     ->where(['or', ['property' => $property], ['property' => null]])
-                    ->propertyHotSequence();
+                    ->andWhere(['not',[Movie::tableName().'.id' => FilmRecommendUser::getUserAllMovieIds($user_id)]])
+                    ->limit(20)
+                    ->orderBy('rand()');
+//                    ->propertyHotSequence();
                 break;
             default :
                 throw new \yii\web\HttpException(
@@ -167,20 +170,25 @@ class Movie extends \frontend\models\Movie
      * 用户个人推荐列表
      *
      * */
-    public static function userRecommendQuery(){
+//    public static function userRecommendQuery(){
+//
+//        $user_id = \Yii::$app->getUser()->id;
+//        $subQuery = (new Query())->select('recommend_movie_id,(select @rownum:=0)')->from(FilmRecommendUser::tableName())
+//            ->join('join',FilmRecommend::tableName(),FilmRecommend::tableName().'.movie_id='.FilmRecommendUser::tableName().'.movie_id')
+//            ->where([FilmRecommendUser::tableName().'.user_id' => $user_id])
+//            ->where(['>=',FilmRecommendUser::tableName().'.star' ,3])
+//            ->andWhere([FilmRecommendUser::tableName().'.status' => FilmRecommendUser::STATUS_WAIT_RECOMMEND])
+//            ->andWhere(['not',[FilmRecommend::tableName().'.recommend_movie_id' => FilmRecommendUser::getRecommendedMovieIds($user_id)]])
+//            ->createCommand()->getRawSql();
+//
+//        $query = Movie::find()->join('join',"({$subQuery}) as k",'movie.id = '.'k.recommend_movie_id')->limit(13);
+//
+//        return $query;
+//    }
 
-        $user_id = \Yii::$app->getUser()->id;
-        $subQuery = (new Query())->select('recommend_movie_id,(select @rownum:=0)')->from(FilmRecommendUser::tableName())
-            ->join('join',FilmRecommend::tableName(),FilmRecommend::tableName().'.movie_id='.FilmRecommendUser::tableName().'.movie_id')
-            ->where([FilmRecommendUser::tableName().'.user_id' => $user_id])
-            ->where(['>=',FilmRecommendUser::tableName().'.star' ,3])
-            ->andWhere([FilmRecommendUser::tableName().'.status' => FilmRecommendUser::STATUS_WAIT_RECOMMEND])
-            ->createCommand()->getRawSql();
 
-        $query = Movie::find()->join('join',"({$subQuery}) as k",'movie.id = '.'k.recommend_movie_id')->limit(13);
 
-        return $query;
-    }
+
 
 }
 

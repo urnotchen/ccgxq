@@ -36,8 +36,6 @@ class FilmComment extends \yii\db\ActiveRecord
 
     const TYPE_RANGE = [self::TYPE_USER,self::TYPE_DOUBAN,self::TYPE_MTIME];
 
-
-
     public static function tableName()
     {
         return 'film_comment';

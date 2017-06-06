@@ -50,7 +50,7 @@ class UserChoiceController extends Controller{
         $form = new UserActionForm();
         $form->prepare($rawParams);
 
-        return FilmChoiceUser::userAction($form->movie_id,$form->type,$form->action);
+        return FilmChoiceUser::userAction(\Yii::$app->getUser()->id,$form->movie_id,$form->type,$form->action);
 
     }
 

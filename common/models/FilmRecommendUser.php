@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use common\traits\FindOrExceptionTrait;
+use common\traits\SaveExceptionTrait;
 use Yii;
 
 /**
@@ -18,9 +20,20 @@ use Yii;
  */
 class FilmRecommendUser extends \yii\db\ActiveRecord
 {
-    const TYPE_OFFICIAL = 1,TYPE_USER = 2;
 
+    use FindOrExceptionTrait;
+
+    //电影斩官方生成的电影,根据官方推荐电影的评分数据给用户推荐的电影,用户评论了其他的电影(在电影斩外)
+    const TYPE_OFFICIAL = 1,TYPE_USER = 2,TYPE_COMMENT = 3;
+    //是否已经推荐了关联电影
     const STATUS_WAIT_RECOMMEND = 1 , STATUS_YET_RECOMMEND = 2;
+    //(TYPE_OFFICIAL,TYPE_USER)只有这两个状态下才有这个choice参数,因为这两个表明了是电影斩推荐的
+    //TYPE_COMMENT,代表着是外部的评价,不是电影斩内部的信息
+    //这个是为了完全记录电影斩推荐的电影,用户的操作轨迹
+    const CHOICE_DEFAULT = 1 , CHOICE_SAW = 2 , CHOICE_COLLECT = 3 , CHOICE_PASS = 4;
+    //记录的来源
+    const SOURCE_ZHAN = 1 , SOURCE_OTHER = 2;
+
     /**
      * @inheritdoc
      */
@@ -40,8 +53,9 @@ class FilmRecommendUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['movie_id', 'user_id','type', 'star','status', 'created_at', 'updated_at'], 'integer'],
-            [['movie_id'],'unique'],
+            [['movie_id','user_id','type'],'required'],
+            [['movie_id', 'user_id','type', 'star','status','source', 'created_at', 'updated_at'], 'integer'],
+            [['movie_id','user_id'],'unique','targetAttribute'=>['movie_id','user_id']],
             [['status'],'default','value' => self::STATUS_WAIT_RECOMMEND]
         ];
     }
@@ -60,6 +74,17 @@ class FilmRecommendUser extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getFilmRecommend(){
+
+        return $this->hasMany(FilmRecommend::className(),['movie_id' => 'movie_id']);
+
+    }
+
+    public function getMovie(){
+
+        return $this->hasOne(Movie::className(),['id' => 'movie_id']);
     }
 
 }
