@@ -11,7 +11,7 @@ class User extends \yii\web\User
     {
         var_dump( $this->loginUrl);
         var_dump( Yii::$app->getRequest()->getAbsoluteUrl());
-        $this->loginUrl .= '?return_url=' . Yii::$app->getRequest()->getAbsoluteUrl();
+//        $this->loginUrl .= '?return_url=' . Yii::$app->getRequest()->getAbsoluteUrl();
 
 //        return parent::loginRequired($checkAjax, $checkAcceptHeader);
     }
