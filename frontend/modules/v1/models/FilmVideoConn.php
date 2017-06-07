@@ -14,7 +14,7 @@ class FilmVideoConn extends \frontend\models\FilmVideoConn{
         return [
             'id',
             'website' => function($model){
-                return $model->website->name;
+                return $model->website->id;
             },
             'url',
         ];
