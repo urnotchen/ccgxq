@@ -2,6 +2,7 @@
 namespace frontend\modules\v1\behaviors;
 
 
+use frontend\modules\v1\models\FilmChoiceUser;
 use frontend\modules\v1\models\FilmComment;
 use frontend\modules\v1\models\FilmRecommendUser;
 use yii\base\Behavior;
@@ -17,10 +18,11 @@ class AddRecommendUserBehavior extends Behavior{
 
     public function addRecommendUser($event){
 
-        if($this->comment->movie_id)
         if($this->comment){
-//            AuthorMessage::addPaymentMessage($this->payslip);
+            //添加到推荐表
             FilmRecommendUser::record($this->comment);
+            //添加到个人选择表
+//            FilmChoiceUser::userAction($this->comment->movie_id,FilmChoiceUser::TYPE_SAW,self::Ac)
         }
     }
 

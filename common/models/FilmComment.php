@@ -22,7 +22,12 @@ use Yii;
  */
 class FilmComment extends \yii\db\ActiveRecord
 {
-    use FindOrExceptionTrait;
+    use \common\traits\FindOrExceptionTrait;
+    use \common\traits\LoadExceptionTrait;
+    use \common\traits\ErrorsJsonTrait;
+    use \common\traits\ValidateExceptionTrait;
+    use \common\traits\SaveExceptionTrait;
+
     /**
      * @inheritdoc
      */
@@ -30,8 +35,6 @@ class FilmComment extends \yii\db\ActiveRecord
     const TYPE_DOUBAN = 1 , TYPE_MTIME = 2 , TYPE_USER=3;
 
     const TYPE_RANGE = [self::TYPE_USER,self::TYPE_DOUBAN,self::TYPE_MTIME];
-
-
 
     public static function tableName()
     {

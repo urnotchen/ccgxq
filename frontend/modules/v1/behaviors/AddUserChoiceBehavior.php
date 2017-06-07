@@ -19,7 +19,7 @@ class AddUserChoiceBehavior extends Behavior{
 
         if($this->comment){
 
-            FilmChoiceUser::userAction($this->comment->movie_id,FilmChoiceUser::TYPE_SAW,FilmChoiceUser::ACTION_ADD,$this->comment->user_id);
+            FilmChoiceUser::userAction($this->comment->user_id,$this->comment->movie_id,FilmChoiceUser::TYPE_SAW,FilmChoiceUser::ACTION_ADD);
         }
     }
 

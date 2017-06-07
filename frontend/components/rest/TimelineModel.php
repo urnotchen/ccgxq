@@ -113,7 +113,7 @@ abstract class TimelineModel extends \yii\base\Model
             #Yii::trace('pull zero');
         # 如果存在max 不存在since ，则为上滑操作，获取下面的数据
         } elseif ($this->max !== null && $this->since === null) {
-            return $this->pullUp();
+            $this->pullUp();
             #Yii::trace('pull up');
         # 如果不存在max 存在since ，则为下滑操作，获取最新的数据
         } elseif ($this->since !== null && $this->max === null) {
@@ -149,9 +149,9 @@ abstract class TimelineModel extends \yii\base\Model
      */
     protected function pullUp()
     {/*{{{*/
-        return $this->query->orderBy($this->_orderBy)
+        $this->query->orderBy($this->_orderBy)
             ->andWhere(['<=', $this->_line, $this->maxAt])
-            ->andWhere(['not', [$this->_primaryKey => $this->max]])->createCommand()->getRawSql()
+            ->andWhere(['not', [$this->_primaryKey => $this->max]])
             ;
     }/*}}}*/
 

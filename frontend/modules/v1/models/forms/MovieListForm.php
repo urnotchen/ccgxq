@@ -9,6 +9,7 @@
 namespace frontend\modules\v1\models\forms;
 
 use frontend\modules\v1\models\FilmProperty;
+use frontend\modules\v1\models\Movie;
 use yii\base\Model;
 
 
@@ -16,14 +17,17 @@ class MovieListForm extends Model{
 
     use \frontend\traits\ModelPrepareTrait;
 
-    public $type;
+    public $type,$count,$max,$since;
 
     public function rules(){
 
         return [
             [['type'] , 'required'],
-            [['type'], 'integer',],
+            [['type','count'], 'integer',],
             [['type'], 'in','range' => FilmProperty::$propertyList],
+            ['max' ,'exist', 'targetClass' => Movie::className(),'targetAttribute' => 'id'],
+            ['since' ,'exist', 'targetClass' => Movie::className(),'targetAttribute' => 'id'],
+
         ];
     }
 

@@ -10,9 +10,21 @@ namespace common\models\queries;
 
 class MovieQuery extends \yii\db\ActiveQuery{
 
+    public function choiceMovie(){
+
+        $this->andwhere(['episodes' => null,'single_running_time' => null]);
+        return $this;
+    }
+
     public function orderSequence(){
 
         $this->orderBy(['sequence' => SORT_DESC]);
+        return $this;
+    }
+
+    public function commentNumSequence(){
+
+        $this->orderBy(['comment_num' => SORT_DESC]);
         return $this;
     }
 
@@ -34,9 +46,26 @@ class MovieQuery extends \yii\db\ActiveQuery{
     }
     public function propertyNewestSequence(){
 
-        $this->orderBy('film_property.sequence DESC,film_property.created_at DESC,movie_index.create_at DESC,movie.release_timestamp DESC');
+        $this->orderBy(['film_property.sequence' => SORT_DESC,'film_property.created_at' => SORT_DESC,'movie_index.create_at' => SORT_DESC,'movie.release_timestamp' => SORT_DESC]);
         return $this;
     }
+
+    public static function propertyNewestSequenceSql(){
+
+        return "`film_property.sequence desc,film_property.created_at desc,movie_index.create_at desc ,movie.release_timestamp desc`";
+
+    }
+
+    public function from($tables){
+        if (!is_array($tables)) {
+
+            $tables = preg_split('/\s*,\s*or/', trim($tables), -1, PREG_SPLIT_NO_EMPTY);
+        }
+         $this->from = $tables;
+        return $this;
+    }
+
+
 
 
 }

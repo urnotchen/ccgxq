@@ -22,7 +22,7 @@ class UserController extends \frontend\components\rest\Controller
         $inherit['online'] = [
             'class' => \frontend\modules\v1\behaviors\OnlineBehavior::className(),
             'only' => [
-                'change-details', 'request-change-password', 'change-password', 'view'
+                'change-details', 'request-change-password', 'change-password'
             ]
         ];
 

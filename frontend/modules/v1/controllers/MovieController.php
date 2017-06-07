@@ -5,6 +5,7 @@ namespace frontend\modules\v1\controllers;
 use frontend\modules\v1\models\forms\MovieDetailsForm;
 use frontend\modules\v1\models\forms\MovieListForm;
 use frontend\modules\v1\models\forms\UserChoiceListForm;
+use frontend\modules\v1\models\forms\UserStarSawListForm;
 use frontend\modules\v1\models\Movie;
 use frontend\modules\v1\services\MovieListService;
 use Yii;
@@ -22,7 +23,7 @@ class MovieController extends \frontend\components\rest\Controller
         $inherit = parent::behaviors();
 
         $inherit['authenticator']['only'] = [
-            'user-choice-list',
+            'user-choice-list','movie-list','search-star'
         ];
         $inherit['authenticator']['authMethods'] = [
             \frontend\modules\v1\components\AccessTokenAuth::className(),
@@ -36,7 +37,9 @@ class MovieController extends \frontend\components\rest\Controller
     {
         return [
             'movie-list'    => ['get'],
-            'movie-details'    => ['get']
+            'movie-details'    => ['get'],
+            'user-choice-list'    => ['get'],
+            'search-star'    => ['get'],
         ];
     }
 
@@ -47,31 +50,12 @@ class MovieController extends \frontend\components\rest\Controller
         $form = new MovieListForm;
         $form->prepare($rawParams);
 
-//        if($rawParams['type'] == FilmProperty::PROPERTY_NEWEST){
-//
-//            $query = Movie::find()->join('join', MovieIndex::tableName(), Movie::tableName() . '.id=' . MovieIndex::tableName() . '.douban')
-//                ->join('left join',FilmProperty::tableName(),Movie::tableName().'.id='.FilmProperty::tableName().'.movie_id')
-//                ->where(['or', ['property' => $rawParams['type']], ['property' => null]])
-//                ->propertyNewestSequence();
-//
-//        }else{
-//
-//            $query = Movie::find()->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
-//                ->where(['or', ['property' => $rawParams['type']], ['property' => null]])
-//               ->propertyCommonSequence();
-//
-//        }
-//        $dataProvider = new ActiveDataProvider([
-//            'query' => $query,
-//            'pagination' => [
-//                'defaultPageSize' => 10,
-//            ]
-//        ]);
 
-        $dataProvider = $this->getService()->movieList($rawParams['type']);
+        $dataProvider = $this->getService()->movieList($rawParams);
 
         return $dataProvider;
     }
+
 
 
     public function actionMovieDetails(){
@@ -80,7 +64,7 @@ class MovieController extends \frontend\components\rest\Controller
 
         $form = new MovieDetailsForm();
 
-//        $movie = $form->prepare($rawParams);
+        $form->prepare($rawParams);
 
         return  Movie::findOneOrException(['id' => $rawParams['id']]);
     }
@@ -92,9 +76,21 @@ class MovieController extends \frontend\components\rest\Controller
         $form = new UserChoiceListForm();
         $form->prepare($rawParams);
 
-        return $this->getService()->userChoiceList(Yii::$app->getUser()->id,$form->type);
+        return $this->getService()->userChoiceList($rawParams,Yii::$app->getUser()->id);
 
     }
+
+
+    public function actionSearchStar(){
+
+        $rawParams = Yii::$app->getRequest()->get();
+        $form = new UserStarSawListForm();
+        $form->prepare($rawParams);
+        return $this->getService()->userStarSawList($rawParams,Yii::$app->getUser()->id);
+
+    }
+
+
 
     protected function getService()
     {

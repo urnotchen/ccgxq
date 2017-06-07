@@ -1,6 +1,8 @@
 <?php
 
 namespace backend\controllers;
+use backend\modules\movie\models\FilmRecommend;
+use frontend\modules\v1\models\FilmRecommendUser;
 
 /**
  * Class SiteController
@@ -18,7 +20,7 @@ class SiteController extends \yii\web\Controller
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['error'],
+                        'actions' => ['error','test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -70,5 +72,8 @@ class SiteController extends \yii\web\Controller
         \Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionTest(){
     }
 }

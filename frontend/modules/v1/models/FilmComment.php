@@ -8,13 +8,7 @@ use frontend\modules\v1\behaviors\AddUserChoiceBehavior;
 class FilmComment extends \frontend\models\FilmComment
 {
 
-    use \common\traits\FindOrExceptionTrait;
-    use \common\traits\LoadExceptionTrait;
-    use \common\traits\ErrorsJsonTrait;
-    use \common\traits\ValidateExceptionTrait;
-    use \common\traits\SaveExceptionTrait;
-
-    const PERMIT_COMMENT_YES = 1 , PERMIT_COMMENT_NO = 2;
+    public $idTemp;
 
     public function behaviors()
     {
@@ -49,6 +43,17 @@ class FilmComment extends \frontend\models\FilmComment
             },
             'source' => function($model){
                 return $model->type;
+            },
+            'url' => function($model){
+                if($model->pic_id){
+                    return $model->image->path?\Yii::$app->params['qiniuDomain'].$model->image->path:'';
+                }else{
+                    $user = UserDetails::findOne(\Yii::$app->getUser()->id);
+                    return $user->avatar;
+                }
+            },
+            'zan' => function($model){
+                return CommentZan::existZan(\Yii::$app->getUser()->id,$model->id)?CommentZan::ZAN_YES:CommentZan::ZAN_CANCEL;
             }
         ];
     }
@@ -56,8 +61,7 @@ class FilmComment extends \frontend\models\FilmComment
     public function extraFields()
     {
         return [
-            'image',
-        ];
+          ];
     }
 
     public function getImage(){
@@ -65,30 +69,53 @@ class FilmComment extends \frontend\models\FilmComment
     }
 
     /*
-     * 是否允许评论
-     * */
-    public static function permitComment($movie_id,$user_id){
-
-        return self::find()->where(['movie_id' => $movie_id,'user_id' => $user_id])?self::PERMIT_COMMENT_NO:self::PERMIT_COMMENT_YES;
-    }
-
-    /*
      * 添加评论
      * */
     public static function addComment($userComment,$user_id){
 
-        $comment = new static;
+        $comment = self::existComment($userComment->movie_id,$user_id);
+        if(!$comment){
+            $comment = new static;
+        }
         $comment->setAttributes([
             'user_id'         => $user_id,
             'star'            => $userComment->star,
             'movie_id'        => $userComment->movie_id,
             'comment'         => $userComment->content,
         ]);
-        if($comment->save()){
-            return $comment;
-//        }else{
-//            throw new HttpE
-        }
+        $comment->save();
 
+        return $comment;
+
+    }
+
+    public static function getUserComment($user_id,$movie_id){
+
+        return FilmComment::findOne((['user_id'=> $user_id,'movie_id' => $movie_id,'type' => FilmComment::TYPE_USER]));
+
+    }
+
+    public static function getCommentListQuery($movie_id){
+
+        return self::find()->select('film_comment.*,(select @rownum:=0)')->where(['movie_id' => $movie_id])->typeSequence()->goodNumSequence();
+
+    }
+
+    /*
+     * 点赞数+1 / -1
+     * */
+    public static function changeZanNum($comment_id,$action){
+
+        $comment = self::findOneOrException(['id' => $comment_id]);
+
+        $comment->good_num += $action;
+
+        $comment->save();
+    }
+
+    public static function existComment($movie_id,$user_id){
+
+        $res = self::findOne(['movie_id' => $movie_id,'user_id' => $user_id]);
+        return $res;
     }
 }

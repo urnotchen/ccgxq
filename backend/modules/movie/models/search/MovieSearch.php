@@ -107,7 +107,7 @@ class MovieSearch extends Movie
         if($this->film_property){
             //join the film_property for searching
 //            var_dump($query);echo "<br/><br/>";
-            $query =  $this->getService()->movieList($this->film_property,$query);
+            $this->getService()->movieList($this->film_property,$query);
 //            var_dump($query);die;
         }
 

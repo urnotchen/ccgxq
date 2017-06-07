@@ -77,4 +77,9 @@ class FilmChoiceUser extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+    public static function getUserChoiceNum($movie_id,$type){
+
+        return self::find()->where(['movie_id' => $movie_id,'type' => $type,'status' => self::STATUS_NORMAL])->count();
+    }
 }

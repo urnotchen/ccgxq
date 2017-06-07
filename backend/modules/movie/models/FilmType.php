@@ -6,7 +6,7 @@
  * Time: 15:24
  */
 
-namespace backend\modules;
+namespace backend\modules\movie\models;
 
 class FilmType extends \backend\models\FilmType{
 

@@ -4,6 +4,7 @@ namespace backend\modules\movie\controllers;
 
 use backend\modules\movie\models\FilmVideoWebsite;
 use backend\modules\movie\models\Image;
+use backend\modules\movie\services\MovieListService;
 use yii\base\ErrorException;
 use yii\base\Exception;
 use yii\helpers\Json;
@@ -16,6 +17,9 @@ use backend\modules\movie\models\FilmProperty;
 
 class MovieController extends \yii\web\Controller
 {
+
+    protected $_service;
+
     public function behaviors()
     {
         return [
@@ -126,7 +130,16 @@ class MovieController extends \yii\web\Controller
     }
 
     public function actionTest(){//
-        var_dump(gettype(Movie::findOne(26977216)->id));
+        var_dump($this->service->zhanTest());
+    }
+
+    protected function getService()
+    {
+        if ($this->_service === null) {
+            $this->_service = new MovieListService();
+        }
+
+        return $this->_service;
     }
 }
 ?>

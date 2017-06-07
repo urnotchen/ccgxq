@@ -3,7 +3,6 @@
 namespace common\models;
 use common\models\queries\MovieQuery;
 
-
 /**
  * Class Movie
  * @package common\models
@@ -40,7 +39,6 @@ class Movie extends \yii\db\ActiveRecord
     {
         return [
             'timestamp' => \yii\behaviors\TimestampBehavior::className(),
-            'blameable' => \yii\behaviors\BlameableBehavior::className()
         ];
     }
 
@@ -62,7 +60,6 @@ class Movie extends \yii\db\ActiveRecord
             [['id'], 'required'],
             [['id', 'pic_id', 'release_year', 'comment_num', 'episodes', 'single_running_time','release_timestamp'], 'integer'],
             [['score', 'one_star', 'two_star', 'three_star', 'four_star', 'five_star'], 'number'],
-            [['synopsis'], 'string'],
             [['movie_url', 'director', 'type', 'producer_country', 'language', 'release_date', 'imdb', 'imdb_title', 'official_website', 'premiere', 'running_time'], 'string', 'max' => 255],
             [['title', 'screen_writer', 'alias'], 'string', 'max' => 500],
             [['actor'], 'string', 'max' => 1000],
@@ -124,7 +121,21 @@ class Movie extends \yii\db\ActiveRecord
     }
 
 
+    public function getType(){
 
+        return $this->hasMany(FilmTypeConn::className(),['movie_id' => 'id']);
+
+    }
+
+    public function getFilmRecommendUser(){
+
+        return $this->hasOne(FilmRecommendUser::className(),['movie_id' => 'id']);
+    }
+
+    public function getFilmRecommend(){
+
+        return $this->hasOne(FilmRecommend::className(),['movie_id' => 'id']);
+    }
 }
 
 ?>

@@ -18,6 +18,7 @@ use Yii;
  */
 class FilmSynopsis extends \yii\db\ActiveRecord
 {
+    const SOURCE_DOUBAN = 1 ,SOURCE_MTIME = 2 , SOURCE_USER = 3;
     /**
      * @inheritdoc
      */

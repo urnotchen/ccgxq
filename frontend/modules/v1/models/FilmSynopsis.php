@@ -15,4 +15,11 @@ class FilmSynopsis extends \frontend\models\FilmSynopsis
             },
         ];
     }
+
+    public static function getOneTypeSynopsis($source){
+
+        $model = self::findOne(['source' =>$source]);
+        return  $model?strip_tags($model->content):null;
+
+    }
 }

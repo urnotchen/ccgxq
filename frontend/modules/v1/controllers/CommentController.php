@@ -9,8 +9,13 @@
 namespace frontend\modules\v1\controllers;
 
 use frontend\components\rest\Controller;
+use frontend\modules\v1\helpers\QueryHelper;
+use frontend\modules\v1\models\CommentZan;
 use frontend\modules\v1\models\FilmComment;
+use frontend\modules\v1\models\forms\CommentZanForm;
 use frontend\modules\v1\models\forms\FilmCommentForm;
+use frontend\modules\v1\models\forms\FilmCommentIndexForm;
+use frontend\modules\v1\models\forms\FilmCommentTimeline;
 use frontend\modules\v1\models\forms\MovieDetailsForm;
 use yii\data\ActiveDataProvider;
 
@@ -22,7 +27,7 @@ class CommentController extends Controller{
         $inherit = parent::behaviors();
 
         $inherit['authenticator']['only'] = [
-            'index','permit-comment','create-comment',
+            'index','create-comment','zan',
         ];
         $inherit['authenticator']['authMethods'] = [
             \frontend\modules\v1\components\AccessTokenAuth::className(),
@@ -36,8 +41,8 @@ class CommentController extends Controller{
     {
         return [
             'index'    => ['get'],
-            'permit-comment'    => ['get'],
-            'create-comment'    => ['get'],
+            'create-comment'    => ['post'],
+            'zan'    => ['post'],
         ];
     }
 
@@ -48,28 +53,25 @@ class CommentController extends Controller{
 
         $rawParams = \Yii::$app->getRequest()->get();
 
-        $form = new MovieDetailsForm();
-        $movie = $form->prepare($rawParams);
-        return new ActiveDataProvider([
-            'query' => FilmComment::find()->where(['movie_id' => $movie->id])->typeSequence()->goodNumSequence(),
-            'pagination' => [
-                'defaultPageSize' => 10,
-            ],
-        ]);
+        $form = new FilmCommentIndexForm();
+        $form->prepare($rawParams);
+        return FilmCommentTimeline::timeline($rawParams,QueryHelper::executeMultiTimelineQuery(FilmComment::getCommentListQuery($form->movie_id)));
+
     }
 
     /*
      * 是否允许添加评论
+     * 废弃
      * */
-    public function actionPermitComment(){
-
-        $rawParams = \Yii::$app->getRequest()->get();
-        $form = new FilmCommentForm();
-        $form->prepare($rawParams);
-
-        return FilmComment::permitComment($rawParams['movie_id'],$this->getUser()->id);
-
-    }
+//    public function actionPermitComment(){
+//
+//        $rawParams = \Yii::$app->getRequest()->get();
+//        $form = new FilmCommentForm();
+//        $form->prepare($rawParams);
+//
+//        return FilmComment::permitComment($rawParams['movie_id'],$this->getUser()->id);
+//
+//    }
 
 
     /*
@@ -78,9 +80,22 @@ class CommentController extends Controller{
      * */
     public function  actionCreateComment(){
 
-        $rawParams = \Yii::$app->getRequest()->get();
+        $rawParams = \Yii::$app->getRequest()->post();
         $form = new FilmCommentForm();
         $comment = $form->prepare($rawParams);
         return FilmComment::addComment($comment,$this->getUser()->id);
+    }
+
+    /*
+     * 点赞
+     *
+     * */
+    public function actionZan(){
+
+        $rawParams = \Yii::$app->getRequest()->post();
+        $form = new CommentZanForm();
+        $form->prepare($rawParams);
+
+        return CommentZan::zan($form->id);
     }
 }
