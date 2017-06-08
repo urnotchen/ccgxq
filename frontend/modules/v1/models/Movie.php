@@ -48,7 +48,14 @@ class Movie extends \frontend\models\Movie
             },
             'subscribe_num' => function($model){
                 return (int)FilmChoiceUser::getUserChoiceNum($model->id,FilmChoiceUser::TYPE_SUBSCRIBE);
+            },
+            'wantSee' => function($model){
+                return FilmChoiceUser::existAction($model->id,FilmChoiceUser::TYPE_WANT);
+            },
+            'subscribe' => function($model){
+                return FilmChoiceUser::existAction($model->id,FilmChoiceUser::TYPE_SUBSCRIBE);
             }
+
 
         ];
     }
