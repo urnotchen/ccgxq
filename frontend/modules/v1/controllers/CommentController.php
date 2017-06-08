@@ -27,7 +27,7 @@ class CommentController extends Controller{
         $inherit = parent::behaviors();
 
         $inherit['authenticator']['only'] = [
-            'index','create-comment','zan',
+            'index','create-comment','zan','num'
         ];
         $inherit['authenticator']['authMethods'] = [
             \frontend\modules\v1\components\AccessTokenAuth::className(),
@@ -43,6 +43,7 @@ class CommentController extends Controller{
             'index'    => ['get'],
             'create-comment'    => ['post'],
             'zan'    => ['post'],
+            'num'    => ['get'],
         ];
     }
 
@@ -96,6 +97,19 @@ class CommentController extends Controller{
         $form = new CommentZanForm();
         $form->prepare($rawParams);
 
-        return CommentZan::zan($form->id);
+        return CommentZan::zan($form->id,$form->action);
+    }
+
+    /*
+     * 电影评论总数
+     * */
+    public function actionNum(){
+        $rawParams = \Yii::$app->getRequest()->get();
+
+        $form = new MovieDetailsForm();
+
+        $form->prepare($rawParams);
+
+        return ['num' => FilmComment::getCommentNum($form->id)];
     }
 }

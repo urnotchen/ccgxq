@@ -93,4 +93,7 @@ class ResponseCode
 
     # 用户没有订阅/想看 无法取消
     const INVALID_CANCEL_ACTION                     = 40052;
+
+    #用户没有点赞这条评论 无法取消
+    const INVALID_ZAN_CANCEL                        = 40053;
 }

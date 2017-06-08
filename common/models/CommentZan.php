@@ -23,6 +23,8 @@ class CommentZan extends \yii\db\ActiveRecord
 
 
     const ZAN_YES = 1,ZAN_CANCEL = 0;
+
+    const ACTION_ZAN_YES  =1 ,ACTION_ZAN_CANCEL = 2;
     /**
      * @inheritdoc
      */

@@ -123,4 +123,12 @@ class FilmComment extends \frontend\models\FilmComment
         $res = self::findOne(['movie_id' => $movie_id,'user_id' => $user_id]);
         return $res;
     }
+
+    /*
+     * 获取评论总数
+     * */
+    public static function getCommentNum($movieId){
+
+        return (int)self::find()->where(['movie_id' => $movieId])->count();
+    }
 }
