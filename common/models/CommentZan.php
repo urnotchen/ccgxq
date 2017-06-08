@@ -22,7 +22,7 @@ class CommentZan extends \yii\db\ActiveRecord
     use FindOrExceptionTrait;
 
 
-    const ZAN_YES = 1,ZAN_CANCEL = 2;
+    const ZAN_YES = 1,ZAN_CANCEL = 0;
     /**
      * @inheritdoc
      */
