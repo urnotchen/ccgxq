@@ -126,7 +126,7 @@ class FilmChoiceUser extends \frontend\models\FilmChoiceUser
     public  static function existAction($movieId,$type){
 
         $userId = \Yii::$app->getUser()->id;
-        return self::findOne(['movie_id' => $movieId,'type' => $type,'user_id' => $userId,'status' => self::STATUS_NORMAL])?1:2;
+        return self::findOne(['movie_id' => $movieId,'type' => $type,'user_id' => $userId,'status' => self::STATUS_NORMAL])?0:1;
     }
 
 
