@@ -30,7 +30,7 @@ class FilmVideoConn extends \frontend\models\FilmVideoConn{
                 if ($model->onlineResource2) {
                     return $model->onlineResource2;
                 }
-                return '';
+                return [];
             },
         ];
 

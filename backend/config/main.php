@@ -38,6 +38,16 @@ return [
                 ],
             ],
         ],
+
+        'user' => [
+            'class' => 'dektrium\user\Module',
+//            'as backend' => 'dektrium\user\filters\BackendFilter',
+            'enableUnconfirmedLogin' => true,
+            'confirmWithin' => 21600,
+            'cost' => 12,
+            'admins' => ['admin']
+        ],
+
     ],
     'components' => [
         'i18n' => [
@@ -67,14 +77,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'i18n' => [
-            'translations' => [
-                'yii' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@app/messages',
-                ],
-            ],
-        ],
+//        'i18n' => [
+//            'translations' => [
+//                'yii' => [
+//                    'class' => 'yii\i18n\PhpMessageSource',
+//                    'basePath' => '@app/messages',
+//                ],
+//            ],
+//        ],
         'assetManager' => [
             'appendTimestamp' => true,
             'forceCopy' => false,

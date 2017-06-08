@@ -176,6 +176,10 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
 //
 //        return true;
 //    }
+
+    public function getUserDetails(){
+        return $this->hasOne(UserDetails::className(),['user_id' => 'id']);
+    }
 }
 
 ?>

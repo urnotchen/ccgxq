@@ -38,6 +38,11 @@ class FilmComment extends \frontend\models\FilmComment
                     return $model->username;
                 }else{
                     //todo 返回用户名
+                    $user = User::findOne(['id' => \Yii::$app->getUser()->id]);
+                    if($user->userDetails){
+                        return $user->userDetails->nickname;
+                    }
+                    return null;
 //                    return
                 }
             },

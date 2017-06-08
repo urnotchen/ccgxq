@@ -21,9 +21,12 @@ class Movie extends \frontend\models\Movie
 
                 return $titleList?$titleList[0]:'';
             },
+            'type'=> function($model){
+                return $model->type?explode('/',trim($model->type)):[];
+            },
             'local_name'=> function($model){
                 $titleList = explode(' ',$model->title,2);
-                $alias = count($titleList) == 2 ? $titleList[1] : '';
+                $alias = count($titleList) == 2 ? $titleList[1] : null;
 
                 return $alias;
             },
@@ -39,7 +42,7 @@ class Movie extends \frontend\models\Movie
             'score',
             'release_date',
             'release_year' => function($model){
-                return (int)$model->release_year;
+                return $model->release_year?(int)$model->release_year:null;
             },
             'play_video_num' => function($model){
                 $onlineResource =  MovieIndex::isOnlineResource($model->id)?1:0 ;

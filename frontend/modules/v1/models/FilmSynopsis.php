@@ -11,7 +11,7 @@ class FilmSynopsis extends \frontend\models\FilmSynopsis
         return [
             'source',
             'content' => function($model){
-                return strip_tags($model->content);
+                return $model->content?strip_tags($model->content):null;
             },
         ];
     }

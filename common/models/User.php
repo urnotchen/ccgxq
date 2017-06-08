@@ -39,7 +39,7 @@ class User extends \yii\db\ActiveRecord
 
     public static function tableName()
     {
-        return 'user';
+        return 'frontend_user';
     }
 
     public function behaviors()
