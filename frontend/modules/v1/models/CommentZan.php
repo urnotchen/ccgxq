@@ -8,7 +8,11 @@ class CommentZan extends \frontend\models\CommentZan
     {
         return [
             'id',
-            'status',
+            'status' => function($model){
+                if($model->status == self::ZAN_YES) return 1;
+                if($model->status == self::ZAN_CANCEL) return 0;
+                return null;
+            },
         ];
     }
     public static function existZan($user_id,$comment_id){

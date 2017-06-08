@@ -10,15 +10,19 @@ class Message extends \frontend\models\Message
     {
         return [
             'id',
-            'status',
+            'status' => function($model){
+                if($model->status == self::STATUS_NOT_READ) return 0;
+                if($model->status == self::STATUS_YET_READ) return 1;
+                return null;
+            },
             'content',
             'movie_id' => function($model){
                 return (int)$model->movie_id;
             },
             'local_name' => function($model){
-                    $titleList = explode(' ',$model->movie->title,2);
-                    $alias = count($titleList) == 2 ? $titleList[1] : '';
-                    return $alias;
+                $titleList = explode(' ',$model->movie->title,2);
+                $alias = count($titleList) == 2 ? $titleList[1] : '';
+                return $alias;
             },
             'image' => function($model){
                 return $model->movie->image;
