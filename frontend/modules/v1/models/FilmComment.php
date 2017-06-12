@@ -105,6 +105,13 @@ class FilmComment extends \frontend\models\FilmComment
         return self::find()->select('film_comment.*,(select @rownum:=0)')->where(['movie_id' => $movie_id])->typeSequence()->goodNumSequence();
 
     }
+    /*
+     * 为电影斩提供前5个评论
+     * */
+    public static function getCommentFive($movie_id){
+
+        return self::find()->where(['movie_id' => $movie_id])->typeSequence()->goodNumSequence()->limit(5)->all();
+    }
 
     /*
      * 点赞数+1 / -1

@@ -5,7 +5,7 @@ namespace frontend\modules\v1\services;
 use backend\modules\movie\models\FilmProperty;
 use frontend\modules\v1\models\FilmRecommend;
 use Yii;
-
+use frontend\modules\v1\models\Zhan;
 use frontend\modules\v1\models\FilmRecommendUser;
 use frontend\modules\v1\models\Movie;
 
@@ -17,7 +17,7 @@ class ZhanService extends \common\services\BizService
      * 电影斩生成官方推荐
      * */
     public function generateOfficialZhan($userId){
-        $query = Movie::getMovieListByProperty(FilmProperty::PROPERTY_RECOMMEND_OFFICIAL, $userId);
+        $query = Zhan::getMovieListByProperty(FilmProperty::PROPERTY_RECOMMEND_OFFICIAL, $userId);
         $query->limit(20);
         $queryClone = clone $query;
         FilmRecommendUser::addToRecommendRecord($queryClone->select('movie.id')->column(), $userId, FilmRecommendUser::TYPE_OFFICIAL);
@@ -34,10 +34,11 @@ class ZhanService extends \common\services\BizService
         //判断用户上次推荐的缓存 不要重复(因为客户端在第17,8张左右的时候就会请求新的电影斩,后面的2,3张就是待看的,排除这几张)
         $cache = \Yii::$app->cache;
 
-        return Movie::find()->joinWith('filmRecommendUser')
+        return Zhan::find()->joinWith('filmRecommendUser')
             ->where([FilmRecommendUser::tableName().'.user_id' => $userId,FilmRecommendUser::tableName().'.choice' => [FilmRecommendUser::CHOICE_DEFAULT]])
             ->andWhere(['not',['movie_id' => $cache->get('lastRecommend_'.$userId)]])
             ->limit($movieNum)->all();
+
     }
 
     /*
@@ -83,7 +84,7 @@ class ZhanService extends \common\services\BizService
                 //更改这条推荐的状态,未推荐变成已推荐
                 FilmRecommendUser::toRecommended($userId,$eachMovieId);
             }
-            $eachMovieExpandMovies = Movie::find()
+            $eachMovieExpandMovies = Zhan::find()
                 ->where(['id' => $recommendMovieIds])
                 ->limit($num)->all();
             $expandMovies = array_merge($expandMovies,$eachMovieExpandMovies);
@@ -106,7 +107,7 @@ class ZhanService extends \common\services\BizService
             array_push($alreadyMovieIds,$eachMovie->id);
         }
 
-        $expandMovies = Movie::find()->joinWith('filmRecommend')->joinWith('filmRecommendUser')
+        $expandMovies = Zhan::find()->joinWith('filmRecommend')->joinWith('filmRecommendUser')
             ->select(FilmRecommendUser::tableName().'.movie_id')
             ->where(['user_id' => $userId, 'choice' => [FilmRecommendUser::CHOICE_COLLECT]])
             ->andWhere(['not',[FilmRecommend::tableName().'.recommend_movie_id' => $alreadyMovieIds]])
