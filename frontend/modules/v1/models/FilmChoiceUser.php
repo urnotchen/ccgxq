@@ -47,9 +47,13 @@ class FilmChoiceUser extends \frontend\models\FilmChoiceUser
 
         switch($action){
             case self::ACTION_ADD:
-                $choice = self::findOne(['movie_id' => $movie_id,'user_id' => $user_id,'type' => $type,'status' => self::STATUS_TRASH]);
+                $choice = self::findOne(['movie_id' => $movie_id,'user_id' => $user_id,'type' => $type]);
                 if($choice){
-                    $choice->status = self::STATUS_NORMAL;
+                    if($choice->status == self::STATUS_NORMAL){
+                        $choice->status = self::STATUS_NORMAL;
+                    }else{
+                        $choice->status = self::STATUS_NORMAL;
+                    }
                 }else {
                     $choice = new static;
                     $choice->movie_id = $movie_id;
@@ -60,14 +64,14 @@ class FilmChoiceUser extends \frontend\models\FilmChoiceUser
                 $choice->save();
                 break;
             case self::ACTION_DELETE:
-                $choice = self::findOne(['movie_id' => $movie_id,'user_id' => $user_id,'type' => $type,'status' => self::STATUS_NORMAL]);
-                if(!$choice){
-                    throw new \yii\web\HttpException(
-                        404,
-                        'user does not have this action',
-                        \common\components\ResponseCode::INVALID_CANCEL_ACTION
-                    );
-                }
+                $choice = self::findOne(['movie_id' => $movie_id,'user_id' => $user_id,'type' => $type]);
+//                if(!$choice){
+//                    throw new \yii\web\HttpException(
+//                        404,
+//                        'user does not have this action',
+//                        \common\components\ResponseCode::INVALID_CANCEL_ACTION
+//                    );
+//                }
                 $choice->status = self::STATUS_TRASH;
                 $choice->save();
                 break;
