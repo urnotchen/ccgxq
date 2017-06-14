@@ -117,6 +117,21 @@ class ZhanService extends \common\services\BizService
     }
 
     /*
+     * 获取进几个月内的几部新片
+     * */
+    public function getNewestMovies($userId,$alreadyMovies,$monthNum,$movieNum){
+
+        $alreadyMovieIds = FilmRecommendUser::getUserAllMovieIds($userId);
+
+        foreach($alreadyMovies as $eachMovie){
+            array_push($alreadyMovieIds,$eachMovie->id);
+        }
+
+        return Zhan::getNewestMovies($alreadyMovieIds,$monthNum,$movieNum);
+
+    }
+
+    /*
      * 把筛选后后续的推荐添加到推荐表中
      * 主要的工作是把ar中的id提取出来
      * */
@@ -143,6 +158,8 @@ class ZhanService extends \common\services\BizService
         return $movieIds;
 
     }
+
+
 
 
     /*

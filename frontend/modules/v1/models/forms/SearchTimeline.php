@@ -9,7 +9,7 @@ namespace frontend\modules\v1\models\forms;
  */
 class SearchTimeline extends \frontend\components\rest\TimelineModel
 {
-    protected $_modelClass = 'frontend\modules\v1\models\Movie';
+    protected $_modelClass = 'frontend\modules\v1\models\SearchMovie';
     protected $_orderBy    = 'score desc';
     protected $_line       = 'score';
     protected $_primaryKey = 'id';

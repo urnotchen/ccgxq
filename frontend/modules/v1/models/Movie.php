@@ -197,7 +197,15 @@ class Movie extends \frontend\models\Movie
 //    }
 
 
+    public static function getSearchNum($keyword){
 
+        $fields = ['title','alias','actor','director','screen_writer'];
+        $query = self::find();
+        foreach($fields as $eachField){
+            $query->orFilterWhere(['like',$eachField,$keyword]);
+        }
+        return $query->count();
+    }
 
 
 }

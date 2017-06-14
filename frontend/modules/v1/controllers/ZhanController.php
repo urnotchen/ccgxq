@@ -74,11 +74,12 @@ class ZhanController extends Controller{
 
             //不是第一次,就找有无未推荐完的电影(官方20部剩余的或是扩展推荐剩余的,choice的为default)
             $waitSeeMovies = $this->service->getWaitSeeRecommendMovies($userId,$movieNum);
-
+//            return 2;
             //如果待看的电影有20部,直接返回待看的电影列表
             if(count($waitSeeMovies) == $movieNum){
-                $movieIds = $this->service->arFieldId($waitSeeMovies,'id');
-                $this->service->addLastRecommendCache($userId,$movieIds);
+//                $movieIds = $this->service->arFieldId($waitSeeMovies,'id');
+//                $this->service->addLastRecommendCache($userId,$movieIds);
+                $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies),$userId,FilmRecommendUser::TYPE_USER);
                 return $waitSeeMovies;
             }
 
@@ -99,6 +100,15 @@ class ZhanController extends Controller{
             if(count($scoredExpandMovies) + count($waitSeeMovies) + count($likedExpandMovies) == $movieNum){
                 $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies,$scoredExpandMovies,$likedExpandMovies),$userId,FilmRecommendUser::TYPE_USER);
                 return array_merge($waitSeeMovies,$scoredExpandMovies,$likedExpandMovies);
+            }
+
+            //不是第一次,就先找3个月内的2部新片
+            if($movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies) <= 2) {
+                $newestMovies = $this->service->getNewestMovies(3,$movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies));
+                if (count($scoredExpandMovies) + count($waitSeeMovies) + count($likedExpandMovies) == $movieNum) {
+                    $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies, $scoredExpandMovies, $likedExpandMovies, $newestMovies), $userId, FilmRecommendUser::TYPE_USER);
+                    return array_merge($waitSeeMovies, $scoredExpandMovies, $likedExpandMovies, $newestMovies);
+                }
             }
             //如果以上的电影列表凑不到20部,就再生成一次官方推荐给用户
             return $this->service->generateOfficialZhan($userId);
