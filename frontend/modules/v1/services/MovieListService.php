@@ -81,7 +81,7 @@ class MovieListService extends  \common\services\MovieListService{
     public function keyword($rawParams){
 
 //        return Movie::getSearchNum($rawParams['keyword']);
-        return [['num' => Movie::getSearchNum($rawParams['keyword'])],SearchTimeline::timeline($rawParams, [
+        return ['num' => Movie::getSearchNum($rawParams['keyword']),'movie' => SearchTimeline::timeline($rawParams, [
             'title','alias','actor','director','screen_writer'
         ])];
 
