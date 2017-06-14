@@ -20,7 +20,9 @@ class SearchMovie extends \frontend\modules\v1\models\Movie{
             'onlineResource' => function($model){
                 return $model->onlineResource;
             },
-
+            'image' => function($model){
+                return $model->image;
+            }
         ]);
 
         return $fields;
