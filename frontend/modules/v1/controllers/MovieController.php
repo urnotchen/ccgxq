@@ -23,7 +23,7 @@ class MovieController extends \frontend\components\rest\Controller
         $inherit = parent::behaviors();
 
         $inherit['authenticator']['only'] = [
-            'user-choice-list','movie-list','search-star'
+            'user-choice-list','movie-list','search-star','movie-details',
         ];
         $inherit['authenticator']['authMethods'] = [
             \frontend\modules\v1\components\AccessTokenAuth::className(),
