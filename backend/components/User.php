@@ -6,13 +6,13 @@ use Yii;
 
 class User extends \yii\web\User
 {
-
+    public $loginUrl = '/user/security/login';
     public function loginRequired($checkAjax = true, $checkAcceptHeader = true)
     {
 
-//        $this->loginUrl .= '?return_url=' . Yii::$app->getRequest()->getAbsoluteUrl();
-//
-//        return parent::loginRequired($checkAjax, $checkAcceptHeader);
+        $this->loginUrl .= '?return_url=' . Yii::$app->getRequest()->getAbsoluteUrl();
+
+        return parent::loginRequired($checkAjax, $checkAcceptHeader);
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace backend\modules\movie\models\search;
 
+use backend\modules\movie\models\Filmmaker;
+use backend\modules\movie\models\FilmmakerRoleConn;
 use backend\modules\movie\models\FilmTypeConn;
 use backend\modules\movie\services\MovieListService;
 use Yii;
@@ -21,7 +23,9 @@ class MovieSearch extends Movie
 
     //search field from external table
     public $film_type,$film_property;
-    protected $_service;
+
+//    public $isFilmmakerWork;
+    public $filmmaker_id;
 
     public function rules()
     {
@@ -29,6 +33,7 @@ class MovieSearch extends Movie
             [['id', 'pic_id', 'release_year', 'comment_num', 'episodes', 'single_running_time','release_timestamp','film_type','film_property'], 'integer'],
             [['movie_url', 'title', 'director', 'screen_writer', 'actor', 'type', 'producer_country', 'language', 'release_date', 'alias', 'imdb', 'imdb_title', 'official_website', 'premiere', 'running_time'], 'string'],
             [['score', 'one_star', 'two_star', 'three_star', 'four_star', 'five_star'], 'number'],
+            ['filmmaker_id','exist','targetClass' => Filmmaker::className(),'targetAttribute' => 'id'],
         ];
     }
 
@@ -52,9 +57,10 @@ class MovieSearch extends Movie
     {
         $query = Movie::find();
         //有很多还未上映的片子,好几年后的影片信息都不全,就不显示了
-        $query->andFilterWhere(['<=','release_year',date('Y')]);
-        // add conditions that should always apply here
-
+        if(!$this->filmmaker_id) {
+            $query->andFilterWhere(['<=', 'release_year', date('Y')]);
+            // add conditions that should always apply here
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => ['defaultOrder' => ['release_timestamp' => SORT_DESC]]
@@ -69,47 +75,47 @@ class MovieSearch extends Movie
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'pic_id' => $this->pic_id,
-            'release_year' => $this->release_year,
-            'comment_num' => $this->comment_num,
-            'score' => $this->score,
-            'one_star' => $this->one_star,
-            'two_star' => $this->two_star,
-            'three_star' => $this->three_star,
-            'four_star' => $this->four_star,
-            'five_star' => $this->five_star,
-            'episodes' => $this->episodes,
-            'single_running_time' => $this->single_running_time,
-        ]);
-
-        $query->andFilterWhere(['like', 'movie_url', $this->movie_url])
-            ->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'director', $this->director])
-            ->andFilterWhere(['like', 'screen_writer', $this->screen_writer])
-            ->andFilterWhere(['like', 'actor', $this->actor])
-            ->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'producer_country', $this->producer_country])
-            ->andFilterWhere(['like', 'language', $this->language])
-            ->andFilterWhere(['like', 'release_date', $this->release_date])
-            ->andFilterWhere(['like', 'alias', $this->alias])
-            ->andFilterWhere(['like', 'imdb', $this->imdb])
-            ->andFilterWhere(['like', 'imdb_title', $this->imdb_title])
-            ->andFilterWhere(['like', 'official_website', $this->official_website])
-            ->andFilterWhere(['like', 'premiere', $this->premiere])
-            ->andFilterWhere(['like', 'running_time', $this->running_time]);
+//        $query->andFilterWhere([
+//            'id' => $this->id,
+//            'pic_id' => $this->pic_id,
+//            'release_year' => $this->release_year,
+//            'comment_num' => $this->comment_num,
+//            'score' => $this->score,
+//            'one_star' => $this->one_star,
+//            'two_star' => $this->two_star,
+//            'three_star' => $this->three_star,
+//            'four_star' => $this->four_star,
+//            'five_star' => $this->five_star,
+//            'episodes' => $this->episodes,
+//            'single_running_time' => $this->single_running_time,
+//        ]);
+//
+//        $query->andFilterWhere(['like', 'movie_url', $this->movie_url])
+//            ->andFilterWhere(['like', 'title', $this->title])
+//            ->andFilterWhere(['like', 'director', $this->director])
+//            ->andFilterWhere(['like', 'screen_writer', $this->screen_writer])
+//            ->andFilterWhere(['like', 'actor', $this->actor])
+//            ->andFilterWhere(['like', 'type', $this->type])
+//            ->andFilterWhere(['like', 'producer_country', $this->producer_country])
+//            ->andFilterWhere(['like', 'language', $this->language])
+//            ->andFilterWhere(['like', 'release_date', $this->release_date])
+//            ->andFilterWhere(['like', 'alias', $this->alias])
+//            ->andFilterWhere(['like', 'imdb', $this->imdb])
+//            ->andFilterWhere(['like', 'imdb_title', $this->imdb_title])
+//            ->andFilterWhere(['like', 'official_website', $this->official_website])
+//            ->andFilterWhere(['like', 'premiere', $this->premiere])
+//            ->andFilterWhere(['like', 'running_time', $this->running_time]);
         if($this->film_type){
             //join the type_conn for searching
             $query->join('join',FilmTypeConn::tableName(),Movie::tableName().'.id = '.FilmTypeConn::tableName().'.movie_id' )->andFilterWhere([FilmTypeConn::tableName().'.type_id' => $this->film_type]);
 
         }
-        if($this->film_property){
-            //join the film_property for searching
-//            var_dump($query);echo "<br/><br/>";
-            $this->getService()->movieList($this->film_property,$query);
-//            var_dump($query);die;
+
+        if($this->filmmaker_id){
+            $query->andWhere(['id' => FilmmakerRoleConn::getFilmmakerWorkNum($this->filmmaker_id)]);
+
         }
+
 
 
         return $dataProvider;

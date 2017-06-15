@@ -58,7 +58,7 @@ class ZhanController extends Controller{
 
         $movieNum = 20;
 
-        $userId= \Yii::$app->getUser()->id;
+        $userId= $this->getUser()->id;
 
         //不是第一次,就找有无未推荐完的电影(官方20部剩余的或是扩展推荐剩余的,choice的为default)
         //如果有剩余,就推荐剩余的
@@ -133,7 +133,7 @@ class ZhanController extends Controller{
 
         $form = new MovieDetailsForm();
         $movie = $form->prepare($rawParams);
-        return FilmRecommendUser::moviePass(\Yii::$app->getUser()->id,$movie->id);
+        return FilmRecommendUser::moviePass($this->getUser()->id,$movie->id);
 
     }
 

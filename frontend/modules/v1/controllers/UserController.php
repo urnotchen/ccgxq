@@ -170,7 +170,8 @@ class UserController extends \frontend\components\rest\Controller
 
             $this->_service = new \frontend\modules\v1\services\UserService();
         }
-
+        $this->getUser();
+        
         return $this->_service;
     }
 

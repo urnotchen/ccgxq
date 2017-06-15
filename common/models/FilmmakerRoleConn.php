@@ -47,7 +47,7 @@ class FilmmakerRoleConn extends \yii\db\ActiveRecord
 
     public static function getFilmmakerWorkNum($filmmaker_id){
 
-        return self::find()->where(['filmmaker_id' => $filmmaker_id])->count();
+        return self::find()->select('movie_id')->where(['filmmaker_id' => $filmmaker_id])->groupBy('movie_id')->orderBy(['movie_id' => SORT_DESC])->column();
 
     }
 }

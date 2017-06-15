@@ -50,7 +50,7 @@ class UserChoiceController extends Controller{
         $form = new UserActionForm();
         $form->prepare($rawParams);
 
-        return FilmChoiceUser::userAction(\Yii::$app->getUser()->id,$form->movie_id,$form->type,$form->action);
+        return FilmChoiceUser::userAction($this->getUser()->id,$form->movie_id,$form->type,$form->action);
 
     }
 
@@ -61,7 +61,8 @@ class UserChoiceController extends Controller{
 //        $form = new UserChoiceListForm();
 //        $form->prepare($rawParams);
 
-        $typeArr =  FilmChoiceUser::getTypeNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_SAW);
+        $user_id = $this->getUser()->id;
+        $typeArr =  FilmChoiceUser::getTypeNum($user_id,FilmChoiceUser::TYPE_SAW);
         $movCount = array_sum(array_column($typeArr,'type_num'));
         $arr =[];
         foreach($typeArr as $type){
@@ -70,11 +71,11 @@ class UserChoiceController extends Controller{
             $arr['type'][] = $temp;
         }
 
-        $starArr = FilmChoiceUser::getStarNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_SAW);
+        $starArr = FilmChoiceUser::getStarNum($user_id,FilmChoiceUser::TYPE_SAW);
         $arr['star'] = $starArr;
-        $arr['saw_num'] = (int)FilmChoiceUser::getUserTypeNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_SAW);
-        $arr['want_num'] = (int)FilmChoiceUser::getUserTypeNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_WANT);
-        $arr['subscribe_num'] = (int)FilmChoiceUser::getUserTypeNum(\Yii::$app->getUser()->id,FilmChoiceUser::TYPE_SUBSCRIBE);
+        $arr['saw_num'] = (int)FilmChoiceUser::getUserTypeNum($user_id,FilmChoiceUser::TYPE_SAW);
+        $arr['want_num'] = (int)FilmChoiceUser::getUserTypeNum($user_id,FilmChoiceUser::TYPE_WANT);
+        $arr['subscribe_num'] = (int)FilmChoiceUser::getUserTypeNum($user_id,FilmChoiceUser::TYPE_SUBSCRIBE);
         return $arr;
 
     }

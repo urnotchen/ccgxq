@@ -37,6 +37,7 @@ $this->title = 'MOVIE';
 
     </div>
 </div>
+
 <?php
     $this->registerJs(<<<JS
         $('.setProperty').on('click',setProperty);

@@ -68,9 +68,9 @@ class MovieGridView extends GridView
                         Html::a(
                             \yii\helpers\Html::img(Yii::$app->params['qiniuDomain'].str_replace('pictures','',$model->image->path), ['class' => 'movie_poster']),
                             $model->movie_url,
-                            ['target' => '_blank']);
+                            ['target' => '_blank','width' => '10px','height' => '220px']);
                 },
-
+//                'options' =>  ],
             ],
             'title' => [
                 'label'=>'名称',

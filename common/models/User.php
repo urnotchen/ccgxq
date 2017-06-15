@@ -170,7 +170,13 @@ class User extends \yii\db\ActiveRecord
      */
     public static function updateLastUseTime($id){
 
-        return self::updateAll(['id' => $id], ['last_use_time' => time()]);
+        $model = self::findOne($id);
+
+        $model->last_use_time = time();
+
+        return $model->save();
+
+//        return self::updateAll(['id' => $id], ['last_use_time' => time()]);
     }
 
     /**

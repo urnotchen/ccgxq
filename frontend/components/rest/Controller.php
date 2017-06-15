@@ -1,6 +1,7 @@
 <?php
 
 namespace frontend\components\rest;
+use common\models\User;
 
 /**
  * frontend 所有的 controller 都继承自本controller
@@ -27,6 +28,8 @@ class Controller extends \yii\rest\Controller
      */
     protected function getUser()
     {
-        return \Yii::$app->user->identity;
+        $user =  \Yii::$app->user->identity;
+        User::updateLastUseTime($user->id);
+        return $user;
     }
 }

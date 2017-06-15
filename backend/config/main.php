@@ -41,8 +41,12 @@ return [
 
         'user' => [
             'class' => 'dektrium\user\Module',
+//            'class' => 'backend\components\User',
+//            'identityClass' => 'dektrium\user\Models\User',
 //            'as backend' => 'dektrium\user\filters\BackendFilter',
+//            'loginUrl'        => '/user/security/login',
             'enableUnconfirmedLogin' => true,
+//            'enableAutoLogin' => true,
             'confirmWithin' => 21600,
             'cost' => 12,
             'admins' => ['admin']
@@ -66,11 +70,11 @@ return [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
-        'user' => [
-            'class'           => 'backend\components\User',
-            'identityClass'   => 'common\models\BaseUser',
-            'enableAutoLogin' => true,
-        ],
+//        'user' => [
+//            'class'           => 'backend\components\User',
+//            'identityClass'   => 'dektrium\user\Models\User',
+//            'enableAutoLogin' => true,
+//        ],
         'session' => [
             'class' => 'yii\web\Session',
         ],

@@ -40,7 +40,9 @@ class SearchController extends \frontend\components\rest\Controller
 
         ];
     }
-
+    /*
+     * 搜索关键字
+     * */
     public function actionKeyword()
     {
 
@@ -48,24 +50,26 @@ class SearchController extends \frontend\components\rest\Controller
 //        $form = new MovieListForm;
 //        $form->prepare($rawParams);
 
-
         $dataProvider = $this->getService()->keyword($rawParams);
 
         return $dataProvider;
     }
 
-
+    /*
+     * 暂时不用
+     * */
     public function actionMovieDetails(){
 
         $rawParams = Yii::$app->getRequest()->get();
 
         $form = new MovieDetailsForm();
 
-//        $movie = $form->prepare($rawParams);
-
         return  Movie::findOneOrException(['id' => $rawParams['id']]);
     }
 
+    /*
+     * 用户看过/想看/订阅列表
+     * */
     public function actionUserChoiceList(){
 
         $rawParams = Yii::$app->getRequest()->get();
@@ -73,16 +77,19 @@ class SearchController extends \frontend\components\rest\Controller
         $form = new UserChoiceListForm();
         $form->prepare($rawParams);
 
-        return $this->getService()->userChoiceList(Yii::$app->getUser()->id,$form->type);
+        return $this->service->userChoiceList(Yii::$app->getUser()->id,$form->type);
 
     }
 
+    /*
+     * 用户通过自评分搜索自己看过的电影列表
+     * */
     public function actionUserStar(){
 
         $rawParams = Yii::$app->getRequest()->get();
         $form = new UserStarSawListForm();
         $form->prepare($rawParams);
-        return $this->getService()->userStarSawList($rawParams,Yii::$app->getUser()->id);
+        return $this->service->userStarSawList($rawParams,Yii::$app->getUser()->id);
 
     }
 
@@ -91,6 +98,8 @@ class SearchController extends \frontend\components\rest\Controller
         if ($this->_service === null) {
             $this->_service = new MovieListService();
         }
+
+        $this->getUser();
 
         return $this->_service;
     }

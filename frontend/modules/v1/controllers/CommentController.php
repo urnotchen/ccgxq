@@ -17,6 +17,7 @@ use frontend\modules\v1\models\forms\FilmCommentForm;
 use frontend\modules\v1\models\forms\FilmCommentIndexForm;
 use frontend\modules\v1\models\forms\FilmCommentTimeline;
 use frontend\modules\v1\models\forms\MovieDetailsForm;
+use frontend\modules\v1\models\User;
 use yii\data\ActiveDataProvider;
 
 class CommentController extends Controller{
@@ -56,6 +57,7 @@ class CommentController extends Controller{
 
         $form = new FilmCommentIndexForm();
         $form->prepare($rawParams);
+        $this->getUser();
         return FilmCommentTimeline::timeline($rawParams,QueryHelper::executeMultiTimelineQuery(FilmComment::getCommentListQuery($form->movie_id)));
 
     }
@@ -96,7 +98,7 @@ class CommentController extends Controller{
         $rawParams = \Yii::$app->getRequest()->post();
         $form = new CommentZanForm();
         $form->prepare($rawParams);
-
+        $this->getUser();
         return CommentZan::zan($form->id,$form->action);
     }
 
@@ -109,6 +111,8 @@ class CommentController extends Controller{
         $form = new MovieDetailsForm();
 
         $form->prepare($rawParams);
+
+        $this->getUser();
 
         return ['num' => FilmComment::getCommentNum($form->id)];
     }

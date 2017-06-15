@@ -48,13 +48,13 @@ use yii\helpers\Html;
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <?= Html::img($userIdentity->avatar, ['class' => 'user-image', 'alt' => '用户头像']) ?>
+<!--                        --><?//= Html::img($userIdentity->avatar, ['class' => 'user-image', 'alt' => '用户头像']) ?>
                         <span class="hidden-xs"> <?= $userIdentity->username ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <?= Html::img($userIdentity->avatar, ['class' => 'img-circle', 'alt' => '用户头像']) ?>
+<!--                            --><?//= Html::img($userIdentity->avatar, ['class' => 'img-circle', 'alt' => '用户头像']) ?>
                             <p>
                                 <?= $userIdentity->username; ?> - Web Developer
                                 <small>Member since <?= date('Y.m.d', $userIdentity->created_at); ?></small>
@@ -63,7 +63,7 @@ use yii\helpers\Html;
                         <!-- Menu Body -->
                         <li class="user-body">
                             <div class="col-xs-12 text-center">
-                                <p> <?= $userIdentity->mark; ?></p>
+<!--                                <p> --><?//= $userIdentity->mark; ?><!--</p>-->
                             </div>
                         </li>
                         <!-- Menu Footer-->

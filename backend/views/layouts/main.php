@@ -13,13 +13,13 @@ if ( in_array(Yii::$app->controller->action->id, ['login', 'error']) && Yii::$ap
 else :
 
     // 检查账号状态
-    if (! Yii::$app->getUser()->checkStatus()) {
-        Yii::$app->getUser()->logout();
-
-        return Yii::$app->controller->redirect(
-            Yii::$app->getUser()->loginUrl . '?return_url=' . Yii::$app->getRequest()->getAbsoluteUrl()
-        );
-    }
+//    if (! Yii::$app->getUser()->checkStatus()) {
+//        Yii::$app->getUser()->logout();
+//
+//        return Yii::$app->controller->redirect(
+//            Yii::$app->getUser()->loginUrl . '?return_url=' . Yii::$app->getRequest()->getAbsoluteUrl()
+//        );
+//    }
 
     \backend\assets\AppAsset::register($this);
 
