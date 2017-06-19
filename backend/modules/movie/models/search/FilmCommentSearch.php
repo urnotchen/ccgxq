@@ -18,8 +18,8 @@ class FilmCommentSearch extends FilmComment
     public function rules()
     {
         return [
-            [['id', 'movie_id', 'pic_id', 'comment_date', 'star', 'good_num', 'updated_at'], 'integer'],
-            [['user_id', 'username', 'userhome_url', 'comment'], 'safe'],
+            [['id', 'movie_id', 'pic_id', 'star', 'good_num','created_at', 'updated_at'], 'integer'],
+            [['user_id', 'username', 'comment'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class FilmCommentSearch extends FilmComment
      */
     public function search($params)
     {
-        $query = FilmComment::find();
+        $query = $this->find();
 
         // add conditions that should always apply here
 
@@ -63,7 +63,6 @@ class FilmCommentSearch extends FilmComment
             'id' => $this->id,
             'movie_id' => $this->movie_id,
             'pic_id' => $this->pic_id,
-            'comment_date' => $this->comment_date,
             'star' => $this->star,
             'good_num' => $this->good_num,
             'updated_at' => $this->updated_at,

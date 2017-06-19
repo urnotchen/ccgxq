@@ -2,38 +2,77 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use backend\helper\MovieHelper;
+use backend\modules\movie\models\FilmSynopsis;
+use bluelive\adminlte\widgets\BoxWidget;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\movie\models\search\FilmSynopsisSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Film Synopses';
+$this->title = '简介管理';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="film-synopsis-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Film Synopsis', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    <?php BoxWidget::begin();?>
 
-            'id',
-            'movie_id',
-            'text:ntext',
-            'source',
-            'created_at',
-            // 'created_by',
-            // 'updated_at',
-            // 'updated_by',
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                [
+                    'attribute' => 'movie_id',
+                    'format' => 'raw',
+                    'value' => function($model){
+                        if($model->movie) {
+                            return Html::a("<span class='lead'><strong>".MovieHelper::getChineseName($model->movie->title)."</strong></span>",
+                                $model->movie->movie_url,
+                                ['target' => '_blank']
+                            );
+                        }
+                        return '';
+                    },
+                ],
+                [
+                    'attribute' => 'content',
+                    'format' => 'raw',
+                    'value' => function($model){
+                        if($model->content) {
+                            return "<span class='force_new_line'>" . str_replace('                                　　', '       ', str_replace("\n", '', $model->content . "</span>"));
+                        }
+                        return '';
+                    },
+                ],
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                [
+                    'attribute' => 'source',
+                    'format' => 'raw',
+                    'value' => function($model){
+                        return FilmSynopsis::enum('source',$model->source);
+                    },
+                ],
+                [
+                    'attribute' => 'created_by',
+                    'format' => 'raw',
+                    'value' => function($model){
+                        return FilmSynopsis::getSynopsisAuthor($model);
+                    },
+                ],
+                [
+                    'label' => '是否默认',
+                    'format' => 'raw',
+                    'value' => function($model){
+                        if($model->source == FilmSynopsis::SOURCE_DOUBAN){
+                            return '是';
+                        }else{
+                            return '否';
+                        }
+                    }
+                ],
+
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]); ?>
+    <?php BoxWidget::end();?>
 </div>

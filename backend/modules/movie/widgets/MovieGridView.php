@@ -154,7 +154,7 @@ HTML;
             'format'=>'raw',
             'value' => function($model){
 
-                $comment = Url::to(['comment/index', 'movie_id' => $model->id]);
+                $comment = Url::to(['film-comment/index', 'FilmCommentSearch[movie_id]' => $model->id]);
                 $view = Url::to(['movie/view', 'id' => $model->id]);
                 $update = Url::to(['movie/update', 'id' => $model->id]);
                 $trash = Url::to(['movie/trash', 'id' => $model->id]);
@@ -170,7 +170,7 @@ HTML;
                 ], $common_options);
 
 
-                $comment_btn = Html::a("查看评论", $comment);
+                $comment_btn = Html::a("查看评论", $comment,['target' => '_blank','data-pjax' => '0']);
                 $update_btn = Html::a('修改电影', $update);
                 $view_btn = Html::a('查看电影', $view);
                 $trash_btn = Html::a('扔进垃圾桶', $trash, $trashOption);

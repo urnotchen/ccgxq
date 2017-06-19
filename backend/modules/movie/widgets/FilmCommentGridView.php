@@ -3,6 +3,8 @@
 namespace backend\modules\movie\widgets;
 
 
+use backend\helper\MovieHelper;
+use common\models\UserDetails;
 use Yii;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
@@ -77,15 +79,26 @@ HTML;
 
             ],
 
-            'comment_date' => [
-                'attribute' => 'comment_date',
+            'created_at' => [
+                'attribute' => 'created_at',
                 'format' => 'raw',
                 'value' => function($model){
-                    return date("Y-m-d",$model->comment_date);
+                    return date("Y-m-d",$model->created_at);
                 }
             ],
             'star' => 'star',
             'good_num' => 'good_num',
+            'username' =>[
+                'label' => '用户名',
+                'format' => 'raw',
+                'value' => function($model){
+                    if($model->username){
+                        return $model->username;
+                    }else{
+                        return UserDetails::findOne($model->user_id)->nickname;
+                    }
+                }
+            ],
             'comment' => [
                 'attribute' => 'comment',
                 'format' => 'raw',
@@ -96,6 +109,15 @@ HTML;
                 },
                 'contentOptions' => ['width' => '50%'],
             ],
+            'movie_name' => [
+                'label' => '电影名',
+                'format' => 'raw',
+                'value' => function($model){
+
+                    return $model->movie?MovieHelper::getChineseName($model->movie->name):'';
+                }
+            ]
+
         ];
 
         if ($this->stringColumns === null)

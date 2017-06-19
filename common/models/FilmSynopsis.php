@@ -2,7 +2,10 @@
 
 namespace common\models;
 
+use common\traits\EnumTrait;
+use frontend\models\UserDetails;
 use Yii;
+use frontend\models\User as FrontUser;
 
 /**
  * This is the model class for table "film_synopsis".
@@ -18,6 +21,7 @@ use Yii;
  */
 class FilmSynopsis extends \yii\db\ActiveRecord
 {
+    use EnumTrait;
     const SOURCE_DOUBAN = 1 ,SOURCE_MTIME = 2 , SOURCE_USER = 3;
     /**
      * @inheritdoc
@@ -38,6 +42,16 @@ class FilmSynopsis extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getEnumData(){
+        return [
+            'source' => [
+                self::SOURCE_DOUBAN => '豆瓣',
+                self::SOURCE_MTIME => '时光网',
+                self::SOURCE_USER => '个人',
+            ]
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -45,13 +59,17 @@ class FilmSynopsis extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'movie_id' => 'Movie ID',
-            'content' => 'Content',
-            'source' => 'Source',
+            'movie_id' => '电影名',
+            'content' => '简介',
+            'source' => '渠道',
             'created_at' => 'Created At',
-            'created_by' => 'Created By',
+            'created_by' => '用户昵称',
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
         ];
+    }
+
+    public function getMovie(){
+        return $this->hasOne(Movie::className(),['id' => 'movie_id']);
     }
 }

@@ -25,7 +25,7 @@ class MessageController extends \frontend\components\rest\Controller
         $inherit = parent::behaviors();
 
         $inherit['authenticator']['only'] = [
-            'index','yer-read'
+            'index','yer-read','resource-remind'
         ];
         $inherit['authenticator']['authMethods'] = [
             \frontend\modules\v1\components\AccessTokenAuth::className(),
@@ -39,8 +39,8 @@ class MessageController extends \frontend\components\rest\Controller
     {
         return [
             'index'    => ['get'],
+            'resource-remind' => ['get'],
             'yet-read'    => ['post'],
-
         ];
     }
 
@@ -63,7 +63,11 @@ class MessageController extends \frontend\components\rest\Controller
 
     }
 
+    public function actionResourceRemind(){
 
+        $this->getUser();
+        return False;
+    }
 
 }
 

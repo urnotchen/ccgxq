@@ -12,6 +12,8 @@ use backend\modules\movie\models\FilmSynopsis;
  */
 class FilmSynopsisSearch extends FilmSynopsis
 {
+
+    public $search_text;
     /**
      * @inheritdoc
      */
@@ -19,7 +21,7 @@ class FilmSynopsisSearch extends FilmSynopsis
     {
         return [
             [['id', 'movie_id', 'source', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['text'], 'safe'],
+            [['content','search_text'], 'string'],
         ];
     }
 
@@ -68,8 +70,13 @@ class FilmSynopsisSearch extends FilmSynopsis
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'text', $this->text]);
+        $query->andFilterWhere(['like', 'content', $this->content]);
 
+        $query->joinWith('movie');
+
+        if($this->search_text) {
+            $query->andFilterWhere(['or', ['like', 'movie.title', $this->search_text], ['like', 'content', $this->search_text]]);
+        }
         return $dataProvider;
     }
 }

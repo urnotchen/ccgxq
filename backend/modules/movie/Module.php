@@ -58,6 +58,21 @@ class Module extends \yii\base\Module
                 ]),
             ],
         ];
+        $items[] = [
+            'label' => '<span class="fa fa-cubes"></span> 电影简介列表',
+            'items' => [],
+            'url' => ['/movie/film-synopsis/index'],
+            'options' => [
+                'class' => \bluelive\adminlte\widgets\SidebarActiveWidget::widget([
+                    'activeArr' => [
+                        'dashboard',
+                    ],
+                    'activeControllerArr' => [
+                        'movie',
+                    ],
+                ]),
+            ],
+        ];
 
         \Yii::$app->sidebarItems->setItems($items);
     }

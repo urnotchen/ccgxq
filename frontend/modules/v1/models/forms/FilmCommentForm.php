@@ -23,6 +23,7 @@ class FilmCommentForm extends Model{
     public function rules(){
 
         return [
+            [['movie_id','source','star'],'required'],
             [['content'],'string'],
             [['star'],'integer'],
             [['star'],'in','range' => range(0,5)],
