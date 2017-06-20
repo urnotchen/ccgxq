@@ -20,9 +20,9 @@ class Message extends \frontend\models\Message
                 return (int)$model->movie_id;
             },
             'local_name' => function($model){
-                $titleList = explode(' ',$model->movie->title,2);
-                $alias = count($titleList) == 2 ? $titleList[0] : '';
-                return $alias;
+                $titleList = explode(' ',$model->title,2);
+
+                return $titleList?$titleList[0]:'';
             },
             'image' => function($model){
                 return $model->movie->image;
