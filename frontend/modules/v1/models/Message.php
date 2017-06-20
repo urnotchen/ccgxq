@@ -20,7 +20,8 @@ class Message extends \frontend\models\Message
                 return (int)$model->movie_id;
             },
             'local_name' => function($model){
-                $titleList = explode(' ',$model->title,2);
+
+                $titleList = explode(' ',$model->movie->title,2);
 
                 return $titleList?$titleList[0]:'';
             },
