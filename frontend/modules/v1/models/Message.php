@@ -21,7 +21,7 @@ class Message extends \frontend\models\Message
             },
             'local_name' => function($model){
                 $titleList = explode(' ',$model->movie->title,2);
-                $alias = count($titleList) == 2 ? $titleList[1] : '';
+                $alias = count($titleList) == 2 ? $titleList[0] : '';
                 return $alias;
             },
             'image' => function($model){
