@@ -48,22 +48,26 @@ use yii\helpers\Html;
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-<!--                        --><?//= Html::img($userIdentity->avatar, ['class' => 'user-image', 'alt' => '用户头像']) ?>
-                        <span class="hidden-xs"> <?= $userIdentity->username ?></span>
+                        <?php
+                            if(!Yii::$app->getUser()->isGuest){
+//                                echo Html::img($userIdentity->avatar, ['class' => 'user-image', 'alt' => '用户头像']);
+                                echo '<span class="hidden-xs">'.$userIdentity->username."</span>";
+                            }
+                        ?>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-<!--                            --><?//= Html::img($userIdentity->avatar, ['class' => 'img-circle', 'alt' => '用户头像']) ?>
+                            <?php if(!Yii::$app->getUser()->isGuest): ?>
                             <p>
                                 <?= $userIdentity->username; ?> - Web Developer
                                 <small>Member since <?= date('Y.m.d', $userIdentity->created_at); ?></small>
                             </p>
+                            <?php endif ?>
                         </li>
                         <!-- Menu Body -->
                         <li class="user-body">
                             <div class="col-xs-12 text-center">
-<!--                                <p> --><?//= $userIdentity->mark; ?><!--</p>-->
                             </div>
                         </li>
                         <!-- Menu Footer-->
