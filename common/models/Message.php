@@ -24,7 +24,7 @@ class Message extends \yii\db\ActiveRecord
     use SaveExceptionTrait;
 
 
-    const STATUS_NOT_READ = 1,STATUS_YET_READ = 2;
+    const STATUS_NOT_READ = 0,STATUS_YET_READ = 1;
     /**
      * @inheritdoc
      */
