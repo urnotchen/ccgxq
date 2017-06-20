@@ -60,7 +60,8 @@ class ApiController extends \yii\rest\Controller
         foreach($params as $eachArray) {
             MovieOnlineResource::record($eachArray);
         }
-        return True;
+
+        return true;
     }
 
 }

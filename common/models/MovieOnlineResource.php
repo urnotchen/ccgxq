@@ -38,7 +38,7 @@ class MovieOnlineResource extends \yii\db\ActiveRecord
         return [
             [['movie_id', 'definition'], 'required'],
             [['movie_id', 'definition', 'created_at', 'updated_at'], 'integer'],
-            [['movie_id','definition'],'unique'],
+            [['movie_id','definition'],'unique','targetAttribute' => ['movie_id', 'definition']],
         ];
     }
 

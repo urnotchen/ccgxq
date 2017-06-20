@@ -12,13 +12,16 @@ class MovieOnlineResource extends \common\models\MovieOnlineResource{
 
     public static function record($arr){
 
-        $res = self::findOne(['movie_id' => $arr['movie_id'],'definition' => $arr['definition']]);
+        foreach($arr['definition'] as $eachDefinition) {
 
-        if(!$res){
-            $record = new self;
-            $record->movie_id = $arr['movie_id'];
-            $record->definition = $arr['definition'];
-            $record->save();
+            $res = self::findOne(['movie_id' => $arr['movie_id'], 'definition' => $eachDefinition]);
+
+            if (!$res) {
+                $record = new self;
+                $record->movie_id = $arr['movie_id'];
+                $record->definition = $eachDefinition;
+                $record->save();
+            }
         }
     }
 }
