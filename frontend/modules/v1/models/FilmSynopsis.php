@@ -11,6 +11,9 @@ class FilmSynopsis extends \frontend\models\FilmSynopsis
         return [
             'source',
             'content' => function($model){
+                if($model->content){
+                    return str_replace(array('                                　　','                                    ','                        '), '', str_replace(array("\r\n", "\r", "\n","\t"), '', $model->content ));
+                }
                 return $model->content?strip_tags($model->content):null;
             },
         ];

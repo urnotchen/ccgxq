@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'format' => 'raw',
                     'value' => function($model){
                         if($model->content) {
-                            return "<span class='force_new_line'>" . str_replace('                                　　', '       ', str_replace("\n", '', $model->content . "</span>"));
+                            return "<span class='force_new_line'>" . str_replace(array('                                　　','                                    '), '', str_replace(array("\r\n", "\r", "\n","\t"), '', $model->content . "</span>"));
                         }
                         return '';
                     },

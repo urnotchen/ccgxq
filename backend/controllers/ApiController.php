@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\MovieOnlineResource;
 use backend\modules\movie\services\MovieListService;
 use Yii;
 
@@ -22,15 +23,16 @@ class ApiController extends \yii\rest\Controller
         $inherit = parent::behaviors();
 
         $inherit['contentNegotiator']['formats']['application/xml'] = \yii\web\Response::FORMAT_JSON;
+        $inherit['contentNegotiator']['formats']['application/json'] = \yii\web\Response::FORMAT_JSON;
 
         $inherit['access'] = ['class' => \yii\filters\AccessControl::className(),
             'rules' => [
                 [
                     'actions' => [
-                        'update-zhan',
+                        'update-zhan','movie-resource'
                     ],
                     'allow' => true,
-                    'roles' => ['@'],
+                    'roles' => ['?'],
                 ],
             ],
         ];
@@ -50,6 +52,15 @@ class ApiController extends \yii\rest\Controller
         }
 
         return $this->_service;
+    }
+
+    public function actionMovieResource(){
+
+        $params = \Yii::$app->getRequest()->post();
+        foreach($params as $eachArray) {
+            MovieOnlineResource::record($eachArray);
+        }
+        return True;
     }
 
 }
