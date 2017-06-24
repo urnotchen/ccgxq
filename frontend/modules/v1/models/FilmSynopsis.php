@@ -12,7 +12,8 @@ class FilmSynopsis extends \frontend\models\FilmSynopsis
             'source',
             'content' => function($model){
                 if($model->content){
-                    return str_replace(array('                                　　','                                    ','                        '), '', str_replace(array("\r\n", "\r", "\n","\t"), '', $model->content ));
+                    $content = strip_tags($model->content);
+                    return  preg_replace("/\n+/", "\n", str_replace(array('                                　　','                                    ','                        '), '', strip_tags($content )));
                 }
                 return $model->content?strip_tags($model->content):null;
             },
