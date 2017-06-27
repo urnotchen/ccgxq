@@ -185,6 +185,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function validatePassword($password)
     {
+
         return \Yii::$app->getSecurity()->validatePassword(
             $password,
             $this->password

@@ -19,15 +19,15 @@ class UmUserAdapter extends \yii\base\Model
     use \common\traits\ErrorsJsonTrait;
     use \common\traits\ValidateExceptionTrait;
 
-    public $accessToken, $expiration, $iconURL, $platform, $name, $uid, $gender, $device, $deviceName, $type;
+    public $accessToken, $expiration, $iconURL, $platform, $name, $uid, $gender, $device, $deviceName, $type,$registrationID;
 
     private $_userAttributes;
 
     public function rules()
     {
         return [
-            [['accessToken', 'expiration', 'iconURL', 'platform', 'name', 'uid', 'device', 'deviceName'], 'required'],
-            [['accessToken', 'expiration', 'iconURL', 'name', 'uid', 'device', 'deviceName'], 'string'],
+            [['accessToken', 'expiration', 'iconURL', 'platform', 'name', 'uid', 'device', 'deviceName','registrationID'], 'required'],
+            [['accessToken', 'expiration', 'iconURL', 'name', 'uid', 'device', 'deviceName','registrationID'], 'string'],
             [['gender', 'platform', 'type'], 'integer'],
             ['type', 'default', 'value' => UserToken::TYPE_PHONE],
         ];
@@ -48,7 +48,8 @@ class UmUserAdapter extends \yii\base\Model
             'gender'           => $this->gender,
             'device'           => $this->device,
             'name'             => $this->deviceName,
-            'type'             => $this->type
+            'type'             => $this->type,
+            'registration_id'  => $this->registrationID
         ];
 
         return $this;

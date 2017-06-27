@@ -20,9 +20,9 @@ trait ModelPrepareTrait
     public function prepare($rawParams, $runValidation = true)
     {/*{{{*/
         $this->load( $rawParams , '');
-
         if ($runValidation){
-            $this->validate();
+
+            return $this->validate();
         }
 
         return true;

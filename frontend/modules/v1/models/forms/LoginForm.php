@@ -14,15 +14,15 @@ class LoginForm extends \yii\base\Model
     use \common\traits\ErrorsJsonTrait;
     use \common\traits\ValidateExceptionTrait;
 
-    public $email, $password, $device, $name, $type;
+    public $email, $password, $device, $name, $type,$registrationID;
 
     private $_user;
 
     public function rules()
     {
         return [
-            [['email', 'password', 'device', 'name'], 'required'],
-            [['email', 'password', 'device', 'name'], 'string'],
+            [['email', 'password', 'device','registrationID', 'name'], 'required'],
+            [['email', 'password', 'device', 'registrationID','name'], 'string'],
             ['type', 'integer'],
             ['type', 'default', 'value' => UserToken::TYPE_PHONE],
 

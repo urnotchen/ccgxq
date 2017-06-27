@@ -26,7 +26,7 @@ class CaptchaCache extends \yii\base\Object
         );
     }
 
-    public function setCaptcha(User &$user)
+    public function setCaptcha($user)
     {
         if (empty($user->id)){
 
@@ -52,7 +52,7 @@ class CaptchaCache extends \yii\base\Object
         return $captcha;
     }
 
-    public function checkChance(User &$user, $code)
+    public function checkChance($user, $code)
     {
         if (empty($user->id)){
 
@@ -63,7 +63,7 @@ class CaptchaCache extends \yii\base\Object
 
         $key = $this->buildCaptchaCacheKey($user->id);
         $value = unserialize($this->_cache->get($key));
-
+return $value;
         if (empty($value)) {
 
             throw new \yii\web\HttpException(

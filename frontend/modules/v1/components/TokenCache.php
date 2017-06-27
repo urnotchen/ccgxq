@@ -5,8 +5,8 @@ namespace frontend\modules\v1\components;
 use Yii;
 use yii\base\Exception;
 
-use common\models\User;
-
+//use common\models\User;
+use frontend\models\User;
 
 class TokenCache extends \yii\base\Object
 {
@@ -23,7 +23,7 @@ class TokenCache extends \yii\base\Object
             throw new Exception('key string not set');
         }
 
-        $this->_cache = Yii::$app->cache;
+        $this->_cache = Yii::$app->redis;
     }
 
     protected function buildCacheKey($userId)
@@ -33,7 +33,7 @@ class TokenCache extends \yii\base\Object
         );
     }
 
-    public function setToken(User &$user)
+    public function setToken($user)
     {
         $token = Yii::$app->security->generateRandomString(32);
 
@@ -46,12 +46,11 @@ class TokenCache extends \yii\base\Object
         return $token;
     }
 
-    public function validateToken(User &$user, $token)
+    public function validateToken($user, $token)
     {
         $this->_token = $this->_cache->get($this->buildCacheKey($user->id));
 
         if (empty($this->_token)) {
-
             return \common\components\ValidateErrorCode::TOKEN_EXPIRED;
         }
         if (! $this->isMatch($token)) {
@@ -67,7 +66,7 @@ class TokenCache extends \yii\base\Object
         return strcmp($this->_token, $token) === 0;
     }
 
-    public function delToken(User &$user)
+    public function delToken($user)
     {
 
         return $this->_cache->delete($this->buildCacheKey($user->id));

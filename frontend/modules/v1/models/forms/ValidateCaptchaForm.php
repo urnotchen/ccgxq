@@ -49,7 +49,7 @@ class ValidateCaptchaForm extends \yii\base\Model
             $this->validate();
         }
 
-        \Yii::$app->captchaCache->checkChance($this->_user, $this->captcha);
+        return \Yii::$app->captchaCache->checkChance($this->_user, $this->captcha);
 
         return true;
     }

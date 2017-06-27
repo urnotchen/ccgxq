@@ -80,14 +80,14 @@ class UserService extends \common\services\BizService
             $userToken->save();
 
 //            //添加用户默认项目
-//            if ($userExist->isNewRecord) {
-//                Yii::$app->user->login($user);
-//
-//            }
+            if ($userExist->isNewRecord) {
+                Yii::$app->user->login($user);
+
+            }
 
             $transaction->commit();
 
-            Yii::$app->deviceCache->operateLogin($userToken);
+//            Yii::$app->deviceCache->operateLogin($userToken);
 
         } catch (DbException $e) {
             $transaction->rollBack();
@@ -124,16 +124,16 @@ class UserService extends \common\services\BizService
             $userToken = $user->generateToken(
                 $registerForm->device,
                 $registerForm->name,
-                $registerForm->type
+                $registerForm->type,
+                $registerForm->registrationID
             );
-
+1;
             $userDetails = new UserDetails(['user_id' => $user->id]);
             $userDetails->setAttributes($userDetailAttrs);
             $userDetails->save();
 
             //添加用户默认项目
             Yii::$app->user->login($user);
-
 
             $transaction->commit();
 
@@ -165,15 +165,15 @@ class UserService extends \common\services\BizService
         $form->load($rawParams, '');
 
         $user = $form->save();
-        $transaction = Yii::$app->db->beginTransaction();
 
+        $transaction = Yii::$app->db->beginTransaction();
         $userToken = null;
         try {
 
             # 更新用户最后登陆时间
             User::updateLastUseTime($user->id);
 
-            $userToken = $user->updateToken($form->device, $form->name, $form->type);
+            $userToken = $user->updateToken($form->device, $form->name, $form->type,$form->registrationID);
 
             $transaction->commit();
 
@@ -279,7 +279,6 @@ class UserService extends \common\services\BizService
             $userDetails->prepare($rawParams);
 
             $userDetails->save();
-
             $transaction->commit();
 
         } catch (YiiException $e) {

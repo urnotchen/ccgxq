@@ -18,12 +18,13 @@ class RegisterForm extends \yii\base\Model
     public $device;
     public $name;
     public $type;
+    public $registrationID;
 
     public function rules()
     {
         return [
-            [['email', 'password', 'device', 'name'], 'required'],
-            [['device', 'name', 'nickname'], 'string'],
+            [['email', 'password', 'device','registrationID', 'name'], 'required'],
+            [['device', 'name', 'nickname','registrationID'], 'string'],
             ['type', 'integer'],
             ['type', 'default', 'value' => UserToken::TYPE_PHONE],
             ['email', 'email'],

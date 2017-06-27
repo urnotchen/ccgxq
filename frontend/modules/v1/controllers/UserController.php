@@ -2,6 +2,7 @@
 
 namespace frontend\modules\v1\controllers;
 
+use frontend\modules\v1\models\User;
 use Yii;
 
 class UserController extends \frontend\components\rest\Controller
@@ -19,12 +20,12 @@ class UserController extends \frontend\components\rest\Controller
             \frontend\modules\v1\components\AccessTokenAuth::className(),
         ];
 
-        $inherit['online'] = [
-            'class' => \frontend\modules\v1\behaviors\OnlineBehavior::className(),
-            'only' => [
-                'change-details', 'request-change-password', 'change-password'
-            ]
-        ];
+//        $inherit['online'] = [
+//            'class' => \frontend\modules\v1\behaviors\OnlineBehavior::className(),
+//            'only' => [
+//                'change-details', 'request-change-password', 'change-password'
+//            ]
+//        ];
 
         return $inherit;
     }
@@ -107,6 +108,7 @@ class UserController extends \frontend\components\rest\Controller
         $form->prepare($rawParams);
 
         return ['token' => Yii::$app->passwordTokenCache->setToken($this->getUser())];
+
     }
 
     /**
@@ -118,7 +120,6 @@ class UserController extends \frontend\components\rest\Controller
 
         $form = new \frontend\modules\v1\models\forms\UserChgPwdForm(['user' => $this->getUser()]);
         $form->prepare($rawParams);
-
         return $this->getUser()->changePassword($form->password);
     }
 

@@ -24,7 +24,7 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
 //                    ($this->isVip() ? self::USER_VIP : self::USER_NORMAL);
 //            },
 //            'expired_at' => function(self $model) {
-//                return UserToken::findOne(['user_id' => $model->id,'device' => $model->device]);
+//                return UserToken::findOne(['user_id' => $model->id,'device' => $model->device])?1:0;
 //            }
         ];
     }
@@ -72,7 +72,7 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
      * @param int $expiration
      * @return UserToken
      */
-    public function generateToken($device, $name, $type, $expiration = 0)
+    public function generateToken($device, $name, $type,$registrationID, $expiration = 0)
     {
 
         $timestamp = time();
@@ -86,7 +86,8 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
             'expired_at' => $timestamp + $expiration,
             'device' => $device,
             'name' => $name,
-            'type' => $type
+            'type' => $type,
+            'registration_id' => $registrationID
         ]);
         $token->save();
 
@@ -100,7 +101,7 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
      * @param int $expiration
      * @return UserToken
      */
-    public function updateToken($device, $name, $type, $expiration = 0)
+    public function updateToken($device, $name, $type,$registrationID, $expiration = 0)
     {
 
         $expiration = $expiration > 0 ? $expiration : 60 * 60 * 24 * 30;
@@ -109,11 +110,11 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
             'user_id'       => $this->id,
             'platform'      => UserToken::PLATFORM_EMAIL,
             'device'        => $device,
-            'type'          => $type
+            'type'          => $type,
         ]);
         if ($token->isNewRecord){
 
-            return $this->generateToken($device, $name, $type);
+            return $this->generateToken($device, $name, $type,$registrationID);
         }else{
             $token->scenario = UserToken::SCENARIO_LOGIN_EMAIL;
 
@@ -121,6 +122,7 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
             $token->expired_at = time() + $expiration;
             $token->name = $name;
             $token->type = $type;
+            $token->registration_id = $registrationID;
             $token->save();
 
             return $token;
