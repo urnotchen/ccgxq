@@ -18,7 +18,8 @@ class SearchMovie extends \frontend\modules\v1\models\Movie{
                 return $model->websiteResource;
             },
             'onlineResource' => function($model){
-                return $model->onlineResource;
+
+                return $model->movieOnlineResource?$model->movieOnlineResource:null;
             },
             'image' => function($model){
                 return $model->image;

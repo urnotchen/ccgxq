@@ -39,6 +39,7 @@ class MovieListService extends  \common\services\MovieListService{
 
             return $res;
         }
+
     }
 
 

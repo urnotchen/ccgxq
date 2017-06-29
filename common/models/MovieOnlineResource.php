@@ -15,6 +15,13 @@ use Yii;
  */
 class MovieOnlineResource extends \yii\db\ActiveRecord
 {
+
+    use \common\traits\EnumTrait;
+    use \common\traits\InstanceTrait;
+    use \common\traits\FindOrExceptionTrait;
+
+    const DEFINITION_OTHER = 1, DEFINITION_720P = 2,DEFINITION_1080P = 3,DEFINITION_BLURAY = 4;
+
     /**
      * @inheritdoc
      */

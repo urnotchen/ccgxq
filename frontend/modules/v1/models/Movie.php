@@ -45,7 +45,7 @@ class Movie extends \frontend\models\Movie
                 return $model->release_year?(int)$model->release_year:null;
             },
             'play_video_num' => function($model){
-                $onlineResource =  MovieIndex::isOnlineResource($model->id)?1:0 ;
+                $onlineResource =  MovieOnlineResource::isOnlineResource($model->id)?1:0 ;
                 $websiteResource = FilmVideoConn::getResourceNum($model->id);
                 return $onlineResource + $websiteResource;
             },
@@ -67,13 +67,7 @@ class Movie extends \frontend\models\Movie
     {
         return [
             'onlineResource' => function($model){
-                if($model->onlineResource){
-                    return $model->onlineResource;
-                }
-                if($model->onlineResource2){
-                    return $model->onlineResource2;
-                }
-                return '';
+                return $model->movieOnlineResource?$model->movieOnlineResource:null;
             },
             'image',
             'filmmaker' => function($model){
@@ -90,12 +84,10 @@ class Movie extends \frontend\models\Movie
     public function getWebsiteResource(){
         return $this->hasMany(FilmVideoConn::className(),['movie_id' => 'id']);
     }
-    public function getOnlineResource(){
-        return $this->hasOne(MovieIndex::className(),['douban' => 'id']);
-    }
 
-    public function getOnlineResource2(){
-        return $this->hasOne(MovieIndex::className(),['imdb' => 'imdb_title']);
+
+    public function getMovieOnlineResource(){
+        return $this->hasMany(MovieOnlineResource::className(),['movie_id' => 'id'])->max('definition');
     }
 
     public function getImage(){
@@ -114,13 +106,13 @@ class Movie extends \frontend\models\Movie
 
         switch ($property) {
             case FilmProperty::PROPERTY_NEWEST:
-                $query = self::find()->select('movie.*,(select @rownum:=0)')->join('join', MovieIndex::tableName(), Movie::tableName() . '.id=' . MovieIndex::tableName() . '.douban')
+                $query = self::find()->select('movie.*,(select @rownum:=0)')->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
                     ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
                     ->andWhere(['or', ['property' => $property], ['property' => null]])
                     ->propertyNewestSequence();
                 break;
             case FilmProperty::PROPERTY_SELECTED:
-                $query = self::find()->select('movie.*,(select @rownum:=0)')->join('join', MovieIndex::tableName(), Movie::tableName() . '.id=' . MovieIndex::tableName() . '.douban')
+                $query = self::find()->select('movie.*,(select @rownum:=0)')->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
                     ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
                     ->andWhere(['or', ['property' => $property], ['property' => null]])
                     ->releaseTimestampSequence();

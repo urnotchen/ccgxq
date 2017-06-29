@@ -111,13 +111,17 @@ class Movie extends \yii\db\ActiveRecord
     public static function getProperty($property,$movie_id){
         return FilmProperty::findOne(['property' => $property,'status' => FilmProperty::STATUS_NORMAL,'movie_id' => $movie_id]);
     }
+//todo delete
+//    public function getOnlineResource(){
+//
+//        return $this->hasOne(MovieIndex::className(),['douban' => 'id']);
+//    }
+//    public function getOnlineResource2(){
+//        return $this->hasOne(MovieIndex::className(),['imdb' => 'imdb_title']);
+//    }
 
-    public function getOnlineResource(){
-
-        return $this->hasOne(MovieIndex::className(),['douban' => 'id']);
-    }
-    public function getOnlineResource2(){
-        return $this->hasOne(MovieIndex::className(),['imdb' => 'imdb_title']);
+    public function getMovieOnlineResource(){
+        return $this->hasMany(MovieOnlineResource::className(),['movie_id' => 'id']);
     }
 
 

@@ -25,12 +25,7 @@ class FilmChoiceUser extends \frontend\models\FilmChoiceUser
                 return $model->movie->websiteResource;
             },
             'onlineResource' => function($model){
-                if($model->movie->onlineResource){
-                    return $model->movie->onlineResource;
-                }
-                if($model->onlineResource2){
-                    return $model->movie->onlineResource2;
-                }
+                return $model->movie->movieOnlineResource?$model->movie->movieOnlineResource:null;
             }
         ];
     }

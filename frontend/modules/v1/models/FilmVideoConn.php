@@ -24,23 +24,12 @@ class FilmVideoConn extends \frontend\models\FilmVideoConn{
     {
         return [
             'onlineResource' => function($model) {
-                if ($model->onlineResource) {
-                    return $model->onlineResource;
-                }
-                if ($model->onlineResource2) {
-                    return $model->onlineResource2;
-                }
-                return [];
+                return $model->movie->movieOnlineResource?$model->movie->movieOnlineResource:null;
+
             },
         ];
 
     }
 
-    public function getOnlineResource(){
-        return $this->hasOne(MovieIndex::className(),['douban' => 'id']);
-    }
-    public function getOnlineResource2(){
-        return $this->hasOne(MovieIndex::className(),['imdb' => 'imdb_title']);
-    }
 
 }
