@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models;
+use common\traits\KVTrait;
 
 /**
  * Class User
@@ -25,6 +26,7 @@ class User extends \yii\db\ActiveRecord
     use \common\traits\EnumTrait;
     use \common\traits\InstanceTrait;
     use \common\traits\FindOrExceptionTrait;
+    use KVTrait;
 
     const STATUS_INACTIVE = 0, STATUS_ACTIVE = 1;
 
@@ -288,6 +290,11 @@ class User extends \yii\db\ActiveRecord
         UserToken::deleteAll(['user_id' => $this->id]);
 
         return parent::delete();
+    }
+
+    public static function getUserIds(){
+
+        return self::find()->select('id')->column();
     }
 }
 

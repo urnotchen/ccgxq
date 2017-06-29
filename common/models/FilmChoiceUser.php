@@ -31,6 +31,10 @@ class FilmChoiceUser extends \yii\db\ActiveRecord
     const ACTION_LIST = [self::ACTION_ADD,self::ACTION_DELETE];
 
     const STATUS_NORMAL = 1 , STATUS_TRASH = 2;
+
+    const PUSH_NO = 1 , PUSH_YES = 2;
+
+    const SOURCE_ZHAN = 1 , SOURCE_OTHER = 2;
     /**
      * @inheritdoc
      */
@@ -45,9 +49,10 @@ class FilmChoiceUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['movie_id', 'user_id', 'type', 'created_at', 'updated_at','status'], 'integer'],
+            [['movie_id', 'user_id', 'type', 'created_at', 'updated_at','status','push','source'], 'integer'],
             [['movie_id','user_id', 'type'],'unique','targetAttribute'=>['movie_id','user_id', 'type']],
             [['status'],'default','value' => self::STATUS_NORMAL],
+            [['push'],'default','value' => self::PUSH_NO],
         ];
     }
 
@@ -73,6 +78,8 @@ class FilmChoiceUser extends \yii\db\ActiveRecord
             'movie_id' => 'Movie ID',
             'user_id' => 'User ID',
             'type' => 'Type',
+            'push' => 'Push',
+            'source' => 'Source',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

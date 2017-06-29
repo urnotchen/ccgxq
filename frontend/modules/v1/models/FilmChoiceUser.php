@@ -43,14 +43,15 @@ class FilmChoiceUser extends \frontend\models\FilmChoiceUser
     /*
      * 添加/删除用户的订阅/想看/已看等个人
      * */
-    public static function userAction($user_id,$movie_id,$type,$action){
+    public static function userAction($user_id,$movie_id,$type,$action,$source){
 
         switch($action){
             case self::ACTION_ADD:
                 $choice = self::findOne(['movie_id' => $movie_id,'user_id' => $user_id,'type' => $type]);
                 if($choice){
                     if($choice->status == self::STATUS_NORMAL){
-                        $choice->status = self::STATUS_NORMAL;
+                        //todo 用户本来就是已添加的状态 如果再添加一遍(可能因为重复操作的原因) 暂时先不报错 这里可以以后再扩展
+                        //todo 有一个问题就是 如果用户在其他地方添加了 又在电影斩里添加了 来源是没有变化的 现在是这么设置的 以后可以再改
                     }else{
                         $choice->status = self::STATUS_NORMAL;
                     }
@@ -59,8 +60,8 @@ class FilmChoiceUser extends \frontend\models\FilmChoiceUser
                     $choice->movie_id = $movie_id;
                     $choice->user_id = $user_id;
                     $choice->type = $type;
+                    $choice->source = $source;
                 }
-
                 $choice->save();
                 break;
             case self::ACTION_DELETE:

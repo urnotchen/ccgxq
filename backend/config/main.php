@@ -131,6 +131,9 @@ return [
         'sidebarItems' => [
             'class' => 'bluelive\adminlte\components\SidebarItems',
         ],
+        'JPush' => [
+            'class' => 'backend\components\JPush',
+        ],
     ],
     'params' => $params,
 ];

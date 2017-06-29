@@ -2,7 +2,12 @@
 
 namespace backend\controllers;
 
+use backend\helper\MovieHelper;
+use backend\models\FilmChoiceUser;
+use backend\models\FrontUser;
+use backend\models\Movie;
 use backend\models\MovieOnlineResource;
+use backend\models\UserToken;
 use backend\modules\movie\services\MovieListService;
 use Yii;
 
@@ -29,7 +34,7 @@ class ApiController extends \yii\rest\Controller
             'rules' => [
                 [
                     'actions' => [
-                        'update-zhan','movie-resource'
+                        'update-zhan','movie-resource','push'
                     ],
                     'allow' => true,
                     'roles' => ['?'],
@@ -54,6 +59,9 @@ class ApiController extends \yii\rest\Controller
         return $this->_service;
     }
 
+    /*
+     * 网络资源写入接口
+     * */
     public function actionMovieResource(){
 
         $params = \Yii::$app->getRequest()->post();
@@ -64,4 +72,42 @@ class ApiController extends \yii\rest\Controller
         return true;
     }
 
+    public function actionPush(){
+
+        //根据用户查找用户订阅的电影
+        //循环推送
+        $userIds = array_flip(FrontUser::getUserIds());
+
+        $pushIds = [];
+        foreach($userIds as $userId){
+
+            $nameList = Movie::getWaitPushMovieNameList($userId);
+
+            if(!$nameList){
+                continue;
+            }else{
+                $pushIds[] = $userId;
+            }
+
+            $content = '';
+
+            foreach($nameList as $eachName){
+
+                $content .= MovieHelper::getChineseName($eachName).'、';
+            }
+
+            $content .= '网上可以看了';
+
+            $userRegistrationIds = UserToken::getRegistrationIds($userId);
+
+            foreach($userRegistrationIds as $eachUserRegistrationId){
+
+                Yii::$app->JPush->send($eachUserRegistrationId,$content);
+
+            }
+
+            FilmChoiceUser::pushed($userId);
+        }
+        return $pushIds;
+    }
 }

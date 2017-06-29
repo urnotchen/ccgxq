@@ -16,12 +16,12 @@ class UserActionForm extends \yii\base\Model{
 
     use ModelPrepareTrait;
 
-    public $movie_id,$action,$type;
+    public $movie_id,$action,$type,$source;
 
     public function rules()
     {
         return [
-            [['movie_id','action','type'],'required'],
+            [['movie_id','action','type','source'],'required'],
             [['movie_id'] ,'exist', 'targetClass' => Movie::className(),'targetAttribute' => 'id'],
             [['type'],'in','range' => FilmChoiceUser::TYPE_LIST],
             [['action'],'in','range' => FilmChoiceUser::ACTION_LIST],

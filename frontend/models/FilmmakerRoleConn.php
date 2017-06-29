@@ -16,7 +16,10 @@ class FilmmakerRoleConn extends \common\models\FilmmakerRoleConn
             'role_id',
             'name' => function($model){
                 $nameList = explode(' ',$model->filmmakers->name,2);
-                return $nameList?$nameList[0]:'';
+                return $nameList?$nameList[0]:null;
+            },
+            'image' => function($model){
+                return $model->filmmakers?\Yii::$app->params['qiniuDomain'].$model->filmmakers->image->path:null;
             }
         ];
     }
