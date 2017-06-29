@@ -5,7 +5,7 @@
  * Date: 2017/6/16
  * Time: 9:23
  */
-namespace common\helper;
+namespace common\helpers;
 
 class MovieHelper extends \yii\base\Object{
 
@@ -15,7 +15,6 @@ class MovieHelper extends \yii\base\Object{
      * */
     public static function getChineseName($fullName){
 
-return 1;
         $titleList = explode(' ',$fullName,2);
 
         return $titleList?$titleList[0]:'';

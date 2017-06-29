@@ -7,7 +7,7 @@
  */
 namespace backend\helper;
 
-class MovieHelper extends \common\helper\MovieHelper{
+class MovieHelper extends \common\helpers\MovieHelper{
 
 //    /*
 //     * 获取电影中文名
