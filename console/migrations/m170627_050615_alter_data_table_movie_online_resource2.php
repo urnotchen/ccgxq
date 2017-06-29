@@ -13,7 +13,9 @@ class m170627_050615_alter_data_table_movie_online_resource2 extends Migration
 
         for($i = 0 ; $i < 100; $i ++) {
 
-            $res = \Yii::$app->db->createCommand(MovieIndex::find()->select(['movie_index.*','movie_link.*'])->join('join',MovieLink::tableName(),MovieLink::tableName().'.movie_id='. MovieIndex::tableName().'.id')->where(['between','movie_index.id',$i * 400 , ($i + 1) * 400])->createCommand()->getRawSql())->queryAll();
+            $begin = $i * 400 ;
+            $end = $begin + 400;
+            $res = \Yii::$app->db->createCommand("select movie_index.*,movie_link.* from movie_index join movie_link on movie_link.movie_id=movie_index.id where movie_index.id BETWEEN {$begin} and {$end}")->queryAll();
 
             foreach ($res as $one) {
                 $record = new \common\models\MovieOnlineResource();
