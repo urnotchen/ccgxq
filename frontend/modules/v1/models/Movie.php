@@ -40,6 +40,9 @@ class Movie extends \frontend\models\Movie
                 return $model->producer_country?explode('/',trim($model->producer_country)):[];
             },
             'score',
+            'score_num' => function($model){
+                return $model->comment_num;
+            },
             'release_date',
             'release_year' => function($model){
                 return $model->release_year?(int)$model->release_year:null;

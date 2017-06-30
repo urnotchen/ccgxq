@@ -77,7 +77,7 @@ class ApiController extends \yii\rest\Controller
         //根据用户查找用户订阅的电影
         //循环推送
         $userIds = array_flip(FrontUser::getUserIds());
-
+return $userIds;
         $pushIds = [];
         foreach($userIds as $userId){
 
@@ -88,7 +88,6 @@ class ApiController extends \yii\rest\Controller
             }else{
                 $pushIds[] = $userId;
             }
-
             $content = '';
 
             foreach($nameList as $eachName){
