@@ -141,5 +141,7 @@ class MovieController extends \yii\web\Controller
 
         return $this->_service;
     }
+
+
 }
 ?>

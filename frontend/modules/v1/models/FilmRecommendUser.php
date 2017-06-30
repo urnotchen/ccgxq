@@ -29,8 +29,8 @@ class FilmRecommendUser extends \frontend\models\FilmRecommendUser
             $filmRecommendUser->star = $comment->star;
             $filmRecommendUser->movie_id = $comment->movie_id;
             $filmRecommendUser->type = self::TYPE_USER;
-            $filmRecommendUser->source = $comment->source;
         }
+        $filmRecommendUser->source = $comment->source;
 
         $filmRecommendUser->save();
 

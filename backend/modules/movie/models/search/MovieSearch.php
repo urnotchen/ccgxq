@@ -4,7 +4,10 @@ namespace backend\modules\movie\models\search;
 
 use backend\modules\movie\models\Filmmaker;
 use backend\modules\movie\models\FilmmakerRoleConn;
+use backend\modules\movie\models\FilmProperty;
+use backend\modules\movie\models\FilmRecommendUser;
 use backend\modules\movie\models\FilmTypeConn;
+use backend\modules\movie\models\MovieOnlineResource;
 use backend\modules\movie\services\MovieListService;
 use Yii;
 use yii\base\Model;
@@ -115,7 +118,39 @@ class MovieSearch extends Movie
             $query->andWhere(['id' => FilmmakerRoleConn::getFilmmakerWorkNum($this->filmmaker_id)]);
 
         }
-
+        //todo  这里以后要整合成一个query类 要和前台接口的数据保持一致 现在是分开写的 前台接口的列表是timeline格式所有和后台的query不太一样 需要思考一下
+        if($this->film_property){
+            switch ($this->film_property) {
+                case FilmProperty::PROPERTY_NEWEST:
+                    $query = $query->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
+                        ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
+                        ->andWhere(['or', ['property' => $this->film_property], ['property' => null]])
+                        ->propertyNewestSequence();
+                    break;
+                case FilmProperty::PROPERTY_SELECTED:
+                    $query = $query->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
+                        ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
+                        ->andWhere(['or', ['property' => $this->film_property], ['property' => null]])
+                        ->releaseTimestampSequence();
+                    break;
+                case FilmProperty::PROPERTY_HOT:
+                    $query = $query->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
+                        ->where(['or', ['property' => $this->film_property], ['property' => null]])
+                        ->propertyHotSequence();
+                    break;
+                case FilmProperty::PROPERTY_RECOMMEND_OFFICIAL:
+                    $query = $query->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
+                        ->where(['or', ['property' => $this->film_property], ['property' => null]]);
+//                        ->orderBy('rand()');
+//                    ->propertyHotSequence();
+                    break;
+                default :
+                    throw new \yii\web\HttpException(
+                        400, "movie list doesn't have this property",
+                        \common\components\ResponseCode::INVALID_MOVIE_LIST_PROPERTY
+                    );
+            }
+        }
 
 
         return $dataProvider;

@@ -18,5 +18,8 @@ use Yii;
  */
 class FilmProperty extends \common\models\FilmProperty
 {
+    public static function getProperty($property,$movie_id){
 
+        return FilmProperty::findOne(['property' => $property,'status' => FilmProperty::STATUS_NORMAL,'movie_id' => $movie_id]);
+    }
 }

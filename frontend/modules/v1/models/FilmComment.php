@@ -87,6 +87,7 @@ class FilmComment extends \frontend\models\FilmComment
             'star'            => $userComment->star,
             'movie_id'        => $userComment->movie_id,
             'comment'         => $userComment->content,
+            'source'         => $userComment->source,
         ]);
         $comment->save();
 

@@ -16,6 +16,7 @@ use frontend\modules\v1\models\forms\MovieZhanListForm;
 use frontend\modules\v1\models\Movie;
 use frontend\modules\v1\services\MovieListService;
 
+use frontend\modules\v1\services\StatisticsService;
 use frontend\modules\v1\services\ZhanService;
 use yii\data\ActiveDataProvider;
 
