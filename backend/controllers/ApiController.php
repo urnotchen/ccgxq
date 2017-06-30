@@ -76,8 +76,8 @@ class ApiController extends \yii\rest\Controller
 
         //根据用户查找用户订阅的电影
         //循环推送
-        $userIds = array_flip(FrontUser::getUserIds());
-return $userIds;
+        $userIds = FrontUser::getUserIds();
+
         $pushIds = [];
         foreach($userIds as $userId){
 
