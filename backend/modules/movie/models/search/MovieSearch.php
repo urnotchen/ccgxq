@@ -78,36 +78,36 @@ class MovieSearch extends Movie
         }
 
         // grid filtering conditions
-//        $query->andFilterWhere([
-//            'id' => $this->id,
-//            'pic_id' => $this->pic_id,
-//            'release_year' => $this->release_year,
-//            'comment_num' => $this->comment_num,
-//            'score' => $this->score,
-//            'one_star' => $this->one_star,
-//            'two_star' => $this->two_star,
-//            'three_star' => $this->three_star,
-//            'four_star' => $this->four_star,
-//            'five_star' => $this->five_star,
-//            'episodes' => $this->episodes,
-//            'single_running_time' => $this->single_running_time,
-//        ]);
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'pic_id' => $this->pic_id,
+            'release_year' => $this->release_year,
+            'comment_num' => $this->comment_num,
+            'score' => $this->score,
+            'one_star' => $this->one_star,
+            'two_star' => $this->two_star,
+            'three_star' => $this->three_star,
+            'four_star' => $this->four_star,
+            'five_star' => $this->five_star,
+            'episodes' => $this->episodes,
+            'single_running_time' => $this->single_running_time,
+        ]);
 //
-//        $query->andFilterWhere(['like', 'movie_url', $this->movie_url])
-//            ->andFilterWhere(['like', 'title', $this->title])
-//            ->andFilterWhere(['like', 'director', $this->director])
-//            ->andFilterWhere(['like', 'screen_writer', $this->screen_writer])
-//            ->andFilterWhere(['like', 'actor', $this->actor])
-//            ->andFilterWhere(['like', 'type', $this->type])
-//            ->andFilterWhere(['like', 'producer_country', $this->producer_country])
-//            ->andFilterWhere(['like', 'language', $this->language])
-//            ->andFilterWhere(['like', 'release_date', $this->release_date])
-//            ->andFilterWhere(['like', 'alias', $this->alias])
-//            ->andFilterWhere(['like', 'imdb', $this->imdb])
-//            ->andFilterWhere(['like', 'imdb_title', $this->imdb_title])
-//            ->andFilterWhere(['like', 'official_website', $this->official_website])
-//            ->andFilterWhere(['like', 'premiere', $this->premiere])
-//            ->andFilterWhere(['like', 'running_time', $this->running_time]);
+        $query->andFilterWhere(['like', 'movie_url', $this->movie_url])
+            ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'director', $this->director])
+            ->andFilterWhere(['like', 'screen_writer', $this->screen_writer])
+            ->andFilterWhere(['like', 'actor', $this->actor])
+            ->andFilterWhere(['like', 'type', $this->type])
+            ->andFilterWhere(['like', 'producer_country', $this->producer_country])
+            ->andFilterWhere(['like', 'language', $this->language])
+            ->andFilterWhere(['like', 'release_date', $this->release_date])
+            ->andFilterWhere(['like', 'alias', $this->alias])
+            ->andFilterWhere(['like', 'imdb', $this->imdb])
+            ->andFilterWhere(['like', 'imdb_title', $this->imdb_title])
+            ->andFilterWhere(['like', 'official_website', $this->official_website])
+            ->andFilterWhere(['like', 'premiere', $this->premiere])
+            ->andFilterWhere(['like', 'running_time', $this->running_time]);
         if($this->film_type){
             //join the type_conn for searching
             $query->join('join',FilmTypeConn::tableName(),Movie::tableName().'.id = '.FilmTypeConn::tableName().'.movie_id' )->andFilterWhere([FilmTypeConn::tableName().'.type_id' => $this->film_type]);
@@ -125,6 +125,7 @@ class MovieSearch extends Movie
                     $query = $query->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
                         ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
                         ->andWhere(['or', ['property' => $this->film_property], ['property' => null]])
+                        ->groupBy('movie.id')
                         ->propertyNewestSequence();
                     break;
                 case FilmProperty::PROPERTY_SELECTED:

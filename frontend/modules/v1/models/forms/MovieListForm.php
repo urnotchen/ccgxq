@@ -24,7 +24,7 @@ class MovieListForm extends Model{
         return [
             [['type'] , 'required'],
             [['type','count'], 'integer',],
-            [['type'], 'in','range' => FilmProperty::$propertyList],
+//            [['type'], 'in','range' => [FilmProperty::PROPERTY_NEWEST,FilmProperty::PROPERTY_HOT,FilmProperty::PROPERTY_SELECTED,FilmProperty::PROPERTY_RECOMMEND_OFFICIAL]],
             ['max' ,'exist', 'targetClass' => Movie::className(),'targetAttribute' => 'id'],
             ['since' ,'exist', 'targetClass' => Movie::className(),'targetAttribute' => 'id'],
 

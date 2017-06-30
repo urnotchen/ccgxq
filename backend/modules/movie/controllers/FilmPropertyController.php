@@ -165,9 +165,9 @@ class FilmPropertyController extends Controller
                         $eachRow->save();
                     }
 
-                    $res->status = FilmProperty::STATUS_TRASH;
-                    $res->sequence = 0;
-                    $res->save();
+                    $res->delete();
+//                    $res->sequence = 0;
+//                    $res->save();
                     return '删除成功';
                 }else{
                     return '此电影无此属性';

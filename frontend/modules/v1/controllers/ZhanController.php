@@ -105,7 +105,7 @@ class ZhanController extends Controller{
 
             //不是第一次,就先找3个月内的2部新片
             if($movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies) <= 2) {
-                $newestMovies = $this->service->getNewestMovies(3,$movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies));
+                $newestMovies = $this->service->getNewestMovies($userId,array_merge($waitSeeMovies,$scoredExpandMovies,$likedExpandMovies),3,$movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies));
                 if (count($scoredExpandMovies) + count($waitSeeMovies) + count($likedExpandMovies) == $movieNum) {
                     $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies, $scoredExpandMovies, $likedExpandMovies, $newestMovies), $userId, FilmRecommendUser::TYPE_USER);
                     return array_merge($waitSeeMovies, $scoredExpandMovies, $likedExpandMovies, $newestMovies);
