@@ -60,7 +60,10 @@ class ZhanService extends \common\services\BizService
             array_push($alreadyMovieIds,$eachMovie->id);
         }
         $userMovieIds = FilmRecommendUser::find()->select('movie_id')
-            ->where(['user_id' => $userId, 'choice' => [FilmRecommendUser::CHOICE_SAW],'status' => FilmRecommendUser::STATUS_WAIT_RECOMMEND])
+
+//            ->where(['user_id' => $userId, 'choice' => [FilmRecommendUser::CHOICE_SAW],'status' => FilmRecommendUser::STATUS_WAIT_RECOMMEND])
+            //不管是不是在电影斩里面评分的 都推荐关联的
+            ->where(['user_id' => $userId,'status' => FilmRecommendUser::STATUS_WAIT_RECOMMEND])
             ->andWhere(['>=','star',3])
             ->column();
 //        $movieIds = FilmRecommend::find()->select('recommend_movie_id')
