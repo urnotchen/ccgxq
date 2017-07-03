@@ -129,6 +129,7 @@ class Module extends \yii\base\Module
             'unique'   => "{$namespace}\\UniqueValidator",
             'url'      => "{$namespace}\\UrlValidator",
             'ip'       => "{$namespace}\\IpValidator",
+            'spe_required' => "{$namespace}\\SpeRequiredValidator",
 
             'integer' => [
                 'class' => "{$namespace}\\NumberValidator",

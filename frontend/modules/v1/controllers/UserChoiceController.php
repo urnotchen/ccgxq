@@ -12,9 +12,11 @@ use frontend\components\rest\Controller;
 use frontend\modules\v1\models\FilmChoiceUser;
 use frontend\modules\v1\models\forms\UserActionForm;
 use frontend\modules\v1\models\forms\UserChoiceListForm;
+use frontend\modules\v1\services\StatisticsService;
 
 class UserChoiceController extends Controller{
 
+    protected $_statisticsService;
 
     public function behaviors()
     {
@@ -50,6 +52,9 @@ class UserChoiceController extends Controller{
         $form = new UserActionForm();
         $form->prepare($rawParams);
 
+        if($form->action == FilmChoiceUser::ACTION_ADD && $form->source == FilmChoiceUser::SOURCE_ZHAN){
+            $this->statisticsService->zhanUserChoiceCount(time(),$form->type,$this->getUser()->id);
+        }
         return FilmChoiceUser::userAction($this->getUser()->id,$form->movie_id,$form->type,$form->action,$form->source);
 
     }
@@ -78,5 +83,14 @@ class UserChoiceController extends Controller{
         $arr['subscribe_num'] = (int)FilmChoiceUser::getUserTypeNum($user_id,FilmChoiceUser::TYPE_SUBSCRIBE);
         return $arr;
 
+    }
+
+    protected function getStatisticsService()
+    {
+        if ($this->_statisticsService === null) {
+            $this->_statisticsService = new StatisticsService();
+        }
+
+        return $this->_statisticsService;
     }
 }

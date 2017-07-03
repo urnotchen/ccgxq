@@ -79,7 +79,8 @@ class ApiController extends \yii\rest\Controller
         $userIds = FrontUser::getUserIds();
 
         $pushIds = [];
-        foreach($userIds as $userId){
+
+        foreach($userIds as $userId => $registrationId){
 
             $nameList = Movie::getWaitPushMovieNameList($userId);
 
@@ -97,13 +98,13 @@ class ApiController extends \yii\rest\Controller
 
             $content .= '网上可以看了';
 
-            $userRegistrationIds = UserToken::getRegistrationIds($userId);
-
-            foreach($userRegistrationIds as $eachUserRegistrationId){
-
-                Yii::$app->JPush->send($eachUserRegistrationId,$content);
-
-            }
+//            $userRegistrationIds = UserToken::getRegistrationIds($userId);
+//
+//            foreach($userRegistrationIds as $eachUserRegistrationId){
+//
+            Yii::$app->JPush->send($registrationId,$content);
+//
+//            }
 
             FilmChoiceUser::pushed($userId);
         }

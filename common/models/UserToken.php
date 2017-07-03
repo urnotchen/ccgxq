@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models;
+use common\traits\KVTrait;
 
 /**
  * Class UserToken
@@ -25,6 +26,7 @@ class UserToken extends \yii\db\ActiveRecord
     use \common\traits\EnumTrait;
     use \common\traits\InstanceTrait;
     use \common\traits\FindOrExceptionTrait;
+    use KVTrait;
 
     const
         SCENARIO_DEFAULT = 'default',

@@ -21,6 +21,7 @@ class LoginForm extends \yii\base\Model
     public function rules()
     {
         return [
+//            [['email', 'password', 'device','registrationID', 'name'], 'spe_required'],
             [['email', 'password', 'device','registrationID', 'name'], 'required'],
             [['email', 'password', 'device', 'registrationID','name'], 'string'],
             ['type', 'integer'],
@@ -40,10 +41,12 @@ class LoginForm extends \yii\base\Model
         $user = User::findOne(['email' => $this->email]);
 
         if (empty($user)) {
-            $this->addError($attr, ValidateErrorCode::EMAIL_NOT_REGISTERED);
-            return false;
+            throw new \yii\web\HttpException(
+                401,
+                '邮箱未注册',
+                \common\components\ValidateErrorCode::EMAIL_NOT_REGISTERED
+            );
         }
-
         $this->_user = $user;
     }
 
@@ -54,8 +57,13 @@ class LoginForm extends \yii\base\Model
         }
 
         if (! $this->_user->validatePassword($this->password)) {
-            $this->addError($attr, ValidateErrorCode::PASSWORD_NOT_MATCH);
-            return false;
+            throw new \yii\web\HttpException(
+                401,
+                '用户密码不匹配',
+                \common\components\ValidateErrorCode::PASSWORD_NOT_MATCH
+            );
+//            $this->addError($attr, ValidateErrorCode::PASSWORD_NOT_MATCH);
+//            return false;
         }
     }
 

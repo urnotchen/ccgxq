@@ -4,11 +4,13 @@ namespace frontend\modules\v1\models;
 
 use frontend\modules\v1\behaviors\AddRecommendUserBehavior;
 use frontend\modules\v1\behaviors\AddUserChoiceBehavior;
+use frontend\modules\v1\services\StatisticsService;
 
 class FilmComment extends \frontend\models\FilmComment
 {
 
     public $idTemp;
+
 
     public function behaviors()
     {
@@ -43,7 +45,6 @@ class FilmComment extends \frontend\models\FilmComment
                         return $user->userDetails->nickname;
                     }
                     return null;
-//                    return
                 }
             },
             'source' => function($model){
@@ -138,5 +139,14 @@ class FilmComment extends \frontend\models\FilmComment
     public static function getCommentNum($movieId){
 
         return (int)self::find()->where(['movie_id' => $movieId])->count();
+    }
+
+    protected function getStatisticsService()
+    {
+        if ($this->_statisticsService === null) {
+            $this->_statisticsService = new StatisticsService();
+        }
+
+        return $this->_statisticsService;
     }
 }

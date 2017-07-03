@@ -22,6 +22,7 @@ use yii\data\ActiveDataProvider;
 
 class CommentController extends Controller{
 
+    protected $_statisticsService;
 
     public function behaviors()
     {
@@ -86,6 +87,9 @@ class CommentController extends Controller{
         $rawParams = \Yii::$app->getRequest()->post();
         $form = new FilmCommentForm();
         $comment = $form->prepare($rawParams);
+        if($comment->content){
+            $this->statisticsService->setCommentCount(time(),$this->getUser()->id);
+        }
         return FilmComment::addComment($comment,$this->getUser()->id);
     }
 
@@ -116,4 +120,6 @@ class CommentController extends Controller{
 
         return ['num' => FilmComment::getCommentNum($form->id)];
     }
+
+
 }

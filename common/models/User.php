@@ -83,7 +83,8 @@ class User extends \yii\db\ActiveRecord
                     $model = $event->sender;
 
                     if ($model->scenario == self::SCENARIO_PASSWORD
-                        && ! empty($model->getOldAttributes('password'))) {
+                        && !empty($model->getOldAttributes('password'))
+                    ) {
                         return \Yii::$app->security->generatePasswordHash($model->password);
                     }
 
@@ -127,7 +128,7 @@ class User extends \yii\db\ActiveRecord
     public function scenarios()
     {/*{{{*/
         return [
-            self::SCENARIO_DEFAULT  => ['email', 'password'],
+            self::SCENARIO_DEFAULT => ['email', 'password'],
             self::SCENARIO_PASSWORD => ['password'],
             self::SCENARIO_THIRD_PARTY => ['email'],
             self::SCENARIO_NONE => [],
@@ -141,7 +142,7 @@ class User extends \yii\db\ActiveRecord
         return [
             'status' => [
                 self::STATUS_INACTIVE => '禁用',
-                self::STATUS_ACTIVE   => '启用',
+                self::STATUS_ACTIVE => '启用',
             ],
             'vip' => [
                 self::USER_NORMAL => '免费用户',
@@ -154,15 +155,15 @@ class User extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'                => 'ID',
-            'email'             => 'Email',
-            'password'          => 'Password',
-            'status'            => 'Status',
-            'last_use_time'     => '最后使用时间',
-            'vip_expired_at'    => '会员',
-            'svip_expired_at'   => '过期时间',
-            'created_at'        => '注册时间',
-            'updated_at'        => '更新时间',
+            'id' => 'ID',
+            'email' => 'Email',
+            'password' => 'Password',
+            'status' => 'Status',
+            'last_use_time' => '最后使用时间',
+            'vip_expired_at' => '会员',
+            'svip_expired_at' => '过期时间',
+            'created_at' => '注册时间',
+            'updated_at' => '更新时间',
         ];
     }
 
@@ -170,7 +171,8 @@ class User extends \yii\db\ActiveRecord
      * @param $id
      * @return int
      */
-    public static function updateLastUseTime($id){
+    public static function updateLastUseTime($id)
+    {
 
         $model = self::findOne($id);
 
@@ -206,7 +208,7 @@ class User extends \yii\db\ActiveRecord
         if ($this->save()) {
 
             //过期用户所有密码登录token
-            return UserToken::updateAll(['expired_at' => time()-1], [
+            return UserToken::updateAll(['expired_at' => time() - 1], [
                 'user_id' => $this->id,
                 'platform' => UserToken::PLATFORM_EMAIL
             ]);
@@ -228,7 +230,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function isVip()
     {
-        return $this->svip_expired_at<time() && $this->vip_expired_at>time();
+        return $this->svip_expired_at < time() && $this->vip_expired_at > time();
     }
 
     /**
@@ -236,7 +238,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function isNormalUser()
     {
-        return $this->svip_expired_at<time() && $this->vip_expired_at<time();
+        return $this->svip_expired_at < time() && $this->vip_expired_at < time();
     }
 
     /**
@@ -250,7 +252,8 @@ class User extends \yii\db\ActiveRecord
     /**
      * @return int|string
      */
-    public static function getUserTotal() {
+    public static function getUserTotal()
+    {
 
         return static::find()->count();
     }
@@ -292,11 +295,14 @@ class User extends \yii\db\ActiveRecord
         return parent::delete();
     }
 
-    public static function getUserIds(){
+    public static function getUserIds()
+    {
 
-        return self::find()->select('id')->column();
+        return UserToken::kv('user_id', 'registration_id', function ($query) {
+            $query->where(['id' => self::find()->select('id')->column()])->andWhere(['>', 'expired_at', time()])->andWhere(['not', ['registration_id' => null]]);
+        });
+
     }
+
 }
-
-
 ?>
