@@ -26,8 +26,8 @@ class UmUserAdapter extends \yii\base\Model
     public function rules()
     {
         return [
-            [['accessToken', 'expiration', 'iconURL', 'platform', 'name', 'uid', 'device', 'deviceName','registrationID'], 'required'],
-            [['accessToken', 'expiration', 'iconURL', 'name', 'uid', 'device', 'deviceName','registrationID'], 'string'],
+            [['accessToken', 'expiration', 'iconURL', 'platform', 'uid','registrationID'], 'required'],
+            [['accessToken', 'expiration', 'iconURL',  'uid', 'registrationID'], 'string'],
             [['gender', 'platform', 'type'], 'integer'],
             ['type', 'default', 'value' => UserToken::TYPE_PHONE],
         ];
@@ -46,9 +46,6 @@ class UmUserAdapter extends \yii\base\Model
             'nickname'         => $this->name,
             'avatar'           => $this->iconURL,
             'gender'           => $this->gender,
-            'device'           => $this->device,
-            'name'             => $this->deviceName,
-            'type'             => $this->type,
             'registration_id'  => $this->registrationID
         ];
 

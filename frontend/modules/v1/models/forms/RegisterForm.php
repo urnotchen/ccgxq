@@ -2,6 +2,7 @@
 
 namespace frontend\modules\v1\models\forms;
 
+use frontend\models\User;
 use frontend\modules\v1\models\UserToken;
 
 class RegisterForm extends \yii\base\Model
@@ -23,11 +24,9 @@ class RegisterForm extends \yii\base\Model
     public function rules()
     {
         return [
-            [['email', 'password', 'device','registrationID', 'name'], 'required'],
-            [['device', 'name', 'nickname','registrationID'], 'string'],
-            ['type', 'integer'],
-            ['type', 'default', 'value' => UserToken::TYPE_PHONE],
-            ['email', 'email'],
+//            [['email', 'password','registrationID'], 'required'],
+            [['device', 'name', 'nickname','registrationID'], 'safe'],
+            ['email', 'validateEmail'],
 
             # length
             ['password', 'string', 'max' => 255],
@@ -65,6 +64,19 @@ class RegisterForm extends \yii\base\Model
         return $this->toFilterArray([
             'nickname',
         ]);
+    }
+
+    public function validateEmail($attr, $params)
+    {
+
+        if (User::findOne(['email' => $this->email])) {
+            throw new \yii\web\HttpException(
+                401,
+                '邮箱已被注册',
+                \common\components\ValidateErrorCode::EMAIL_NOT_UNIQUE
+            );
+
+        }
     }
 
 }

@@ -72,7 +72,7 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
      * @param int $expiration
      * @return UserToken
      */
-    public function generateToken($device, $name, $type,$registrationID, $expiration = 0)
+    public function generateToken($registrationID, $expiration = 0)
     {
 
         $timestamp = time();
@@ -84,9 +84,6 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
         $token->setAttributes([
             'user_id'   => $this->id,
             'expired_at' => $timestamp + $expiration,
-            'device' => $device,
-            'name' => $name,
-            'type' => $type,
             'registration_id' => $registrationID
         ]);
         $token->save();
@@ -101,7 +98,7 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
      * @param int $expiration
      * @return UserToken
      */
-    public function updateToken($device, $name, $type,$registrationID, $expiration = 0)
+    public function updateToken($registrationID, $expiration = 0)
     {
 
         $expiration = $expiration > 0 ? $expiration : 60 * 60 * 24 * 30;
@@ -109,19 +106,16 @@ class User extends \frontend\models\User implements \yii\filters\RateLimitInterf
         $token = UserToken::getInstance([
             'user_id'       => $this->id,
             'platform'      => UserToken::PLATFORM_EMAIL,
-            'device'        => $device,
-            'type'          => $type,
+
         ]);
         if ($token->isNewRecord){
 
-            return $this->generateToken($device, $name, $type,$registrationID);
+            return $this->generateToken($registrationID);
         }else{
             $token->scenario = UserToken::SCENARIO_LOGIN_EMAIL;
 
             $token->access_token = UserToken::generateAccessToken();
             $token->expired_at = time() + $expiration;
-            $token->name = $name;
-            $token->type = $type;
             $token->registration_id = $registrationID;
             $token->save();
 

@@ -43,7 +43,6 @@ class UserService extends \common\services\BizService
         $userToken = UserToken::getInstance([
             'platform'      => $adapter->getUserAttr('platform'),
             'open_id'       => $adapter->getUserAttr('open_id'),
-            'device'        => $adapter->getUserAttr('device'),
         ]);
 
         if ($userExist->isNewRecord) {
@@ -173,7 +172,7 @@ class UserService extends \common\services\BizService
             # 更新用户最后登陆时间
             User::updateLastUseTime($user->id);
 
-            $userToken = $user->updateToken($form->device, $form->name, $form->type,$form->registrationID);
+            $userToken = $user->updateToken($form->registrationID);
 
             $transaction->commit();
 

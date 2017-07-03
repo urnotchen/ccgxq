@@ -37,11 +37,14 @@ class TokenCache extends \yii\base\Object
     {
         $token = Yii::$app->security->generateRandomString(32);
 
-        $this->_cache->set(
-            $this->buildCacheKey($user->id),
-            $token,
-            $this->_timeAlive
-        );
+        $key = $this->buildCacheKey($user->id);
+        $this->_cache->set($key,$token);
+        $this->_cache->expire($key,$this->_timeAlive);
+//        $this->_cache->set(
+//            $this->buildCacheKey($user->id),
+//            $token,
+//            $this->_timeAlive
+//        );
 
         return $token;
     }
@@ -68,8 +71,7 @@ class TokenCache extends \yii\base\Object
 
     public function delToken($user)
     {
-
-        return $this->_cache->delete($this->buildCacheKey($user->id));
+        return $this->_cache->del($this->buildCacheKey($user->id));
     }
 }
 

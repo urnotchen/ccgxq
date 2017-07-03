@@ -156,4 +156,7 @@ class ValidateErrorCode
     # token 过期
     const TOKEN_EXPIRED             = 62;
 
+    const EMAIL_NOT_UNIQUE         = 65;
+
+
 }

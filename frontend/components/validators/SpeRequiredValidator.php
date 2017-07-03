@@ -16,15 +16,27 @@ class SpeRequiredValidator extends \yii\validators\RequiredValidator
     {/*{{{*/
         \yii\validators\Validator::init();
 
-        $res = self::validate($this);
-        //如果为空 就抛出异常
-        if (!$res) {
+//        $res = self::validate($this);
+//        //如果为空 就抛出异常
+//        if (!$res) {
+//            throw new \yii\web\HttpException(
+//                401,
+//                '用户密码不匹配',
+//                \common\components\ValidateErrorCode::PASSWORD_NOT_MATCH
+//            );
+//        }
+    }/*}}}*/
+
+    public function validateAttribute($model, $attribute)
+    {
+        $result = $this->validateValue($model->$attribute);
+        if (!empty($result)) {
             throw new \yii\web\HttpException(
                 401,
                 '用户密码不匹配',
                 \common\components\ValidateErrorCode::PASSWORD_NOT_MATCH
             );
         }
-    }/*}}}*/
+    }
 
 }

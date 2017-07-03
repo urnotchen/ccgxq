@@ -54,14 +54,14 @@ class UserToken extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['open_id', 'access_token','registration_id', 'device'], 'string'],
-            [['user_id', 'platform', 'expired_at', 'type'], 'integer'],
+            [['open_id', 'access_token','registration_id'], 'string'],
+            [['user_id', 'platform', 'expired_at'], 'integer'],
 
             ['open_id', 'required', 'on' => self::SCENARIO_LOGIN_THIRD_PARTY],
             ['access_token', 'default', 'value' => self::generateAccessToken(), 'on' => self::SCENARIO_LOGIN_EMAIL],
             ['platform', 'default', 'value' => self::PLATFORM_EMAIL, 'on' => self::SCENARIO_LOGIN_EMAIL],
 
-            [['user_id', 'platform', 'expired_at', 'access_token', 'device'], 'required'],
+            [['user_id', 'platform', 'expired_at', 'access_token'], 'required'],
         ];
     }
 
@@ -70,9 +70,9 @@ class UserToken extends \yii\db\ActiveRecord
         return [
             self::SCENARIO_DEFAULT  => [],
             self::SCENARIO_LOGIN_EMAIL =>
-                ['user_id', 'expired_at','registration_id', 'access_token', 'platform', 'device', 'name', 'type'],
+                ['user_id', 'expired_at','registration_id', 'access_token', 'platform'],
             self::SCENARIO_LOGIN_THIRD_PARTY =>
-                ['user_id', 'expired_at','registration_id', 'access_token', 'platform', 'device', 'name', 'type', 'open_id']
+                ['user_id', 'expired_at','registration_id', 'access_token', 'platform', 'open_id']
         ];
     }
 

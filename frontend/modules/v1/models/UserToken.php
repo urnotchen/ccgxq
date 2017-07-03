@@ -11,7 +11,7 @@ class UserToken extends \frontend\models\UserToken
     public function fields()
     {
         return [
-            'platform', 'open_id', 'access_token', 'expired_at', 'device', 'name', 'updated_at'
+            'platform', 'open_id', 'access_token', 'expired_at', 'updated_at'
         ];
     }
 

@@ -22,10 +22,8 @@ class LoginForm extends \yii\base\Model
     {
         return [
 //            [['email', 'password', 'device','registrationID', 'name'], 'spe_required'],
-            [['email', 'password', 'device','registrationID', 'name'], 'required'],
-            [['email', 'password', 'device', 'registrationID','name'], 'string'],
-            ['type', 'integer'],
-            ['type', 'default', 'value' => UserToken::TYPE_PHONE],
+//            [['email', 'password', 'device','registrationID', 'name'], 'required'],
+//            [['email', 'password','registrationID'], 'string'],
 
             ['email', 'validateEmail'],
             ['password', 'validatePassword']

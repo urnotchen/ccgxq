@@ -22,14 +22,12 @@ class UserPasswordForm extends \yii\base\Model
 
     public function validatePassword($attr, $params)
     {
-        if ($this->hasErrors()) {
-
-            return false;
-        }
-
-        if (! $this->getUser()->validatePassword($this->password)) {
-
-            $this->addError($attr, \common\components\ValidateErrorCode::PASSWORD_NOT_MATCH);
+        if (! $this->_user->validatePassword($this->password)) {
+            throw new \yii\web\HttpException(
+                401,
+                '用户密码不匹配',
+                \common\components\ValidateErrorCode::PASSWORD_NOT_MATCH
+            );
         }
     }
 
