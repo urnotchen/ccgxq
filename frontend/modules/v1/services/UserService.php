@@ -214,6 +214,7 @@ class UserService extends \common\services\BizService
                 . "（这是一封系统邮件，请勿回复）</p>";
 
             Yii::$app->blueliveMailer->sendEmail(
+//            Yii::$app->mailer->sendEmail(
                 '找回密码验证码',
                 sprintf($template, $captcha),
                 [$user->email]

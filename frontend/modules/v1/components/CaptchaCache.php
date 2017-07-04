@@ -63,7 +63,7 @@ class CaptchaCache extends \yii\base\Object
 
         $key = $this->buildCaptchaCacheKey($user->id);
         $value = unserialize($this->_cache->get($key));
-return $value;
+//return $value;
         if (empty($value)) {
 
             throw new \yii\web\HttpException(

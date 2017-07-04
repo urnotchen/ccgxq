@@ -11,9 +11,9 @@ return [
         'dbUser' => [
             'class'    => 'yii\db\Connection',
         ],
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-        ],
+//        'mailer' => [
+//            'class' => 'yii\swiftmailer\Mailer',
+//        ],
         'blueliveMailer' => [
             'class' => 'common\components\BlueliveMailer',
         ],
@@ -48,6 +48,24 @@ return [
                     'logTable' => 'log',
                     'levels' => ['error', 'warning'],
                 ]
+            ],
+        ],
+        'mailer' => [
+            'class' => 'common\components\Mailer',
+            'useFileTransport' =>false,//这句一定有，false发送邮件，true只是生成邮件在runtime文件夹下，不发邮件
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'constructArgs' => ['smtp.ym.163.com', 25],
+                'host' => 'smtp.ym.163.com',  //每种邮箱的host配置不一样
+                'username' => 'developer@bluelive.cn',
+                'password' => 'lgdev!@#',
+//            'port' => '25',
+//            'encryption' => 'tls',
+
+            ],
+            'messageConfig'=>[
+                'charset'=>'UTF-8',
+                'from'=>['developer@bluelive.cn'=>'看啥电影']
             ],
         ],
     ],
