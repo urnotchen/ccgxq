@@ -72,7 +72,7 @@ class UmUserAdapter extends \yii\base\Model
 
         if (! in_array($thirdParty, $platforms)) {
             throw new \yii\web\HttpException(
-                400, 'unsupported third party',
+                401, 'unsupported third party',
                 \common\components\ResponseCode::SOCIAL_LOGIN_UNSUPPORTED_THIRD_PARTY
             );
         }

@@ -2,6 +2,7 @@
 
 namespace frontend\modules\v1\models\forms;
 
+use common\components\ValidateErrorCode;
 use frontend\modules\v1\models\User;
 
 
@@ -27,15 +28,18 @@ class ResetPasswordForm extends \yii\base\Model
 
     public function validateEmail($attr, $params)
     {
-        if ($this->hasErrors()){
-            return false;
-        }
+//        if ($this->hasErrors()){
+//            return false;
+//        }
 
         $user = User::findOne(['email' => $this->email]);
 
         if (empty($user)) {
-            $this->addError($attr, \common\components\ValidateErrorCode::EMAIL_NOT_REGISTERED);
-            return false;
+            throw new \yii\web\HttpException(
+                400, '邮箱未注册',
+                ValidateErrorCode::EMAIL_NOT_REGISTERED
+            );
+
         }
 
         $this->_user = $user;

@@ -19,7 +19,7 @@ class SendRePwdCaptForm extends \yii\base\Model
         return [
             ['email', 'required'],
             ['email', 'string', 'max' => 255],
-            ['email', 'email'],
+//            ['email', 'email'],
 
             ['email', 'validateEmail'],
         ];
@@ -27,15 +27,19 @@ class SendRePwdCaptForm extends \yii\base\Model
 
     public function validateEmail($attr, $params)
     {
-        if ($this->hasErrors()){
-            return false;
-        }
+//        if ($this->hasErrors()){
+//            return false;
+//        }
 
         $user = User::findOne(['email' => $this->email]);
 
         if (empty($user)) {
-            $this->addError($attr, \common\components\ValidateErrorCode::EMAIL_NOT_REGISTERED);
-            return false;
+//            $this->addError($attr, \common\components\ValidateErrorCode::EMAIL_NOT_REGISTERED);
+//            return false;
+            throw new \yii\web\HttpException(
+                400, '邮箱未注册',
+                \common\components\ValidateErrorCode::EMAIL_NOT_REGISTERED
+            );
         }
 
         $this->_user = $user;

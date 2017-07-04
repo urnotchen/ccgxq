@@ -61,5 +61,11 @@ class JPush extends Object{
         }
     }
 
+    public function report($msgId){
 
+        $report = $this->getClient()->report();
+
+        return $report->getReceived($msgId);
+
+    }
 }

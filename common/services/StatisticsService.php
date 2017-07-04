@@ -56,4 +56,16 @@ class StatisticsService extends BizService{
 
     }
 
+    public function buildDailyStatKey($dayTimestamp){
+
+        return "dau_".$dayTimestamp;
+
+    }
+
+    public function getDailyCount(){
+
+        return \Yii::$app->redis->get($this->buildDailyStatKey(strtotime(date("Y-m-d"))));
+
+    }
+
 }
