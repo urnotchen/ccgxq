@@ -11,9 +11,10 @@ class m170705_034860_drop_table_user_profile_token extends Migration
 
     public function up()
     {
-        $this->dropTable($this->tableUserName);
         $this->dropTable($this->tableTokenName);
         $this->dropTable($this->tableProfileName);
+        $this->dropTable($this->tableUserName);
+
     }
 
     public function down()
