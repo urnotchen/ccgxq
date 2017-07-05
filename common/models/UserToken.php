@@ -141,7 +141,7 @@ class UserToken extends \yii\db\ActiveRecord
 
     public static function tokenExpired($token){
 
-         self::updateAll(['expired_at' => time() - 1], [
+         return self::updateAll(['expired_at' => time() - 1], [
             'access_token' => $token
         ]);
 
