@@ -139,6 +139,13 @@ class UserToken extends \yii\db\ActiveRecord
         return $this->type == self::TYPE_PHONE;
     }
 
+    public static function tokenExpired($token){
+
+         self::updateAll(['expired_at' => time() - 1], [
+            'access_token' => $token
+        ]);
+
+    }
 }
 
 

@@ -14,7 +14,7 @@ class UserController extends \frontend\components\rest\Controller
         $inherit = parent::behaviors();
 
         $inherit['authenticator']['only'] = [
-            'change-details', 'request-change-password', 'change-password', 'view', 'ping'
+            'change-details', 'request-change-password', 'change-password', 'view', 'ping','logout'
         ];
         $inherit['authenticator']['authMethods'] = [
             \frontend\modules\v1\components\AccessTokenAuth::className(),
@@ -65,6 +65,13 @@ class UserController extends \frontend\components\rest\Controller
         $rawParams = Yii::$app->getRequest()->post();
 
         return $this->getService()->loginViaBasic($rawParams);
+    }
+
+    public function actionLogout(){
+
+
+
+        return $this->getService()->logout($_SERVER['HTTP_ACCESS_TOKEN']);
     }
 
     /**

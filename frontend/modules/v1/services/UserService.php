@@ -2,6 +2,7 @@
 
 namespace frontend\modules\v1\services;
 
+use common\components\ValidateErrorCode;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\db\Exception as DbException;
@@ -16,6 +17,7 @@ use frontend\modules\v1\models\UserToken;
 use frontend\modules\v1\models\forms\LoginForm;
 use frontend\modules\v1\models\forms\RegisterForm;
 use frontend\modules\v1\models\forms\UmUserAdapter;
+use yii\httpclient\Exception;
 
 
 class UserService extends \common\services\BizService
@@ -191,6 +193,19 @@ class UserService extends \common\services\BizService
         return $response;
     }
 
+    public function logout($token){
+
+
+        $res = UserToken::tokenExpired($token);
+        if($res){
+            return True;
+        }
+        throw new \yii\web\HttpException(
+            401,
+            '更新失败',
+            \common\components\ResponseCode::UNKNOWN_ERROR
+        );
+    }
     /**
      * @param $rawParams
      * @return array
