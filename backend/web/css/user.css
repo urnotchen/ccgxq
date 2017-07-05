@@ -1,0 +1,60 @@
+.purchase-data_range {
+    padding-left: 15px;
+}
+
+.select2-selection__rendered {
+    padding-top: 5px!important;
+}
+
+.user-name {
+    width: 108px;
+}
+
+.user-avatar {
+    width: 57px;
+    height: 57px;
+}
+
+.user-vip {
+    width: 250px;
+}
+
+.user-gender {
+    width: 80px;
+}
+
+.user-career {
+    width: 150px;
+}
+
+.user-device {
+    width: 250px;
+}
+
+.user-time {
+    width: 250px;
+}
+
+.user-operation {
+    width: 100px;
+}
+
+.purchase-name {
+    width: 108px;
+}
+
+.purchase-transaction {
+    width: 200px;
+}
+
+.purchase-product {
+    width: 120px;
+}
+
+.purchase-time {
+    width: 250px;
+}
+
+.purchase-operation {
+    width: 60px;
+}

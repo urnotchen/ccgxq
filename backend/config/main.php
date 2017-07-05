@@ -13,6 +13,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'language' => 'zh-CN',
+    'timeZone' => 'Asia/Shanghai',
     'modules' => [
         'movie' => [
             'class' => 'backend\modules\movie\Module',
@@ -50,18 +51,41 @@ return [
                 ],
             ],
         ],
-        'user' => [
-            'class' => 'dektrium\user\Module',
-//            'class' => 'backend\components\User',
-//            'identityClass' => 'dektrium\user\Models\User',
-//            'as backend' => 'dektrium\user\filters\BackendFilter',
-//            'loginUrl'        => '/user/security/login',
-            'enableUnconfirmedLogin' => true,
-//            'enableAutoLogin' => true,
-            'confirmWithin' => 21600,
-            'cost' => 12,
-            'admins' => ['admin']
+        'rights' => [
+            'class' => 'backend\modules\rights\Module',
+            'as access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return \Yii::$app->user->can(\backend\modules\rights\components\Rights::PERMISSION_RIGHTS_MANAGE);
+                        },
+                    ],
+                ],
+            ],
         ],
+        'stat' => [
+            'class' => 'backend\modules\stat\Module',
+            'as access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ],
+//        'user' => [
+//            'class' => 'dektrium\user\Module',
+//            'enableUnconfirmedLogin' => true,
+//            'confirmWithin' => 21600,
+//            'cost' => 12,
+//            'admins' => ['admin']
+//        ],
+
 
     ],
     'components' => [
@@ -144,6 +168,16 @@ return [
         ],
         'JPush' => [
             'class' => 'backend\components\JPush',
+        ],
+        'user' => [
+            'class'           => 'backend\components\User',
+            'identityClass'   => 'common\models\BaseUser',
+            'enableAutoLogin' => true,
+            'loginUrl'        => ['site/login'],
+            'identityCookie'  => [
+                'name'     => '_identity',
+                'httpOnly' => true,
+            ],
         ],
     ],
     'params' => $params,

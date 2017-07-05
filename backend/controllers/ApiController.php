@@ -8,11 +8,16 @@ use backend\models\FilmChoiceUser;
 use backend\models\FrontUser;
 use backend\models\Movie;
 use backend\models\MovieOnlineResource;
-use backend\models\StatDaily;
 use backend\models\UserToken;
 use backend\modules\movie\services\MovieListService;
 use common\helpers\DateHelper;
 use common\services\StatisticsService;
+
+use common\models\StatDaily;
+use common\models\StatWeekly;
+use common\models\StatMonthly;
+
+use backend\models\User;
 use Yii;
 
 /*}}}*/
@@ -35,7 +40,7 @@ class ApiController extends \yii\rest\Controller
             'rules' => [
                 [
                     'actions' => [
-                        'update-zhan','movie-resource','push','report','stat-daily'
+                        'update-zhan','movie-resource','push','report','stat-user'
                     ],
                     'allow' => true,
                     'roles' => ['@'],
@@ -123,7 +128,8 @@ class ApiController extends \yii\rest\Controller
         return $pushIds;
     }
 
-    public function actionStatDaily(){
+    //暂时不用 用分镜的统计
+    /*public function actionStatDaily(){
 
         //判断今天是1号?统计上个月的月活(落地) 今天是周一?统计上周周活(落地)
 
@@ -143,8 +149,8 @@ class ApiController extends \yii\rest\Controller
             //数据库里要是也没有 就不管了
 //        }
         //判断是不是1号
-    }
-
+    }*/
+/*
     public function statWeekly(){
 
         $size = FrontUser::find()->max('id');
@@ -180,6 +186,127 @@ class ApiController extends \yii\rest\Controller
 
         return $statWeekly->save();
 
+    }*/
+
+    /**
+     * 每日统计
+     *
+     * @return bool
+     */
+    public function actionStatUser()
+    {
+//        Header::validateStat();
+
+        $today = Yii::$app->dateFormat->getTodayTimestamp();
+        $count = Yii::$app->redis->bitcount(StatDaily::buildDailyStatKey());
+
+        $statDaily = StatDaily::getInstance(['day' => $today]);
+        $statDaily->day = $today;
+        $statDaily->count = $count;
+        $statDaily->daily = Yii::$app->redis->get(StatDaily::buildDailyStatKey());
+        $statDaily->save();
+
+        $this->statWeekly();
+        $this->statMonthly();
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function statWeekly()
+    {
+        $size = User::find()->max('id');
+        $thisWeek = Yii::$app->dateFormat->getThisWeekTimestamp();
+        $weekDay = date('N');
+        $weekCount = 0;
+
+        for ($i=1; $i<=$size; ++$i) {
+            $count = 0;
+
+            for ($j=0; $j<$weekDay; ++$j) {
+                $key = StatDaily::buildDailyStatKey($thisWeek + StatDaily::DAY*$j);
+                $count += Yii::$app->redis->getbit($key, $i);
+
+                //每周登录两天为周活
+                if ($count >= 2) {
+                    $weekCount += 1;
+
+                    //本用户统计完成退出循环
+                    break;
+                }
+            }
+        }
+
+        $statWeekly = StatWeekly::getInstance(['week' => $thisWeek]);
+        $statWeekly->week = $thisWeek;
+        $statWeekly->count = $weekCount;
+
+        return $statWeekly->save();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function statMonthly()
+    {
+        $monthDay = date('j');
+        //当前月活统计方式每月前10天不会产生月活用户
+        if ($monthDay < 10) {
+
+            return true;
+        }
+
+        $size = User::find()->max('id');
+        $thisMonth = Yii::$app->dateFormat->getThisMonthTimestamp();
+
+        $monthCount = 0;
+
+        for ($i=1; $i<=$size; ++$i) {
+            $count = 0;
+            $interval = 0;
+            $rest = 0;
+
+            for ($j=0; $j<$monthDay; ++$j) {
+                $key = StatDaily::buildDailyStatKey($thisMonth + StatDaily::DAY*$j);
+                $dayStatus = Yii::$app->redis->getbit($key, $i);
+
+                if ($dayStatus) {
+                    $count += $dayStatus;
+
+                    if ($interval >= 7) {
+                        //剩余登陆日累加
+                        if ($count >= 2) {
+
+                            $rest += 1;
+                        }
+
+                        //剩余登陆日大于等于2 总登陆日大于等于4则为月活用户
+                        if ($rest>=2 && $count>=4) {
+                            $monthCount += 1;
+
+                            break;
+                        }
+                    }
+
+                    //从第一个登陆日开始累加间隔直到间隔为7
+                    $interval =+ 1;
+                } else {
+                    //从第一个登陆日开始累加间隔直到间隔为7
+                    if ($count >= 1) {
+
+                        $interval += 1;
+                    }
+                }
+            }
+        }
+
+        $statMonthly = StatMonthly::getInstance(['month' => $thisMonth]);
+        $statMonthly->month = $thisMonth;
+        $statMonthly->count = $monthCount;
+
+        return $statMonthly->save();
     }
 
     public function statComment(){

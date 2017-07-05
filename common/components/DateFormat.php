@@ -133,6 +133,34 @@ class DateFormat extends \yii\base\Object
         }
     }
 
+    public function humanReadable3($timestamp)
+    {
+        if (empty($timestamp)) return null;
+
+        $dayTimestamp = 60 * 60 * 24;
+        $todayTimestamp = $this->getTodayTimestamp();
+        $thisYear = $this->getThisYearTimestamp();
+        $nextYear = $this->getNextYearTimestamp();
+        $tomorrowTimestamp = $todayTimestamp + $dayTimestamp;
+
+        if ($timestamp < $thisYear || $timestamp > $nextYear) {
+            return date('Y-m-d H:i', $timestamp);
+        } elseif ($timestamp < $todayTimestamp || $timestamp >= $tomorrowTimestamp) {
+            return date('m月d日 H:i', $timestamp);
+        } else {
+            $seconds = time() - $timestamp;
+            if($seconds >= 0){
+                if($seconds < 60){
+                    return '刚刚';
+                }else if($seconds < 3600) {
+                    $minutes = round($seconds / 60);
+                    return $minutes . '分钟前';
+                }
+            }
+            return '今天 ' . date('H:i', $timestamp);
+        }
+    }
+
     public static function getDayBeginByTimestamp($timestamp = null)
     {
         return strtotime(date('Y-m-d', $timestamp));

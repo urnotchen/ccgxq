@@ -1,10 +1,8 @@
 <?php
 
 namespace backend\controllers;
-use backend\models\MovieIndex;
-use backend\modules\movie\models\FilmRecommend;
-use common\models\MovieDisk;
-use frontend\modules\v1\models\FilmRecommendUser;
+use Yii;
+use backend\models\forms\LoginForm;
 
 /**
  * Class SiteController
@@ -22,9 +20,9 @@ class SiteController extends \yii\web\Controller
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['error','test'],
+                        'actions' => ['login', 'error'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['?','@'],
                     ],
                     [
                         'actions' => ['logout', 'index'],
@@ -89,4 +87,25 @@ class SiteController extends \yii\web\Controller
         var_dump(\Yii::$app->JPush->send());
 
     }
+
+    public function actionLogin()
+    {/*{{{*/
+
+        Yii::$app->getUser()->setReturnUrl(Yii::$app->getRequest()->get('return_url', ['/site/index']));
+
+        if (!\Yii::$app->user->isGuest) {
+            $this->goBack();
+        }
+
+        $model = new LoginForm;
+
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $this->goBack();
+        }
+
+        return $this->render('login', [
+            'model' => $model,
+        ]);
+
+    }/*}}}*/
 }

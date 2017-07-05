@@ -1,11 +1,12 @@
 <?php
 
-namespace backend\modules\setting;
+namespace backend\modules\stat;
 
+use Yii;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'backend\modules\setting\controllers';
+    public $controllerNamespace = 'backend\modules\stat\controllers';
 
     public function init()
     {
@@ -15,31 +16,21 @@ class Module extends \yii\base\Module
         $this->on(\yii\base\Module::EVENT_BEFORE_ACTION, [$this, 'handleSidebarItems']);
 
         \yii\base\Event::on(\yii\web\View::className(), \yii\web\View::EVENT_END_BODY, function ($event) {
-//            \backend\assets\AppAsset::addPageCss($event->sender, '/css/movie.css');
-            \backend\assets\AppAsset::addPageCss($event->sender, '/css/feedback.css');
-            \backend\assets\AppAsset::addPageScript($event->sender, '/js/feedback.js');
-            \backend\assets\AppAsset::addPageCss($event->sender, '/css/setting.css');
-            \backend\assets\AppAsset::addPageScript($event->sender, '/js/setting.js');
-
+//            \backend\assets\AppAsset::addPageCss($event->sender, '/css/stat.css');
+//            \backend\assets\AppAsset::addPageScript($event->sender, '/js/stat.js');
         });
     }
 
     protected function handleSidebarItems($event)
     {
-        $items = \Yii::$app->sidebarItems->getItems();
+        $items = Yii::$app->sidebarItems->getItems();
 
-        $items[] = $this->prepareItem('用户协议', 'misc','policy');
+        $items[] = $this->prepareItem('活跃用户', 'stat');
 
-        $items[] = $this->prepareItem('管理员列表', 'user');
-
-        $items[] = $this->prepareItem('反馈列表', 'feedback');
-
-        $items[] = $this->prepareItem('APP版本', 'app-version');
-
-        \Yii::$app->sidebarItems->setItems($items);
+        Yii::$app->sidebarItems->setItems($items);
     }
 
-    protected function prepareItem($tag, $controller, $action = 'index', $module = 'setting', $icon = 'fa-circle-o')
+    protected function prepareItem($tag, $controller, $action = 'index', $module = 'stat', $icon = 'fa-circle-o')
     {
         return [
             'label' => "<i class='fa {$icon}'></i> <span> {$tag}</span>",

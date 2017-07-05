@@ -3,8 +3,8 @@
 namespace backend\modules\statistics\controllers;
 
 use Yii;
-use app\modules\statistics\models\StatDaily;
-use app\modules\statistics\models\search\StatDailySearch;
+use backend\modules\statistics\models\StatDaily;
+use backend\modules\statistics\models\search\StatDailySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
