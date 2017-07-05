@@ -6,7 +6,7 @@ use yii\db\Migration;
 class m170705_105809_create_table_user extends Migration
 {
 
-    public $tableName = '{{user}}';
+    public $tableName = 'user';
     public $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB comment "系统用户"';
 
     public function safeUp()
@@ -40,8 +40,8 @@ class m170705_105809_create_table_user extends Migration
         $this->createIndex('unique_user_username', $this->tableName, 'username', true);
         $this->createIndex('unique_user_email', $this->tableName, 'email', true);
         $user = <<<SQL
-INSERT INTO `douban`.`user` (`id`, `role_id`, `username`, `email`, `avatar`, `real_name`, `qq`, `alipay`, `mark`, `password`, `auth_key`, `password_reset_token`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES ('1', NULL, 'chenxi', '3463292245@qq.com', 'http://ww3.sinaimg.cn/mw690/65bd3bd8jw1f4s5rp37k1j20280253yf.jpg', '陈曦', '3463292245', '22', 'languo', '', 'kChi9UGYeo-6KAVBbkVEEXiT2SzOOyrY', NULL, '1', '1465693079', '0', '1482990185', '0');
-INSERT INTO `douban`.`user` (`id`, `role_id`, `username`, `email`, `avatar`, `real_name`, `qq`, `alipay`, `mark`, `password`, `auth_key`, `password_reset_token`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES ('2', NULL, 'moby', 'guu789@163.com', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSOUuRnFcejlasb15DsqbR664Y6sawzZZx0A25qLREUo-BqmgZqE-gFIZQ', '莫比', '', '', 'moby', '', 'LUm6VkYB3aosmQ99u_NERjCzNB-0zcnU', NULL, '1', '1499242418', '1', '1499242418', '1');
+INSERT INTO `cmovie`.`user` (`id`, `role_id`, `username`, `email`, `avatar`, `real_name`, `qq`, `alipay`, `mark`, `password`, `auth_key`, `password_reset_token`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES ('1', NULL, 'chenxi', '3463292245@qq.com', 'http://ww3.sinaimg.cn/mw690/65bd3bd8jw1f4s5rp37k1j20280253yf.jpg', '陈曦', '3463292245', '22', 'languo', '', 'kChi9UGYeo-6KAVBbkVEEXiT2SzOOyrY', NULL, '1', '1465693079', '0', '1482990185', '0');
+INSERT INTO `cmovie`.`user` (`id`, `role_id`, `username`, `email`, `avatar`, `real_name`, `qq`, `alipay`, `mark`, `password`, `auth_key`, `password_reset_token`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES ('2', NULL, 'moby', 'guu789@163.com', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSOUuRnFcejlasb15DsqbR664Y6sawzZZx0A25qLREUo-BqmgZqE-gFIZQ', '莫比', '', '', 'moby', '', 'LUm6VkYB3aosmQ99u_NERjCzNB-0zcnU', NULL, '1', '1499242418', '1', '1499242418', '1');
 SQL;
         \Yii::$app->db->createCommand($user)->query();
 
