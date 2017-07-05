@@ -7,13 +7,13 @@ use Yii;
 class User extends \yii\web\User
 {
     public $loginUrl = '/user/security/login';
-    public function loginRequired($checkAjax = true, $checkAcceptHeader = true)
-    {
-
-        $this->loginUrl .= '?return_url=' . Yii::$app->getRequest()->getAbsoluteUrl();
-
-        return parent::loginRequired($checkAjax, $checkAcceptHeader);
-    }
+//    public function loginRequired($checkAjax = true, $checkAcceptHeader = true)
+//    {
+//
+//        $this->loginUrl .= '?return_url=' . Yii::$app->getRequest()->getAbsoluteUrl();
+//
+//        return parent::loginRequired($checkAjax, $checkAcceptHeader);
+//    }
 
     /**
      * 验证账号是否被禁用
@@ -30,6 +30,10 @@ class User extends \yii\web\User
         }
 
         return false;
+    }
+
+    public function getEmail(){
+        return 'ss';
     }
 
 }

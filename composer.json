@@ -26,6 +26,8 @@
         "blue-components/yii2-components": "dev-master",
         "blue-components/shell-scripts": "dev-master",
         "kartik-v/yii2-widget-datepicker": "@dev",
+        "kartik-v/yii2-widget-select2": "@dev",
+        "kartik-v/yii2-date-range": "dev-master",
         "xj/yii2-ueditor-widget": "1.0.10",
         "dektrium/yii2-user": "^0.9.12",
         "jpush/jpush": "v3.5.*"

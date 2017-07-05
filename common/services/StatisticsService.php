@@ -21,8 +21,8 @@ class StatisticsService extends BizService{
         $weekTimestamp = strtotime(date('Y-m-d',($now-((date('w',$now)==0?7:date('w',$now))-1)*24*3600)));
         $monthTimestamp = strtotime(date("Y-m-1",$now));
         //日活
-        \Yii::$app->redis->setbit("dau_".$dayTimestamp,$userId,1);
-        \Yii::$app->redis->expire("dau_".$dayTimestamp,self::DAY * 32);
+        \Yii::$app->redis->setbit($this->buildDailyStatKey($dayTimestamp),$userId,1);
+        \Yii::$app->redis->expire($this->buildDailyStatKey($dayTimestamp),self::DAY * 32);
         //月活和周活根据日活记录
         //周活
 //        \Yii::$app->redis->setbit("wau_".$weekTimestamp,$userId,1);
@@ -59,12 +59,32 @@ class StatisticsService extends BizService{
     public function buildDailyStatKey($dayTimestamp){
 
         return "dau_".$dayTimestamp;
+    }
+
+    public function buildDailyCommentKey($dayTimestamp){
+
+        return "comment_".$dayTimestamp;
+    }
+
+    public function getDailyCountStr($timestamp){
+
+        return \Yii::$app->redis->get($this->buildDailyStatKey($timestamp));
+
+    }
+    public function getDailyCount($timestamp){
+
+        return \Yii::$app->redis->bitcount($this->buildDailyStatKey($timestamp));
 
     }
 
-    public function getDailyCount(){
+    public function getDailyCommentCountStr($timestamp){
 
-        return \Yii::$app->redis->get($this->buildDailyStatKey(strtotime(date("Y-m-d"))));
+        return \Yii::$app->redis->get($this->buildDailyCommentKey($timestamp));
+
+    }
+    public function getDailyCommentCount($timestamp){
+
+        return \Yii::$app->redis->bitcount($this->buildDailyCommentKey($timestamp));
 
     }
 

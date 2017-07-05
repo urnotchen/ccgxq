@@ -23,10 +23,10 @@ class BaseUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
 
     const STATUS_INACTIVE = 0, STATUS_ACTIVE = 1;
 
-    public static function getDb()
-    {
-        return \Yii::$app->dbUser;
-    }
+//    public static function getDb()
+//    {
+//        return \Yii::$app->dbUser;
+//    }
 
     public static function tableName()
     {
@@ -66,6 +66,32 @@ class BaseUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function getAuthKey()
     {
         return $this->auth_key;
+    }
+
+    public static function getBaseInfo($id)
+    {
+
+        $baseUser = self::findOne([
+            'id' => $id,
+        ]);
+
+        if(! empty($baseUser)) {
+            return (object)[
+                'id' => $baseUser->id,
+                'username' => $baseUser->username,
+                'real_name' => 'haha',
+                'avatar' => 'no',
+                'email' => 'email'
+            ];
+        } else {
+            return (object)[
+                'id' => '',
+                'name' => '',
+                'real_name' => '',
+                'avatar' => '',
+                'email' => ''
+            ];
+        }
     }
 
 }

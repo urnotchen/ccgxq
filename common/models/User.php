@@ -295,13 +295,23 @@ class User extends \yii\db\ActiveRecord
         return parent::delete();
     }
 
+    /*
+     * 获取user_id和registrationId (为推送使用)
+     * */
     public static function getUserIds()
     {
-
         return UserToken::kv('user_id', 'registration_id', function ($query) {
             $query->where(['id' => self::find()->select('id')->column()])->andWhere(['>', 'expired_at', time()])->andWhere(['not', ['registration_id' => null]]);
         });
 
+    }
+
+    /*
+     * 获取最大的用户id(为统计 redis 使用)
+     * */
+    public static function getMaxUserId(){
+
+        return self::find()->max('id');
     }
 
 }

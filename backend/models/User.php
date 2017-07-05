@@ -11,6 +11,6 @@ namespace backend\models;
 use common\models\BaseUser;
 use common\traits\KVTrait;
 
-class User extends BaseUser{
+class User extends \common\models\BaseUser{
     use KVTrait;
 }

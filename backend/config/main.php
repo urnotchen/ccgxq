@@ -38,7 +38,18 @@ return [
                 ],
             ],
         ],
-
+        'statistics' => [
+            'class' => 'backend\modules\statistics\Module',
+            'as access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ],
         'user' => [
             'class' => 'dektrium\user\Module',
 //            'class' => 'backend\components\User',

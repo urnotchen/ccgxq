@@ -25,9 +25,9 @@ class AppVersion extends \frontend\models\AppVersion
         if ($version > $this->version) {
 
             \Yii::$app->blueliveMailer->sendEmail(
-                "分镜版本错误",
+                "看啥电影版本错误",
                 "当前客户端版本高于服务器版本。",
-                ["2185136206@qq.com"]
+                ["3463292245@qq.com"]
             );
 
             $this->version = $version;
