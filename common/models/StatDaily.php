@@ -39,7 +39,7 @@ class StatDaily extends \yii\db\ActiveRecord
 
     public static function buildDailyStatKey($timestamp = -1)
     {
-        return "sb_dau_" . ($timestamp == -1 ? \Yii::$app->dateFormat->getTodayTimestamp() : $timestamp);
+        return "dau_" . ($timestamp == -1 ? \Yii::$app->dateFormat->getTodayTimestamp() : $timestamp);
     }
 
     /**

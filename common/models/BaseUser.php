@@ -231,4 +231,35 @@ class BaseUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         return static::find()->count();
     }
 
+
+    /**
+     * @param $id
+     * @return object
+     */
+    public static function getBaseInfo($id)
+    {
+
+        $baseUser = self::findOne([
+            'id' => $id,
+        ]);
+
+        if(! empty($baseUser)) {
+            return (object)[
+                'id' => $baseUser->id,
+                'username' => $baseUser->username,
+                'real_name' => $baseUser->real_name,
+                'avatar' => $baseUser->avatar,
+                'email' => $baseUser->email
+            ];
+        } else {
+            return (object)[
+                'id' => '',
+                'name' => '',
+                'real_name' => '',
+                'avatar' => '',
+                'email' => ''
+            ];
+        }
+    }
+
 }

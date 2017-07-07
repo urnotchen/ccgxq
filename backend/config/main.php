@@ -13,7 +13,6 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'language' => 'zh-CN',
-    'timeZone' => 'Asia/Shanghai',
     'modules' => [
         'movie' => [
             'class' => 'backend\modules\movie\Module',

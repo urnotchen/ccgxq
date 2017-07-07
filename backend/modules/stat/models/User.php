@@ -3,7 +3,7 @@
 namespace backend\modules\stat\models;
 
 
-class User extends \backend\models\User
+class User extends \backend\models\FrontUser
 {
     public static function getIncrementYesterday()
     {

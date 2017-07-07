@@ -130,6 +130,14 @@ class Movie extends \yii\db\ActiveRecord
 
         return $this->hasOne(FilmRecommend::className(),['movie_id' => 'id']);
     }
+
+    /*
+     * 获取电影表所有id
+     * */
+    public static function getIds(){
+
+        return self::find()->select('id')->column();
+    }
 }
 
 ?>

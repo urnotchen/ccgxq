@@ -24,4 +24,19 @@ class MovieOnlineResource extends \common\models\MovieOnlineResource{
             }
         }
     }
+
+    /*
+     * 获取只有资源没有豆瓣详情的电影Id列表
+     * return @params array
+     * */
+    public static function getNoMovieIds($beginAt,$endAt){
+
+        $beginAt = 0;
+        $endAt = time();
+        return self::find()
+            ->select('movie_id')
+            ->where(['between','created_at',$beginAt,$endAt - 1])
+            ->andWhere(['not',['movie_id' => Movie::getIds()]])
+            ->column();
+    }
 }

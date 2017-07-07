@@ -33,6 +33,12 @@ use yii\helpers\Html;
             ];
 
             $items[] = [
+                'text' => '统计',
+                'url' => ['/stat/stat/index'],
+                'activeModule' => 'stat',
+            ];
+
+            $items[] = [
                 'text' => '设置',
                 'url' => ['/setting/misc/policy'],
                 'activeModule' => 'setting',

@@ -25,7 +25,7 @@ class SiteController extends \yii\web\Controller
                         'roles' => ['?','@'],
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index','test'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -84,8 +84,8 @@ class SiteController extends \yii\web\Controller
 
 //        $weibo->posted_at >= time() - 6 * 60 * 60
 
-        var_dump(\Yii::$app->JPush->send());
-
+//        var_dump(\Yii::$app->JPush->send());
+        return strtotime(date("Y-m-d",time()));
     }
 
     public function actionLogin()

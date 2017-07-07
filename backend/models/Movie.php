@@ -20,6 +20,19 @@ class Movie extends \common\models\Movie
 
         return $res;
     }
+
+    /*
+     * 获取这三个月上映的新片 , 按上映的星期几获取
+     * */
+    public static function getMoiveIdsBy3Months($timestamp){
+
+        $weekDay = date("w",$timestamp);
+
+        return self::find()->select('id')
+            ->where(['>=','release_timestamp', $timestamp - 3 * 30 * 86400])
+            ->andWhere("from_unixtime(release_timestamp,'%w') = {$weekDay}")
+            ->column();
+    }
 }
 
 ?>

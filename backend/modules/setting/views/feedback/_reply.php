@@ -22,7 +22,7 @@
 
             foreach ($model->replies as $reply) {
                 $staff = $reply->is_sender ? null :
-                    \backend\modules\feedback\models\Staff::getBaseInfo($reply->created_by);
+                    \backend\modules\setting\models\Staff::getBaseInfo($reply->created_by);
 
                 $class = $reply->is_sender ? "direct-chat-msg" : "direct-chat-msg right";
                 $name = $reply->is_sender ? $userDetails->nickname : $staff->real_name;

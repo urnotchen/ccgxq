@@ -8,6 +8,7 @@ use backend\models\FilmChoiceUser;
 use backend\models\FrontUser;
 use backend\models\Movie;
 use backend\models\MovieOnlineResource;
+use backend\models\ScrapyUpdateProcess;
 use backend\models\UserToken;
 use backend\modules\movie\services\MovieListService;
 use common\helpers\DateHelper;
@@ -19,6 +20,7 @@ use common\models\StatMonthly;
 
 use backend\models\User;
 use Yii;
+use yii\db\Exception;
 
 /*}}}*/
 
@@ -40,7 +42,7 @@ class ApiController extends \yii\rest\Controller
             'rules' => [
                 [
                     'actions' => [
-                        'update-zhan','movie-resource','push','report','stat-user'
+                        'update-zhan','movie-resource','push','report','stat-user','scrapy-update'
                     ],
                     'allow' => true,
                     'roles' => ['@'],
@@ -200,6 +202,7 @@ class ApiController extends \yii\rest\Controller
         $today = Yii::$app->dateFormat->getTodayTimestamp();
         $count = Yii::$app->redis->bitcount(StatDaily::buildDailyStatKey());
 
+
         $statDaily = StatDaily::getInstance(['day' => $today]);
         $statDaily->day = $today;
         $statDaily->count = $count;
@@ -320,6 +323,43 @@ class ApiController extends \yii\rest\Controller
     public function actionReport(){
 
         return Yii::$app->JPush->report('2011677591');
+
+    }
+
+    /*
+     * 更新豆瓣采集列表
+     * 每天1点运行一次
+     * */
+    public function actionScrapyUpdate(){
+
+        $today = strtotime(date("Y-m-d"));
+        $yesterday = $today - 86400;
+
+        //3个月内上映的片子 一周更新一次
+         $weekUpdMovieIds = Movie::getMoiveIdsBy3Months($today);
+
+        //如果有人订阅了该电影 且没有资源的 一周采一次
+        //这个暂时不做了 因为是以网上资源为主的
+
+        //movie_online_resource表中有资源但是电影表里没有的电影 添加到列表
+        $noMovieIds = [];
+
+        //如果有前一天没采集或者采集失败的 加入列表 失败次数大于3 不采了
+        $errorScrapyAr = ScrapyUpdateProcess::getReScrapeId($yesterday);
+
+        //将这些添加到待采集数据库中
+        try {
+            foreach (array_merge($weekUpdMovieIds, $noMovieIds) as $movieId) {
+                ScrapyUpdateProcess::addRecord($today, $movieId);
+            }
+            foreach ($errorScrapyAr as $eachAr) {
+                ScrapyUpdateProcess::addRecord($today, $eachAr->movie_id, $eachAr->error_times + 1, $eachAr->referer, $eachAr->movie_url);
+            }
+        }catch(Exception $e){
+            //有错误也要继续运行
+
+        }
+
 
     }
 

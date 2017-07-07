@@ -11,6 +11,9 @@ namespace backend\models;
 use common\models\User;
 
 class FrontUser extends User{
+    public static function getUserTotal() {
 
+        return static::find()->count();
+    }
 
 }
