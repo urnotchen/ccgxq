@@ -70,7 +70,7 @@ class UserService extends \common\services\BizService
 
             $userDetails->setAttributes(ArrayHelper::merge(
                 ['user_id' => $user->id],
-                $adapter->getUserAllAttr()
+                array_filter($adapter->getUserAllAttr())
             ));
             $userDetails->save();
 
