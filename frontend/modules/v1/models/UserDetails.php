@@ -12,7 +12,13 @@ class UserDetails extends \frontend\models\UserDetails
     {
         return [
             'nickname',
-            'avatar',
+            'avatar' => function($model){
+                if(strpos($model->avatar,'http://') === 0){
+                    return $model->avatar;
+                }
+                return \Yii::$app->params['qiniuDomain'].$model->avatar;
+
+            },
             'gender',
             'birth',
             'address',
