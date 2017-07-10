@@ -19,7 +19,7 @@ class Misc extends \yii\db\ActiveRecord
     use \common\traits\InstanceTrait;
     use \common\traits\FindOrExceptionTrait;
 
-    const USER_AGREEMENT = 'user_agreement' , QINIU_INFO = 'qiniu_info';
+    const NAME_USER_AGREEMENT = 'user_agreement' , NAME_QINIU_INFO = 'qiniu_info';
 
     public static function tableName()
     {
@@ -44,12 +44,17 @@ class Misc extends \yii\db\ActiveRecord
 
     public static function getQiniuInfo(){
 
-        $res = self::findOne(['name' => self::QINIU_INFO]);
+        $res = self::findOne(['name' => self::NAME_QINIU_INFO]);
 
         if($res){
             return $res->policy;
         }
         return null;
+    }
+
+    public static function getPolicyInfo(){
+
+        return self::findOne(['name' => self::NAME_USER_AGREEMENT]);
     }
 }
 

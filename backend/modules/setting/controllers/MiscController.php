@@ -91,7 +91,7 @@ class MiscController extends \yii\web\Controller
 
         $qiniuForm = new QiniuForm();
 
-        $model = Misc::getInstance(['name' => Misc::QINIU_INFO],True);
+        $model = Misc::getInstance(['name' => Misc::NAME_QINIU_INFO],True);
 
         if(Yii::$app->request->isPost) {
             $postParams = Yii::$app->getRequest()->post();

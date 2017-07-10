@@ -6,6 +6,21 @@ use frontend\modules\v1\models\Misc;
 
 class MiscController extends \frontend\components\rest\Controller
 {
+    public function behaviors()
+    {
+        $inherit = parent::behaviors();
+
+        $inherit['authenticator']['only'] = [
+            'qiniu-info',
+        ];
+        $inherit['authenticator']['authMethods'] = [
+            \frontend\modules\v1\components\AccessTokenAuth::className(),
+        ];
+
+
+
+        return $inherit;
+    }
     public function verbs()
     {
         return [
@@ -21,7 +36,7 @@ class MiscController extends \frontend\components\rest\Controller
     {
         \Yii::$app->getResponse()->format = \yii\web\Response::FORMAT_HTML;
 
-        return Misc::find()->one()->policy;
+        return Misc::getPolicyInfo();
     }
 
     public function actionQiniuInfo(){
