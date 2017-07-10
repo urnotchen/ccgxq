@@ -25,8 +25,8 @@ use backend\modules\setting\models\AppVersion;
 
 
     <div class="form-group">
-        <?= $model->isNewRecord 
-            ? Html::submitButton('添加' ,['class' => 'btn btn-success']) 
+        <?= $model->isNewRecord
+            ? Html::submitButton('添加' ,['class' => 'btn btn-success'])
             : Html::button('修改', ['class' => 'btn btn-primary btn-shortcut'])
         ?>
     </div>

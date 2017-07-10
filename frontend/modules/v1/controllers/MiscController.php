@@ -10,6 +10,7 @@ class MiscController extends \frontend\components\rest\Controller
     {
         return [
             'policy'             => ['get'],
+            'qiniu-info'             => ['get'],
         ];
     }
 
@@ -21,6 +22,11 @@ class MiscController extends \frontend\components\rest\Controller
         \Yii::$app->getResponse()->format = \yii\web\Response::FORMAT_HTML;
 
         return Misc::find()->one()->policy;
+    }
+
+    public function actionQiniuInfo(){
+
+        return json_decode(Misc::getQiniuInfo());
     }
 }
 

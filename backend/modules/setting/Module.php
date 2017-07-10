@@ -28,7 +28,7 @@ class Module extends \yii\base\Module
     {
         $items = \Yii::$app->sidebarItems->getItems();
 
-        $items[] = $this->prepareItem('用户协议', 'misc','policy');
+        $items[] = $this->prepareItem('用户协议', 'misc','index');
 
         $items[] = $this->prepareItem('管理员列表', 'user');
 

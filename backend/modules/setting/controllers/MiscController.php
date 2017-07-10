@@ -2,6 +2,8 @@
 
 namespace backend\modules\setting\controllers;
 
+use backend\modules\setting\models\forms\QiniuForm;
+use backend\modules\setting\models\searches\MiscSearch;
 use Yii;
 
 use backend\modules\setting\models\Misc;
@@ -19,7 +21,7 @@ class MiscController extends \yii\web\Controller
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['policy', 'upload', 'create', 'update'],
+                        'actions' => ['policy', 'upload', 'create', 'update','index','qiniu-create'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -74,7 +76,36 @@ class MiscController extends \yii\web\Controller
             ],
         ];
     }
+    public function actionIndex()
+    {
+        $searchModel = new MiscSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionQiniuCreate(){
+
+        $qiniuForm = new QiniuForm();
+
+        $model = Misc::getInstance(['name' => Misc::QINIU_INFO],True);
+
+        if(Yii::$app->request->isPost) {
+            $postParams = Yii::$app->getRequest()->post();
+
+            if($qiniuForm->load($postParams)) {
+                $model->policy = json_encode($postParams['QiniuForm']);
+                $model->save();
+            }
+        }
+
+        return $this->render('qiniu', [
+            'model' => $qiniuForm
+        ]);
+    }
     public function actionPolicy()
     {
         $model = Misc::find()->one() ? : new Misc();
