@@ -44,7 +44,7 @@ class MiscController extends \frontend\components\rest\Controller
         //token 永久有效 过期时间设为100年后
         return [
             'token'         => \Yii::$app->qiniu->generateUploadToken(),
-//            'expired_at'    => time() + 800 * 30 * 86400
+            'expired_at'    => time() + 10 * 12 * 30 * 86400
         ];
     }
 }
