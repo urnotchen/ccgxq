@@ -20,6 +20,8 @@
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "yiisoft/yii2-redis": "*",
         "yiisoft/yii2-authclient": "*",
+        "qiniu/php-sdk":  "7.0.5",
+        "chocoboxxf/yii2-qiniu-sdk":  "dev-master",
         "blue-components/yii2-authclient-others": "dev-master",
         "blue-components/yii2-adminlte-components": "dev-master",
         "blue-components/yii2-adminlte-generators": "dev-master",

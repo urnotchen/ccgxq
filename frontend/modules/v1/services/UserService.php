@@ -68,15 +68,20 @@ class UserService extends \common\services\BizService
                 $user->save();
             }
 
+            $avatar = [];
+            if(strpos($userDetails->avatar,'http') !== 0 || strpos($userDetails->avatar,'http') === false){
+                $avatar = ['avatar' => $userDetails->avatar];
+            }
             $userDetails->setAttributes(ArrayHelper::merge(
                 ['user_id' => $user->id],
-                array_filter($adapter->getUserAllAttr())
+                array_filter($adapter->getUserAllAttr()),
+                $avatar
             ));
             $userDetails->save();
 
             $userToken->setAttributes(ArrayHelper::merge(
                 ['user_id' => $user->id],
-                $adapter->getUserAllAttr()
+                array_filter($adapter->getUserAllAttr())
             ));
             $userToken->save();
 
@@ -291,7 +296,7 @@ class UserService extends \common\services\BizService
                 'user_id' => $this->getUser()->id,
             ]);
             $userDetails->user_id = $this->getUser()->id;
-            $userDetails->prepare($rawParams);
+            $userDetails->prepare(array_filter($rawParams));
 
             $userDetails->save();
             $transaction->commit();
