@@ -13,25 +13,22 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'options' => [
+            'class' => 'form-inline',
+        ],
+        'fieldClass' => '\bluelive\adminlte\widgets\ActiveField',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'movie_id') ?>
 
-    <?= $form->field($model, 'website_id') ?>
+    <?= $form->field($model, 'movie_title') ?>
 
-    <?= $form->field($model, 'price') ?>
 
-    <?= $form->field($model, 'type') ?>
 
-    <?php // echo $form->field($model, 'url') ?>
-
-    <?php // echo $form->field($model, 'origin_url') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <div class="help-block"></div>
     </div>
 
     <?php ActiveForm::end(); ?>

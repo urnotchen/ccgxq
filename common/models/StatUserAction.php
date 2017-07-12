@@ -3,6 +3,7 @@
 namespace common\models;
 
 use backend\models\FilmChoiceUser;
+use common\traits\EnumTrait;
 use Yii;
 
 /**
@@ -17,6 +18,8 @@ use Yii;
  */
 class StatUserAction extends \yii\db\ActiveRecord
 {
+    use EnumTrait;
+
     const TYPE_COMMENT = 1 , TYPE_CHOICE_BY_ZHAN = 2;
 
     const SUB_TYPE_ZHAN_WANT = 1 , SUB_TYPE_ZHAN_SAW = 2 , SUB_TYPE_ZHAN_SUBSCRIBE = 3;
@@ -73,5 +76,20 @@ class StatUserAction extends \yii\db\ActiveRecord
 
         $record->save();
 
+    }
+
+    public static function getEnumData(){
+
+        return [
+            'type' => [
+                self::TYPE_CHOICE_BY_ZHAN => '电影斩标记',
+                self::TYPE_COMMENT => '短评',
+            ],
+            'sub_type' => [
+                self::SUB_TYPE_ZHAN_WANT => '想看',
+                self::SUB_TYPE_ZHAN_SAW  => '看过',
+                self::SUB_TYPE_ZHAN_SUBSCRIBE => '订阅',
+            ]
+        ];
     }
 }

@@ -95,4 +95,9 @@ class FilmComment extends \yii\db\ActiveRecord
     public function getImage(){
         return $this->hasOne(Image::className(),['id' => 'pic_id']);
     }
+
+    public function getMovie(){
+
+        return $this->hasOne(Movie::className(),['id' => 'movie_id']);
+    }
 }

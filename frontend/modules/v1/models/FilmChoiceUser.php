@@ -61,13 +61,13 @@ class FilmChoiceUser extends \frontend\models\FilmChoiceUser
                 break;
             case self::ACTION_DELETE:
                 $choice = self::findOne(['movie_id' => $movie_id,'user_id' => $user_id,'type' => $type]);
-//                if(!$choice){
-//                    throw new \yii\web\HttpException(
-//                        404,
-//                        'user does not have this action',
-//                        \common\components\ResponseCode::INVALID_CANCEL_ACTION
-//                    );
-//                }
+                if(!$choice){
+                    throw new \yii\web\HttpException(
+                        404,
+                        'user does not have this action',
+                        \common\components\ResponseCode::INVALID_CANCEL_ACTION
+                    );
+                }
                 $choice->status = self::STATUS_TRASH;
                 $choice->save();
                 break;
@@ -129,5 +129,13 @@ class FilmChoiceUser extends \frontend\models\FilmChoiceUser
         return self::findOne(['movie_id' => $movieId,'type' => $type,'user_id' => $userId,'status' => self::STATUS_NORMAL])?1:0;
     }
 
+    /*
+     * 获取用户想看/看过/订阅的电影列表id
+     * */
+    public static function getMovieIds($type,$userId){
 
+        return self::find()->select('id')
+            ->where(['type' => $type,'status' => self::STATUS_NORMAL,'user_id' => $userId])
+            ->column();
+    }
 }

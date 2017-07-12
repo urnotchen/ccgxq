@@ -34,11 +34,11 @@ class StatisticsService extends BizService{
     /*
      *
      * */
-    public function setCommentCount($now,$userId){
+    public function setCommentCount($now,$userId,$action = 1){
 
         $dayTimestamp = strtotime(date("Y-m-d",$now));
         //每日多少人评论了电影
-        \Yii::$app->redis->setbit("comment_d_".$dayTimestamp,$userId,1);
+        \Yii::$app->redis->setbit("comment_d_".$dayTimestamp,$userId,$action);
         \Yii::$app->redis->expire("comment_d_".$dayTimestamp,self::DAY * 32);
 
     }
@@ -46,12 +46,12 @@ class StatisticsService extends BizService{
     /*
      * 电影斩标记电影统计
      * */
-    public function zhanUserChoiceCount($now,$choice,$userId){
+    public function zhanUserChoiceCount($now,$choice,$userId,$action = 1){
 
         $dayTimestamp = strtotime(date("Y-m-d",$now));
 
         //每日有多少人甩电影斩标记了电影
-        \Yii::$app->redis->setbit("zhan_d_".$choice.'_'.$dayTimestamp,$userId,1);
+        \Yii::$app->redis->setbit("zhan_d_".$choice.'_'.$dayTimestamp,$userId,$action);
         \Yii::$app->redis->expire("zhan_d_".$choice.'_'.$dayTimestamp,self::DAY * 32);
 
     }

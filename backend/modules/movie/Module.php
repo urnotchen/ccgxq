@@ -1,6 +1,7 @@
 <?php
 
 namespace backend\modules\movie;
+use backend\models\FilmComment;
 use backend\models\Type;
 use backend\modules\movie\models\FilmProperty;
 use Yii;
@@ -62,6 +63,54 @@ class Module extends \yii\base\Module
             'label' => '<span class="fa fa-cubes"></span> 电影简介列表',
             'items' => [],
             'url' => ['/movie/film-synopsis/index'],
+            'options' => [
+                'class' => \bluelive\adminlte\widgets\SidebarActiveWidget::widget([
+                    'activeArr' => [
+                        'dashboard',
+                    ],
+                    'activeControllerArr' => [
+                        'movie',
+                    ],
+                ]),
+            ],
+        ];
+
+        $items[] = [
+            'label' => '<span class="fa fa-cubes"></span> 电影评级列表',
+            'items' => [],
+            'url' => ['/movie/film-comment/user-index?FilmCommentSearch[type]='.FilmComment::TYPE_USER],
+            'options' => [
+                'class' => \bluelive\adminlte\widgets\SidebarActiveWidget::widget([
+                    'activeArr' => [
+                        'dashboard',
+                    ],
+                    'activeControllerArr' => [
+                        'movie',
+                    ],
+                ]),
+            ],
+        ];
+
+        $items[] = [
+            'label' => '<span class="fa fa-cubes"></span> 电影网站观看',
+            'items' => [],
+            'url' => ['/movie/film-video-conn/index'],
+            'options' => [
+                'class' => \bluelive\adminlte\widgets\SidebarActiveWidget::widget([
+                    'activeArr' => [
+                        'dashboard',
+                    ],
+                    'activeControllerArr' => [
+                        'movie',
+                    ],
+                ]),
+            ],
+        ];
+
+        $items[] = [
+            'label' => '<span class="fa fa-cubes"></span> 电影线上观看',
+            'items' => [],
+            'url' => ['/movie/movie-online-resource/index'],
             'options' => [
                 'class' => \bluelive\adminlte\widgets\SidebarActiveWidget::widget([
                     'activeArr' => [

@@ -7,31 +7,39 @@ use yii\grid\GridView;
 /* @var $searchModel backend\modules\stat\models\searches\StatUserActionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Stat User Actions';
+$this->title = '电影斩标记统计';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="stat-user-action-index">
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php \bluelive\adminlte\widgets\BoxWidget::begin() ?>
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                [
+                    'attribute' => 'day',
+                    'format' => 'raw',
+                    'value' => function($model){
+                        return Yii::$app->dateFormat->humanReadableDate($model->day);
+                    }
+                ],
+                'count',
+//                'type',
+                [
+                    'attribute' => 'sub_type',
+                    'format'=> 'raw',
+                    'value' => function($model){
+                        if(!$model->sub_type){
+                            return '';
+                        }
+                        return $model->enum('sub_type')[$model->sub_type];
+                    }
+                ],
+        // 'daily:ntext',
 
-    <p>
-        <?= Html::a('Create Stat User Action', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'day',
-            'count',
-            'type',
-            'sub_type',
-            // 'daily:ntext',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]); ?>
+    <?php \bluelive\adminlte\widgets\BoxWidget::end()?>
 </div>

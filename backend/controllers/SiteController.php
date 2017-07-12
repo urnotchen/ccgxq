@@ -75,27 +75,8 @@ class SiteController extends \yii\web\Controller
         return $this->goHome();
     }
 
-    public function actionTest(){
-//        echo MovieIndex::find()->join('left join',MovieDisk::tableName(),['movie_index.id' => 'movie_disk.movie_id'])
-//            ->join('join','movie_link',['movie_link.movie_id' => 'movie_index.id'])->createCommand()->getRawSql();
-
-//        $res = \Yii::$app->db->createCommand(MovieDisk::find()->select(['movie_index.*','movie_disk.*'])->join('join',MovieIndex::tableName(),MovieDisk::tableName().'.movie_id='. MovieIndex::tableName().'.id')->createCommand()->getRawSql())->queryAll();
-//        var_dump($res);
-//        echo $res = MovieDisk::find()->select('movie_index.*,movie_disk.*')->join('join',MovieIndex::tableName(),MovieDisk::tableName().'.movie_id='. MovieIndex::tableName().'.id')->createCommand()->getRawSql();
-
-//        $weibo->posted_at >= time() - 6 * 60 * 60
-
-//        var_dump(\Yii::$app->JPush->send());
-        $week = sprintf('%02s',98);
-//        $week = sprintf('%02s',33);
-        var_dump($week);
-//        return strtotime("2017W24");
-
-        var_dump(FilmChoiceUser::find()
-            ->select('movie_id,count(movie_id) as num')
-            ->groupBy('movie_id')
-            ->orderBy('num desc')->createCommand()->getRawSql());
-    }
+    public function actionTest(){phpinfo();
+}
 
     public function actionLogin()
     {/*{{{*/

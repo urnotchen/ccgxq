@@ -28,7 +28,7 @@ class Module extends \yii\base\Module
 
         $items[] = $this->prepareItem('活跃用户', 'stat');
         $items[] = $this->prepareItem('电影统计', 'stat-movie');
-        $items[] = $this->prepareItem('评论统计', 'stat-user-action','index?StatUserActionSearch[type] = '.StatUserAction::TYPE_COMMENT);
+        $items[] = $this->prepareItem('短评统计', 'stat-comment');
         $items[] = $this->prepareItem('电影斩标记', 'stat-user-action','index?StatUserActionSearch[type] = '.StatUserAction::TYPE_CHOICE_BY_ZHAN);
 
         Yii::$app->sidebarItems->setItems($items);

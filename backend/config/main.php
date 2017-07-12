@@ -77,6 +77,18 @@ return [
                 ],
             ],
         ],
+        'user' => [
+            'class' => 'backend\modules\user\Module',
+            'as access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ],
 //        'user' => [
 //            'class' => 'dektrium\user\Module',
 //            'enableUnconfirmedLogin' => true,

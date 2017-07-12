@@ -2,6 +2,7 @@
 
 namespace backend\modules\stat\models\searches;
 
+use common\helpers\DateHelper;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -12,6 +13,11 @@ use backend\modules\stat\models\StatMovie;
  */
 class StatMovieSearch extends StatMovie
 {
+
+    const SEPARATOR = '~';
+
+    public $statistics_time, $statistics_time_range = [];
+
     /**
      * @inheritdoc
      */
@@ -19,7 +25,28 @@ class StatMovieSearch extends StatMovie
     {
         return [
             [['id', 'day', 'movie_id', 'num', 'type'], 'integer'],
+            [['statistics_time'],'string'],
+            [['statistics_time'], 'validateRange'],
         ];
+    }
+
+    public function validateRange($attr, $params)
+    {
+        if ($this->hasErrors()) return false;
+
+        $statistics_time = explode(self::SEPARATOR, $this->statistics_time);
+        if (!is_array($statistics_time) || count($statistics_time) != 2) {
+            $this->addError($attr, '发布时间格式错误.');
+            return false;
+        }
+        foreach ($statistics_time as $v) {
+            $time = strtotime($v);
+            if ($time === false) {
+                $this->addError($attr, '发布时间格式错误.');
+                break;
+            }
+            $this->statistics_time_range[] = $time;
+        }
     }
 
     /**
@@ -56,6 +83,8 @@ class StatMovieSearch extends StatMovie
             return $dataProvider;
         }
 
+
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -64,6 +93,20 @@ class StatMovieSearch extends StatMovie
             'num' => $this->num,
             'type' => $this->type,
         ]);
+        if(!$this->day){
+            $query->andWhere(['day' => DateHelper::getYesterdayTimestamp(time())]);
+        }
+        if(!$this->type){
+            //默认订阅
+            $query->andWhere(['type' => self::TYPE_SUBSCRIBE]);
+        }
+
+        if (!empty($this->statistics_time_range)) {
+            $range_time = $this->statistics_time_range;
+            $query->andFilterWhere([
+                'between', 'day', reset($range_time), end($range_time)
+            ]);
+        }
 
         return $dataProvider;
     }

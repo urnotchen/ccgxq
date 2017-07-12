@@ -36,9 +36,18 @@ class FilmCommentController extends Controller
     public function actionIndex()
     {
         $searchModel = new FilmCommentSearch();
-//        var_export( Yii::$app->request->queryParams);die;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionUserIndex(){
+        $searchModel = new FilmCommentSearch();
+
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('user_index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

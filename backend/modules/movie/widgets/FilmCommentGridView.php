@@ -113,8 +113,10 @@ HTML;
                 'label' => '电影名',
                 'format' => 'raw',
                 'value' => function($model){
-
-                    return $model->movie?MovieHelper::getChineseName($model->movie->name):'';
+                    if(!$model->movie){
+                        return '';
+                    }
+                    return $model->movie?MovieHelper::getChineseName($model->movie->title):'';
                 }
             ]
 

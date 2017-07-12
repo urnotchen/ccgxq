@@ -39,6 +39,8 @@ class Zhan extends \frontend\modules\v1\models\Movie{
         return self::find()
             ->where(['between','release_timestamp',time() - 86400 * 30 * $monthNum,time()])
             ->andWhere(['not',['id' => $alreadyMovieIds]])
+            //加入已看的电影 不再展现
+            ->andWhere(['not',['id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$userId)]])
             ->choiceMovie()->limit($movieNum)->orderBy('rand()')->all();
     }
 }

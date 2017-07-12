@@ -149,4 +149,12 @@ class FilmComment extends \frontend\models\FilmComment
 
         return $this->_statisticsService;
     }
+
+    /*
+     * 删除评论
+     * */
+    public static function delComment($movieId,$userId){
+
+        return self::findOne(['movie_id' => $movieId,'user_id' => $userId])->delete();
+    }
 }

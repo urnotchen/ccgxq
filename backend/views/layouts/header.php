@@ -39,6 +39,12 @@ use yii\helpers\Html;
             ];
 
             $items[] = [
+                'text' => '用户',
+                'url' => ['/user/user-details/index'],
+                'activeModule' => 'user',
+            ];
+
+            $items[] = [
                 'text' => '设置',
                 'url' => ['/setting/misc/policy'],
                 'activeModule' => 'setting',

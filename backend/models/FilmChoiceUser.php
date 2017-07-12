@@ -36,4 +36,14 @@ class FilmChoiceUser extends \common\models\FilmChoiceUser{
             ->all();
         return ArrayHelper::map($res,'movie_id','num');
     }
+
+    /*
+     * 获取用户看过/想看 数量
+     * */
+    public static function getUserChoiceNum($type,$userId){
+
+        return self::find()
+            ->where(['type' => $type,'user_id' => $userId])
+            ->count();
+    }
 }

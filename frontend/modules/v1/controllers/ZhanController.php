@@ -9,32 +9,36 @@
 namespace frontend\modules\v1\controllers;
 
 use frontend\components\rest\Controller;
+use frontend\modules\v1\models\FilmChoiceUser;
+use frontend\modules\v1\models\FilmComment;
 use frontend\modules\v1\models\FilmProperty;
 use frontend\modules\v1\models\FilmRecommendUser;
 use frontend\modules\v1\models\forms\MovieDetailsForm;
 use frontend\modules\v1\models\forms\MovieZhanListForm;
+use frontend\modules\v1\models\forms\ZhanRevocationForm;
 use frontend\modules\v1\models\Movie;
 use frontend\modules\v1\services\MovieListService;
 
 use frontend\modules\v1\services\StatisticsService;
 use frontend\modules\v1\services\ZhanService;
 use yii\data\ActiveDataProvider;
+use yii\db\Exception;
 
 class ZhanController extends Controller{
 
     protected $_service;
+    protected $_statisticsService;
 
     public function behaviors()
 {
     $inherit = parent::behaviors();
 
     $inherit['authenticator']['only'] = [
-        'recommend','pass','recommend-test'
+        'recommend','pass','recommend-test','revocation'
     ];
     $inherit['authenticator']['authMethods'] = [
         \frontend\modules\v1\components\AccessTokenAuth::className(),
     ];
-
 
 
     return $inherit;
@@ -158,6 +162,14 @@ class ZhanController extends Controller{
 
         return $this->_service;
     }
+    protected function getStatisticsService()
+    {
+        if ($this->_service === null) {
+            $this->_statisticsService = new StatisticsService();
+        }
+
+        return $this->_statisticsService;
+    }
 
 
     /*
@@ -235,6 +247,37 @@ class ZhanController extends Controller{
 //            FilmRecommendUser::addToRecommendRecord($queryClone->select('movie.id')->column(), $userId, FilmRecommendUser::TYPE_OFFICIAL);
 //            return $query->all();
         }
+    }
+
+    /*
+     * 电影斩撤销操作
+     * */
+    public function actionRevocation(){
+
+        $rawParams = \Yii::$app->getRequest()->post();
+
+        $form = new ZhanRevocationForm();
+
+        $form->prepare($rawParams);
+
+        $userId = $this->getUser()->id;
+        try {
+            //如果是看过操作 删除评论
+            if($form->type == FilmChoiceUser::TYPE_SAW) {
+                FilmComment::delComment($form->movie_id, $userId);
+                $this->statisticsService->setCommentCount(time(),$userId,0);
+            }
+            // 删除看过
+            FilmChoiceUser::userAction($userId,$form->movie_id,$form->type,FilmChoiceUser::ACTION_DELETE,FilmChoiceUser::SOURCE_ZHAN);
+
+            $this->statisticsService->zhanUserChoiceCount(time(),$form->type,$userId,0);
+        }catch(Exception $e){
+            throw new \yii\web\HttpException(
+                403, '撤销失败',
+                \common\components\ResponseCode::REVOCATION_FAILED
+            );
+        }
+        return true;
     }
 
 }

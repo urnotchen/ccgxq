@@ -37,16 +37,19 @@ class FilmVideoConn extends \yii\db\ActiveRecord
         return [
             [['movie_id', 'website_id', 'type','created_at','created_by','updated_at','updated_by'], 'integer'],
             [['price'], 'number'],
-            [['url'], 'string', 'max' => 1000],
+            [['url','origin_url'], 'string', 'max' => 1000],
         ];
     }
 
     public static function getEnumData()
     {/*{{{*/
         return [
-            'status' => [
-//                self:: PAY_TYPE_FREE => '免费',
-//                self::PAY_TYPE_MONTH   => '/月',
+            'type' => [
+                self:: PAY_TYPE_FREE => '免费',
+                self::PAY_TYPE_MONTH   => '包月',
+                self::PAY_TYPE_SINGLE => '单部收费',
+                self::PAY_TYPE_UNDEFINED => '未知',
+                self::PAY_TYPE_ONLINE_MALL => '网上商城'
             ]
         ];
     }/*}}}*/
@@ -58,11 +61,11 @@ class FilmVideoConn extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'movie_id' => 'Movie ID',
-            'website_id' => 'Website ID',
-            'price' => 'Price',
-            'type' => 'Type',
-            'url' => 'Url',
+            'movie_id' => '电影',
+            'website_id' => '网站',
+            'price' => '价格',
+            'type' => '收费方式',
+            'url' => '链接',
         ];
     }
 

@@ -56,10 +56,26 @@ class MovieOnlineResource extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'movie_id' => 'Movie ID',
-            'definition' => 'Definition',
-            'created_at' => 'Created At',
+            'movie_id' => '电影',
+            'definition' => '清晰度',
+            'created_at' => '加入时间',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public static function getEnumData(){
+
+        return [
+            'definition' => [
+                self::DEFINITION_720P => '720P',
+                self::DEFINITION_1080P => '1080P',
+                self::DEFINITION_BLURAY => '蓝光',
+                self::DEFINITION_OTHER => '其他'
+            ]
+        ];
+    }
+    public function getMovie(){
+
+        return $this->hasOne(Movie::className(),['id' => 'movie_id']);
     }
 }

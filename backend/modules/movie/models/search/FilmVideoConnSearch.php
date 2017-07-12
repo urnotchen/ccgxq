@@ -2,6 +2,7 @@
 
 namespace backend\modules\movie\models\search;
 
+use backend\modules\movie\models\Movie;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -12,6 +13,8 @@ use backend\models\FilmVideoConn;
  */
 class FilmVideoConnSearch extends FilmVideoConn
 {
+
+    public $movie_title;
     /**
      * @inheritdoc
      */
@@ -20,7 +23,7 @@ class FilmVideoConnSearch extends FilmVideoConn
         return [
             [['id', 'movie_id', 'website_id', 'type'], 'integer'],
             [['price'], 'number'],
-            [['url', 'origin_url'], 'safe'],
+            [['url', 'origin_url','movie_title'], 'safe'],
         ];
     }
 
@@ -48,6 +51,9 @@ class FilmVideoConnSearch extends FilmVideoConn
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' =>[
+                'defaultOrder' => ['created_at' => SORT_DESC]
+            ],
         ]);
 
         $this->load($params);
@@ -70,6 +76,10 @@ class FilmVideoConnSearch extends FilmVideoConn
         $query->andFilterWhere(['like', 'url', $this->url])
             ->andFilterWhere(['like', 'origin_url', $this->origin_url]);
 
+        if($this->movie_title) {
+            //连表搜索
+            $query->joinWith('movie')->andFilterWhere(['like', 'movie.title', $this->movie_title]);
+        }
         return $dataProvider;
     }
 }

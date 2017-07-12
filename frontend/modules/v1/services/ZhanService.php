@@ -3,6 +3,7 @@
 namespace frontend\modules\v1\services;
 
 use backend\modules\movie\models\FilmProperty;
+use frontend\modules\v1\models\FilmChoiceUser;
 use frontend\modules\v1\models\FilmRecommend;
 use Yii;
 use frontend\modules\v1\models\Zhan;
@@ -37,6 +38,8 @@ class ZhanService extends \common\services\BizService
         return Zhan::find()->joinWith('filmRecommendUser')
             ->where([FilmRecommendUser::tableName().'.user_id' => $userId,FilmRecommendUser::tableName().'.choice' => [FilmRecommendUser::CHOICE_DEFAULT]])
             ->andWhere(['not',['movie_id' => $cache->get('lastRecommend_'.$userId)]])
+            //加入已看的电影 不再展现
+            ->andWhere(['not',['movie_id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$userId)]])
             ->limit($movieNum)->all();
 
     }
@@ -80,6 +83,8 @@ class ZhanService extends \common\services\BizService
             $recommendMovieIds = FilmRecommend::find()->select('recommend_movie_id')
                 ->where(['movie_id' => $eachMovieId])
                 ->andWhere(['not',['recommend_movie_id' => $alreadyMovieIds]])
+                //加入已看的电影 不再展现
+                ->andWhere(['not',['recommend_movie_id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$userId)]])
                 ->groupBy('recommend_movie_id')
                 ->limit($num)->column();
             $alreadyMovieIds = array_merge($alreadyMovieIds,$recommendMovieIds);
@@ -114,6 +119,8 @@ class ZhanService extends \common\services\BizService
             ->select(FilmRecommendUser::tableName().'.movie_id')
             ->where(['user_id' => $userId, 'choice' => [FilmRecommendUser::CHOICE_COLLECT]])
             ->andWhere(['not',[FilmRecommend::tableName().'.recommend_movie_id' => $alreadyMovieIds]])
+            //加入已看的电影 不再展现
+            ->andWhere(['not',['recommend_movie_id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$userId)]])
             ->limit($movieNum)->all();
 
         return $expandMovies;

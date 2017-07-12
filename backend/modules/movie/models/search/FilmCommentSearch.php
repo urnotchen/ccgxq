@@ -18,7 +18,7 @@ class FilmCommentSearch extends FilmComment
     public function rules()
     {
         return [
-            [['id', 'movie_id', 'pic_id', 'star', 'good_num','created_at', 'updated_at'], 'integer'],
+            [['id', 'movie_id', 'pic_id', 'star','type', 'good_num','source','created_at', 'updated_at'], 'integer'],
             [['user_id', 'username', 'comment'], 'safe'],
         ];
     }
@@ -64,6 +64,8 @@ class FilmCommentSearch extends FilmComment
             'movie_id' => $this->movie_id,
             'pic_id' => $this->pic_id,
             'star' => $this->star,
+            'type' => $this->type,
+            'source' => $this->source,
             'good_num' => $this->good_num,
             'updated_at' => $this->updated_at,
         ]);
