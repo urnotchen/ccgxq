@@ -39,18 +39,18 @@ class ApiController extends \yii\rest\Controller
 
         $inherit['contentNegotiator']['formats']['application/xml'] = \yii\web\Response::FORMAT_JSON;
         $inherit['contentNegotiator']['formats']['application/json'] = \yii\web\Response::FORMAT_JSON;
-
-        $inherit['access'] = ['class' => \yii\filters\AccessControl::className(),
-            'rules' => [
-                [
-                    'actions' => [
-                        'update-zhan','movie-resource','push','report','stat-user','scrapy-update','stat-comment','stat-choice-zhan','stat-subscribe-movies','stat-want-movies',
-                    ],
-                    'allow' => true,
-                    'roles' => ['@'],
-                ],
-            ],
-        ];
+//
+//        $inherit['access'] = ['class' => \yii\filters\AccessControl::className(),
+//            'rules' => [
+//                [
+//                    'actions' => [
+//                        'update-zhan','movie-resource','push','report','stat-user','scrapy-update','stat-comment','stat-choice-zhan','stat-subscribe-movies','stat-want-movies',
+//                    ],
+//                    'allow' => true,
+//                    'roles' => ['?'],
+//                ],
+//            ],
+//        ];
 
 
         return $inherit;
