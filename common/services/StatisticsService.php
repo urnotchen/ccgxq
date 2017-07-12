@@ -56,6 +56,11 @@ class StatisticsService extends BizService{
 
     }
 
+
+    public function buildDailyStatChoiceZhan($dayTimestamp,$type){
+
+        return "zhan_d_".$type.'_'.$dayTimestamp;
+    }
     public function buildDailyStatKey($dayTimestamp){
 
         return "dau_".$dayTimestamp;
@@ -63,7 +68,7 @@ class StatisticsService extends BizService{
 
     public function buildDailyCommentKey($dayTimestamp){
 
-        return "comment_".$dayTimestamp;
+        return "comment_d_".$dayTimestamp;
     }
 
     public function getDailyCountStr($timestamp){

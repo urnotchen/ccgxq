@@ -9,6 +9,8 @@ use backend\models\FrontUser;
 use backend\models\Movie;
 use backend\models\MovieOnlineResource;
 use backend\models\ScrapyUpdateProcess;
+use backend\models\StatMovie;
+use backend\models\StatUserAction;
 use backend\models\UserToken;
 use backend\modules\movie\services\MovieListService;
 use common\helpers\DateHelper;
@@ -42,13 +44,14 @@ class ApiController extends \yii\rest\Controller
             'rules' => [
                 [
                     'actions' => [
-                        'update-zhan','movie-resource','push','report','stat-user','scrapy-update'
+                        'update-zhan','movie-resource','push','report','stat-user','scrapy-update','stat-comment','stat-choice-zhan','stat-subscribe-movies','stat-want-movies',
                     ],
                     'allow' => true,
                     'roles' => ['@'],
                 ],
             ],
         ];
+
 
         return $inherit;
     }/*}}}*/
@@ -199,12 +202,12 @@ class ApiController extends \yii\rest\Controller
     {
 //        Header::validateStat();
 
-        $today = Yii::$app->dateFormat->getTodayTimestamp();
+        $yesterday = DateHelper::getYesterdayTimestamp(time());
         $count = Yii::$app->redis->bitcount(StatDaily::buildDailyStatKey());
 
 
-        $statDaily = StatDaily::getInstance(['day' => $today]);
-        $statDaily->day = $today;
+        $statDaily = StatDaily::getInstance(['day' => $yesterday]);
+        $statDaily->day = $yesterday;
         $statDaily->count = $count;
         $statDaily->daily = Yii::$app->redis->get(StatDaily::buildDailyStatKey());
         $statDaily->save();
@@ -312,8 +315,60 @@ class ApiController extends \yii\rest\Controller
         return $statMonthly->save();
     }
 
-    public function statComment(){
 
+    /*
+     * 短评统计,每日有多少人评论了电影
+     * */
+    public function actionStatComment(){
+
+        $dayTimestamp = DateHelper::getYesterdayTimestamp(time());
+
+        $count = Yii::$app->redis->bitcount($this->statisticsService->buildDailyCommentKey($dayTimestamp));
+        $daily = Yii::$app->redis->get($this->statisticsService->buildDailyCommentKey($dayTimestamp));
+
+        StatUserAction::addRecord($dayTimestamp,$count,$daily,StatUserAction::TYPE_COMMENT);
+
+    }
+
+    /*
+     * 标记电影统计 每日有多少人用电影斩标记了电影  想看 看过(评星) 订阅
+     * */
+    public function actionStatChoiceZhan(){
+
+        $dayTimestamp = DateHelper::getYesterdayTimestamp(time());
+        foreach(StatUserAction::ZHAN_TYPE_LIST as $eachType => $filmChoiceUserType) {
+            $count = Yii::$app->redis->bitcount($this->statisticsService->buildDailyStatChoiceZhan($dayTimestamp,$filmChoiceUserType));
+            $daily = Yii::$app->redis->get($this->statisticsService->buildDailyStatChoiceZhan($dayTimestamp,$filmChoiceUserType));
+            StatUserAction::addRecord($dayTimestamp, $count, $daily, StatUserAction::TYPE_CHOICE_BY_ZHAN,$eachType);
+        }
+    }
+
+    /*
+     * 统计 想看 数量最多的前30部电影
+     * */
+    public function actionStatWantMovies(){
+
+        $dayTimestampRange = DateHelper::getYesterdayTimestamp(time());
+
+        $movieList = FilmChoiceUser::getMaxMovieIds(FilmChoiceUser::TYPE_WANT);
+
+        foreach($movieList as $eachMovieId => $num){
+            StatMovie::addRecord($dayTimestampRange,StatMovie::TYPE_WANT,$eachMovieId,$num);
+        }
+    }
+
+    /*
+     * 统计 订阅 数量最多的前30部电影
+     * */
+    public function actionStatSubscribeMovies(){
+
+        $dayTimestampRange = DateHelper::getYesterdayTimestamp(time());
+
+        $movieList = FilmChoiceUser::getMaxMovieIds(FilmChoiceUser::TYPE_SUBSCRIBE);
+
+        foreach($movieList as $eachMovieId => $num){
+            StatMovie::addRecord($dayTimestampRange,StatMovie::TYPE_SUBSCRIBE,$eachMovieId,$num);
+        }
 
     }
 

@@ -270,4 +270,9 @@ class DateHelper extends Object
 
         return $monthArr;
     }
+
+    public static function getYesterdayTimestamp($timestamp){
+
+        return strtotime(date("Y-m-d",$timestamp)) - 86400;
+    }
 }

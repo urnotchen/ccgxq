@@ -2,6 +2,7 @@
 
 namespace backend\modules\stat;
 
+use backend\models\StatUserAction;
 use Yii;
 
 class Module extends \yii\base\Module
@@ -26,6 +27,9 @@ class Module extends \yii\base\Module
         $items = Yii::$app->sidebarItems->getItems();
 
         $items[] = $this->prepareItem('活跃用户', 'stat');
+        $items[] = $this->prepareItem('电影统计', 'stat-movie');
+        $items[] = $this->prepareItem('评论统计', 'stat-user-action','index?StatUserActionSearch[type] = '.StatUserAction::TYPE_COMMENT);
+        $items[] = $this->prepareItem('电影斩标记', 'stat-user-action','index?StatUserActionSearch[type] = '.StatUserAction::TYPE_CHOICE_BY_ZHAN);
 
         Yii::$app->sidebarItems->setItems($items);
     }

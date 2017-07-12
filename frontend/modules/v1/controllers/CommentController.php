@@ -11,6 +11,7 @@ namespace frontend\modules\v1\controllers;
 use frontend\components\rest\Controller;
 use frontend\modules\v1\helpers\QueryHelper;
 use frontend\modules\v1\models\CommentZan;
+use frontend\modules\v1\models\FilmChoiceUser;
 use frontend\modules\v1\models\FilmComment;
 use frontend\modules\v1\models\forms\CommentZanForm;
 use frontend\modules\v1\models\forms\FilmCommentForm;
@@ -89,6 +90,10 @@ class CommentController extends Controller{
         $comment = $form->prepare($rawParams);
         if($comment->content){
             $this->statisticsService->setCommentCount(time(),$this->getUser()->id);
+
+        }
+        if($form->source == FilmComment::SOURCE_ZHAN){
+            $this->statisticsService->zhanUserChoiceCount(time(),FilmChoiceUser::TYPE_SAW,$this->getUser()->id);
         }
         return FilmComment::addComment($comment,$this->getUser()->id);
     }

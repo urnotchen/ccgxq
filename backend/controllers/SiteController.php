@@ -1,6 +1,7 @@
 <?php
 
 namespace backend\controllers;
+use backend\models\FilmChoiceUser;
 use Yii;
 use backend\models\forms\LoginForm;
 
@@ -85,7 +86,15 @@ class SiteController extends \yii\web\Controller
 //        $weibo->posted_at >= time() - 6 * 60 * 60
 
 //        var_dump(\Yii::$app->JPush->send());
-        return strtotime(date("Y-m-d",time()));
+        $week = sprintf('%02s',98);
+//        $week = sprintf('%02s',33);
+        var_dump($week);
+//        return strtotime("2017W24");
+
+        var_dump(FilmChoiceUser::find()
+            ->select('movie_id,count(movie_id) as num')
+            ->groupBy('movie_id')
+            ->orderBy('num desc')->createCommand()->getRawSql());
     }
 
     public function actionLogin()

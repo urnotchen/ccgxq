@@ -8,6 +8,8 @@
 
 namespace backend\models;
 
+use yii\helpers\ArrayHelper;
+
 class FilmChoiceUser extends \common\models\FilmChoiceUser{
 
     /*
@@ -19,4 +21,18 @@ class FilmChoiceUser extends \common\models\FilmChoiceUser{
 
     }
 
+    /*
+     * 获取想看/统计 数量最多的前30部电影
+     * */
+    public static function getMaxMovieIds($type,$num = 30){
+
+        $res = self::find()
+            ->select('movie_id,count(movie_id) as num')
+            ->where(['type' => $type,'status' => self::STATUS_NORMAL])
+            ->groupBy('movie_id')
+            ->orderBy('num desc')
+            ->asArray()
+            ->all();
+        return ArrayHelper::map($res,'movie_id','num');
+    }
 }
