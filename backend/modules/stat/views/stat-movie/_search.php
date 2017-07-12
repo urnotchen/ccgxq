@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use kartik\datetime\DateTimePicker;
 /* @var $this yii\web\View */
 /* @var $model backend\modules\stat\models\searches\StatMovieSearch */
 /* @var $form yii\widgets\ActiveForm */

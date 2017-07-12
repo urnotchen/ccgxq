@@ -31,6 +31,7 @@ class FilmChoiceUser extends \common\models\FilmChoiceUser{
             ->where(['type' => $type,'status' => self::STATUS_NORMAL])
             ->groupBy('movie_id')
             ->orderBy('num desc')
+            ->limit($num)
             ->asArray()
             ->all();
         return ArrayHelper::map($res,'movie_id','num');
