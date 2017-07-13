@@ -132,7 +132,7 @@ class MiscController extends \yii\web\Controller
             }
         }
 
-        return $this->render('policy', [
+        return $this->render('edit', [
             'model' => $model
         ]);
     }
