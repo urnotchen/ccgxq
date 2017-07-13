@@ -78,6 +78,7 @@ class FilmCommentSearch extends FilmComment
 
         if($this->exist_content){
             $query->andWhere(['not',['comment' => null]]);
+            $query->andWhere([ 'user_id' => $this->user_id]);
         }
 
         return $dataProvider;

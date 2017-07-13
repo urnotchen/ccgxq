@@ -108,7 +108,7 @@ class MiscController extends \yii\web\Controller
     }
     public function actionPolicy()
     {
-        $model = Misc::find()->one() ? : new Misc();
+        $model = Misc::findOne(['name' => Misc::NAME_USER_AGREEMENT]);
 
         if ($model->isNewRecord) {
             return $this->redirect('create');
@@ -123,6 +123,7 @@ class MiscController extends \yii\web\Controller
     {
         $model = new Misc();
 
+        $model->name = Misc::NAME_USER_AGREEMENT;
         if(Yii::$app->request->isPost) {
             $postParams = Yii::$app->getRequest()->post();
 
@@ -131,7 +132,7 @@ class MiscController extends \yii\web\Controller
             }
         }
 
-        return $this->render('edit', [
+        return $this->render('policy', [
             'model' => $model
         ]);
     }
