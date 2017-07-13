@@ -108,7 +108,7 @@ class MiscController extends \yii\web\Controller
     }
     public function actionPolicy()
     {
-        $model = Misc::findOne(['name' => Misc::NAME_USER_AGREEMENT]);
+        $model = Misc::getInstance(['name' => Misc::NAME_USER_AGREEMENT]);
 
         if ($model->isNewRecord) {
             return $this->redirect('create');
