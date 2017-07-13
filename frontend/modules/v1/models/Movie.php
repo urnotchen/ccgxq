@@ -168,7 +168,7 @@ class Movie extends \frontend\models\Movie
             ->where([FilmChoiceUser::tableName() . '.type' => FilmChoiceUser::TYPE_SAW, FilmChoiceUser::tableName() . '.user_id' => $user_id])
             ->andWhere(['not', [FilmChoiceUser::tableName() . '.status' => FilmChoiceUser::STATUS_TRASH]])
             ->andWhere([FilmComment::tableName() . '.star' => $star, FilmComment::tableName() . '.type' => FilmComment::TYPE_USER])
-            ->andWhere([FilmComment::tableName() . '.user_id' => $user_id])
+            ->andWhere([FilmComment::tableName() . '.user_id' => (string)$user_id])
             ->orderBy([FilmChoiceUser::tableName() . '.updated_at' => SORT_DESC]);
 
         return $query;

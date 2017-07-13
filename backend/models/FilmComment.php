@@ -10,7 +10,7 @@ class FilmComment extends \common\models\FilmComment{
     public static function getCommentNum($userId){
 
         return self::find()
-            ->where(['type' => self::TYPE_USER,'user_id' => $userId])
+            ->where(['type' => self::TYPE_USER,'user_id' => (string)$userId])
             ->andWhere(['not',['comment' => null]])
             ->count();
     }
