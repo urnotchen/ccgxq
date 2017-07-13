@@ -89,4 +89,14 @@ class FilmChoiceUser extends \yii\db\ActiveRecord
 
         return self::find()->where(['movie_id' => $movie_id,'type' => $type,'status' => self::STATUS_NORMAL])->count();
     }
+
+    /*
+    * 获取用户想看/看过/订阅的电影列表id
+    * */
+    public static function getMovieIds($type,$userId){
+
+        return self::find()->select('id')
+            ->where(['type' => $type,'status' => self::STATUS_NORMAL,'user_id' => $userId])
+            ->column();
+    }
 }

@@ -2,9 +2,11 @@
 
 namespace backend\modules\movie\models\search;
 
+use backend\modules\movie\models\FilmChoiceUser;
 use backend\modules\movie\models\Filmmaker;
 use backend\modules\movie\models\FilmmakerRoleConn;
 use backend\modules\movie\models\FilmProperty;
+use backend\modules\movie\models\FilmRecommend;
 use backend\modules\movie\models\FilmRecommendUser;
 use backend\modules\movie\models\FilmTypeConn;
 use backend\modules\movie\models\MovieOnlineResource;
@@ -30,10 +32,12 @@ class MovieSearch extends Movie
 //    public $isFilmmakerWork;
     public $filmmaker_id;
 
+    //用于用户可能喜欢的推荐
+    public $user_id;
     public function rules()
     {
         return [
-            [['id', 'pic_id', 'release_year', 'comment_num', 'episodes', 'single_running_time','release_timestamp','film_type','film_property'], 'integer'],
+            [['id', 'pic_id', 'release_year', 'comment_num', 'episodes', 'single_running_time','release_timestamp','film_type','film_property','user_id'], 'integer'],
             [['movie_url', 'title', 'director', 'screen_writer', 'actor', 'type', 'producer_country', 'language', 'release_date', 'alias', 'imdb', 'imdb_title', 'official_website', 'premiere', 'running_time'], 'string'],
             [['score', 'one_star', 'two_star', 'three_star', 'four_star', 'five_star'], 'number'],
             ['filmmaker_id','exist','targetClass' => Filmmaker::className(),'targetAttribute' => 'id'],
@@ -153,7 +157,29 @@ class MovieSearch extends Movie
             }
         }
 
+        if($this->user_id){
+            //todo 这里要整合一下流程 现在比较乱
+            $gt3MovieIds = FilmRecommendUser::getGT3MovieIds($this->user_id);
+            $recommendMovieIds = [];
+            foreach($gt3MovieIds as $eachMovieId) {
+                $recommendMovieIds = array_merge($recommendMovieIds,FilmRecommend::find()->select('recommend_movie_id')
+                    ->where(['movie_id' => $eachMovieId])
+                    //加入已看的电影 不再展现
+                    ->andWhere(['not', ['recommend_movie_id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT, $this->user_id)]])
+                    ->groupBy('recommend_movie_id')
+                    ->column());
+            }
+            $waitSeeMovieIds = FilmRecommendUser::find()->select('movie_id')->where(['user_id' => $this->user_id,'choice' => FilmRecommendUser::CHOICE_DEFAULT])->column();
 
+            $query
+                ->where([Movie::tableName().'.id' => array_merge($recommendMovieIds,$waitSeeMovieIds)])
+//                    [FilmRecommendUser::tableName().'.user_id' => $this->user_id,FilmRecommendUser::tableName().'.choice' => [FilmRecommendUser::CHOICE_DEFAULT]],
+
+//                ->andWhere(['not',[Movie::tableName().'.id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$this->user_id)]])
+//                ->orWhere([Movie::tableName().'.id' => $recommendMovieIds])
+                ->groupBy('movie.id')
+            ;
+        }
         return $dataProvider;
     }
 

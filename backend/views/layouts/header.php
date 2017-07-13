@@ -40,7 +40,7 @@ use yii\helpers\Html;
 
             $items[] = [
                 'text' => '用户',
-                'url' => ['/user/user-details/index'],
+                'url' => ['/user/user/index'],
                 'activeModule' => 'user',
             ];
 

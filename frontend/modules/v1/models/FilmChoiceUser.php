@@ -129,13 +129,5 @@ class FilmChoiceUser extends \frontend\models\FilmChoiceUser
         return self::findOne(['movie_id' => $movieId,'type' => $type,'user_id' => $userId,'status' => self::STATUS_NORMAL])?1:0;
     }
 
-    /*
-     * 获取用户想看/看过/订阅的电影列表id
-     * */
-    public static function getMovieIds($type,$userId){
 
-        return self::find()->select('id')
-            ->where(['type' => $type,'status' => self::STATUS_NORMAL,'user_id' => $userId])
-            ->column();
-    }
 }

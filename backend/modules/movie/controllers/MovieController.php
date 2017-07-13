@@ -27,7 +27,7 @@ class MovieController extends \yii\web\Controller
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'update', 'view', 'delete','test'],
+                        'actions' => ['index', 'create', 'update', 'view', 'delete','test','recommend'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -54,6 +54,17 @@ class MovieController extends \yii\web\Controller
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+        ]);
+    }
+
+    public function actionRecommend()
+    {
+        $searchModel = new MovieSearch();
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
+
+        return $this->render('recommend', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
         ]);

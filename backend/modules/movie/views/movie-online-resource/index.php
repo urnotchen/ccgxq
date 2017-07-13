@@ -43,7 +43,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->enum('definition')[$model->definition];
                 }
             ],
-            'created_at',
+            [
+                'attribute' => 'created_at',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Yii::$app->dateFormat->humanReadable3($model->created_at);
+                }
+            ],
 
 
             ['class' => 'yii\grid\ActionColumn'],

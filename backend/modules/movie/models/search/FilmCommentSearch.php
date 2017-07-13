@@ -12,6 +12,8 @@ use backend\modules\movie\models\FilmComment;
  */
 class FilmCommentSearch extends FilmComment
 {
+
+    public $exist_content;
     /**
      * @inheritdoc
      */
@@ -19,7 +21,7 @@ class FilmCommentSearch extends FilmComment
     {
         return [
             [['id', 'movie_id', 'pic_id', 'star','type', 'good_num','source','created_at', 'updated_at'], 'integer'],
-            [['user_id', 'username', 'comment'], 'safe'],
+            [['user_id', 'username', 'comment','exist_content'], 'safe'],
         ];
     }
 
@@ -73,6 +75,10 @@ class FilmCommentSearch extends FilmComment
         $query->andFilterWhere(['like', 'user_id', $this->user_id])
             ->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'comment', $this->comment]);
+
+        if($this->exist_content){
+            $query->andWhere(['not',['comment' => null]]);
+        }
 
         return $dataProvider;
     }

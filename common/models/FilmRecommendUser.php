@@ -87,4 +87,17 @@ class FilmRecommendUser extends \yii\db\ActiveRecord
         return $this->hasOne(Movie::className(),['id' => 'movie_id']);
     }
 
+    /*
+     * 获取评论超过3分的电影id列表
+     * */
+    public static function getGT3MovieIds($userId){
+
+        return self::find()->select('movie_id')
+
+//            ->where(['user_id' => $userId, 'choice' => [FilmRecommendUser::CHOICE_SAW],'status' => FilmRecommendUser::STATUS_WAIT_RECOMMEND])
+            //不管是不是在电影斩里面评分的 都推荐关联的
+            ->where(['user_id' => $userId,'status' => FilmRecommendUser::STATUS_WAIT_RECOMMEND])
+            ->andWhere(['>=','star',3])
+            ->column();
+    }
 }

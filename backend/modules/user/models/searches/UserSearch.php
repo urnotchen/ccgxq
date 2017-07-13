@@ -12,6 +12,7 @@ use backend\modules\user\models\User;
  */
 class UserSearch extends User
 {
+    public $nickname;
     /**
      * @inheritdoc
      */
@@ -20,6 +21,7 @@ class UserSearch extends User
         return [
             [['id', 'status', 'last_use_time', 'allowance', 'allowance_updated_at', 'created_at', 'updated_at'], 'integer'],
             [['email', 'password'], 'safe'],
+            [['nickname'],'string'],
         ];
     }
 
@@ -71,6 +73,9 @@ class UserSearch extends User
         $query->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'password', $this->password]);
 
+        if($this->nickname){
+            $query->joinWith('details')->andFilterWhere(['like','nickname', $this->nickname]);
+        }
         return $dataProvider;
     }
 }
