@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models;
+use backend\modules\movie\models\FilmSynopsis;
 use common\models\queries\MovieQuery;
 
 /**
@@ -131,6 +132,10 @@ class Movie extends \yii\db\ActiveRecord
         return $this->hasOne(FilmRecommend::className(),['movie_id' => 'id']);
     }
 
+    public function getFilmSynopsis(){
+
+        return $this->hasMany(FilmSynopsis::className(),['movie_id' => 'id']);
+    }
     /*
      * 获取电影表所有id
      * */

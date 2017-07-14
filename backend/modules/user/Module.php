@@ -30,7 +30,7 @@ class Module extends \yii\base\Module
         $items[] = [
             'label' => '<span class="fa fa-cubes"></span> 用户管理',
             'items' => [],
-            'url' => ['/movie/movie-online-resource/index'],
+            'url' => ['/user/user/index'],
             'options' => [
                 'class' => \bluelive\adminlte\widgets\SidebarActiveWidget::widget([
                     'activeArr' => [

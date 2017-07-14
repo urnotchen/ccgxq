@@ -2,6 +2,7 @@
 
 namespace backend\modules\movie\models\search;
 
+use backend\modules\movie\models\FilmChoiceUser;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -66,11 +67,21 @@ class FilmCommentSearch extends FilmComment
             'movie_id' => $this->movie_id,
             'pic_id' => $this->pic_id,
             'star' => $this->star,
-            'type' => $this->type,
+//            'type' => $this->type,
             'source' => $this->source,
             'good_num' => $this->good_num,
             'updated_at' => $this->updated_at,
         ]);
+
+        if($this->type){
+            if($this->type == self::TYPE_USER) {
+                $query->joinWith('filmChoiceUserForCommentSearch', true, 'join')
+                    ->where([FilmChoiceUser::tableName().'.type' => FilmChoiceUser::TYPE_SAW]);
+
+            }else{
+                $query->andWhere(['type' => $this->type]);
+            }
+        }
 
         $query->andFilterWhere(['like', 'user_id', $this->user_id])
             ->andFilterWhere(['like', 'username', $this->username])

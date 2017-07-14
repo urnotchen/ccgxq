@@ -100,4 +100,9 @@ class FilmComment extends \yii\db\ActiveRecord
 
         return $this->hasOne(Movie::className(),['id' => 'movie_id']);
     }
+
+    public function getFilmChoiceUserForCommentSearch(){
+
+        return $this->hasMany(FilmChoiceUser::className(),['movie_id' => 'movie_id','user_id' => 'user_id']);
+    }
 }

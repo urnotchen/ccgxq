@@ -89,6 +89,7 @@ HTML;
             'star' => 'star',
             'good_num' => 'good_num',
             'username' =>[
+                'attribute' => 'user_id',
                 'label' => '用户名',
                 'format' => 'raw',
                 'value' => function($model){
@@ -110,6 +111,7 @@ HTML;
                 'contentOptions' => ['width' => '50%'],
             ],
             'movie_name' => [
+                'attribute' => 'movie_id',
                 'label' => '电影名',
                 'format' => 'raw',
                 'value' => function($model){

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use backend\modules\movie\models\FilmTag;
 use Yii;
 
 /**
@@ -55,6 +56,6 @@ class FilmTagConn extends \yii\db\ActiveRecord
     }
 
     public function getTags(){
-        return $this->hasOne(Tag::className(),['id' => 'tag_id']);
+        return $this->hasOne(FilmTag::className(),['id' => 'tag_id']);
     }
 }

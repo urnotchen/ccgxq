@@ -21,13 +21,13 @@ $this->title = 'MOVIE';
             <?php
                 if(isset(Yii::$app->request->queryParams['MovieSearch']['film_property'])) {
                     echo MovieGridView::widget([
-                        'stringColumns' => ['order','pic_id', 'title', 'director', 'actor', 'comment_num', 'score','sequence'],
+                        'stringColumns' => ['order','pic_id', 'title', 'score','type','country','director', 'release_date','sequence'],
                         'dataProvider' => $dataProvider,
                         'property' => Yii::$app->request->queryParams['MovieSearch']['film_property'],
                     ]);
                 }else{
                    echo MovieGridView::widget([
-                        'stringColumns' => ['pic_id', 'title', 'director', 'actor', 'comment_num', 'score'],
+                        'stringColumns' => ['pic_id', 'title', 'score','type','country','director', 'release_date'],
                         'dataProvider' => $dataProvider,
                     ]);
                 }

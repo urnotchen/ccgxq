@@ -53,10 +53,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'five_star',
             'episodes',
             'single_running_time',
-            'synopsis:html',
-            ['label' => '标签','value' => implode(\backend\modules\movie\models\TagConn::getMovieTag($model->id),',')],
-            ['label' => '推荐','value' => implode(\backend\modules\movie\models\Recommend::getRecommend($model->id),',')],
-            ['label' => '在哪看','value' =>\backend\modules\movie\models\VideoConn::getVideoLink($model->id),'format'=>'raw'],
+            [
+                'label' => '简介',
+                'value' => function($model){
+                    if(!$model->filmSynopsis){
+                        return '';
+                    }
+                    return $model->filmSynopsis[0]->content;
+                }
+            ],
+            ['label' => '标签','value' => implode(\backend\modules\movie\models\FilmTagConn::getMovieTag($model->id),',')],
+            ['label' => '推荐','value' => implode(\backend\modules\movie\models\FilmRecommend::getRecommend($model->id),',')],
+            ['label' => '在哪看','value' =>\backend\modules\movie\models\FilmVideoConn::getVideoLink($model->id),'format'=>'raw'],
         ],
     ]) ?>
 

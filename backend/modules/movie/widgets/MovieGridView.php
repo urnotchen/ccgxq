@@ -118,6 +118,8 @@ class MovieGridView extends GridView
                     }
                 }
             ],
+            'type' => 'type',
+            'release_date' => 'release_date',
             'sequence' => [
                 'label' => '顺序',
                 'format' => 'raw',
