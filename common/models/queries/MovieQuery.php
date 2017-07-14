@@ -50,6 +50,12 @@ class MovieQuery extends \yii\db\ActiveQuery{
         return $this;
     }
 
+    public function beforeNowYear(){
+
+        $this->andWhere(['<=','release_year',date("Y")]);
+
+        return $this;
+    }
     public static function propertyNewestSequenceSql(){
 
         return "`film_property.sequence desc,film_property.created_at desc,movie_online_resource.create_at desc ,movie.release_timestamp desc`";

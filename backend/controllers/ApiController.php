@@ -205,7 +205,6 @@ class ApiController extends \yii\rest\Controller
         $yesterday = DateHelper::getYesterdayTimestamp(time());
 
         $count = Yii::$app->redis->bitcount(StatDaily::buildDailyStatKey($yesterday));
-        
         $statDaily = StatDaily::getInstance(['day' => $yesterday]);
         $statDaily->day = $yesterday;
         $statDaily->count = $count;

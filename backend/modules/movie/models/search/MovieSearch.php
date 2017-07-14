@@ -133,14 +133,15 @@ class MovieSearch extends Movie
                         ->propertyNewestSequence();
                     break;
                 case FilmProperty::PROPERTY_SELECTED:
-                    $query = $query->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
+                    $query = $query
+//                        ->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
                         ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
                         ->andWhere(['or', ['property' => $this->film_property], ['property' => null]])
                         ->releaseTimestampSequence();
                     break;
                 case FilmProperty::PROPERTY_HOT:
-                    $query = $query->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
-                        ->where(['or', ['property' => $this->film_property], ['property' => null]])
+                    $query->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
+                        ->andWhere(['or', ['property' => $this->film_property], ['property' => null]])
                         ->propertyHotSequence();
                     break;
                 case FilmProperty::PROPERTY_RECOMMEND_OFFICIAL:
