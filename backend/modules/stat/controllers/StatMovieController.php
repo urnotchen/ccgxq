@@ -38,6 +38,10 @@ class StatMovieController extends Controller
         $searchModel = new StatMovieSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        if(!isset(Yii::$app->request->queryParams['type'])){
+
+            $searchModel->type = StatMovie::TYPE_SUBSCRIBE;
+        }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

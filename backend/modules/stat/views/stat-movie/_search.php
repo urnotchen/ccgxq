@@ -19,7 +19,6 @@ use kartik\datetime\DateTimePicker;
         'fieldClass' => '\bluelive\adminlte\widgets\ActiveField',
     ]); ?>
 
-    <?= $form->field($model, 'type')->dropDownList(\backend\modules\stat\models\StatMovie::getEnumData()['type']) ?>
     <?= $form->field($model, 'statistics_time', ['options' => ['class' => 'form-group','style' => ['padding-left' => '0px']]])->label(false)->widget(
         \kartik\daterange\DateRangePicker::className(),
         [
@@ -35,6 +34,7 @@ use kartik\datetime\DateTimePicker;
             ]
         ]
     ); ?>
+    <?= $form->field($model, 'type')->dropDownList(\backend\modules\stat\models\StatMovie::getEnumData()['type']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

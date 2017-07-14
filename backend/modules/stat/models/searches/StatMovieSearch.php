@@ -73,6 +73,11 @@ class StatMovieSearch extends StatMovie
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'day' => SORT_DESC
+                ]
+            ]
         ]);
 
         $this->load($params);
@@ -93,9 +98,7 @@ class StatMovieSearch extends StatMovie
             'num' => $this->num,
             'type' => $this->type,
         ]);
-        if(!$this->day){
-            $query->andWhere(['day' => DateHelper::getYesterdayTimestamp(time())]);
-        }
+
         if(!$this->type){
             //默认订阅
             $query->andWhere(['type' => self::TYPE_SUBSCRIBE]);

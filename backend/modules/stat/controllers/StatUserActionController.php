@@ -36,8 +36,11 @@ class StatUserActionController extends Controller
     public function actionIndex()
     {
         $searchModel = new StatUserActionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if(!isset(Yii::$app->request->queryParams['sub_type'])){
 
+            $searchModel->sub_type = StatUserAction::SUB_TYPE_ZHAN_SUBSCRIBE;
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

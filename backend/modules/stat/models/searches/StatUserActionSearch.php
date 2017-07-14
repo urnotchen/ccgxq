@@ -93,13 +93,9 @@ class StatUserActionSearch extends StatUserAction
             'type' => $this->type,
             'sub_type' => $this->sub_type,
         ]);
-        if(!$this->day){
-            $query->andWhere(['day' => DateHelper::getYesterdayTimestamp(time())]);
-        }
-        if(!$this->sub_type){
-            //默认订阅
-            $query->andWhere(['sub_type' => self::SUB_TYPE_ZHAN_SUBSCRIBE]);
-        }
+
+
+
 
         if (!empty($this->statistics_time_range)) {
             $range_time = $this->statistics_time_range;
