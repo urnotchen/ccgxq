@@ -1,7 +1,6 @@
 <?php
 
 namespace common\models;
-use backend\modules\movie\models\FilmSynopsis;
 use common\models\queries\MovieQuery;
 
 /**
