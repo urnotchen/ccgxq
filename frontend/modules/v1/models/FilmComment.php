@@ -157,4 +157,14 @@ class FilmComment extends \frontend\models\FilmComment
 
         return self::findOne(['movie_id' => $movieId,'user_id' => $userId])->delete();
     }
+
+    /*
+     * 获取用户评分
+     * */
+    public static function getUserStar($movieId){
+
+        $res =  self::findOne(['movie_id' => $movieId,'user_id' => (string)\Yii::$app->user->id,'type' => self::TYPE_USER]);
+
+        return $res?$res->star:0;
+    }
 }

@@ -60,8 +60,11 @@ class Movie extends \frontend\models\Movie
             },
             'subscribe' => function($model){
                 return FilmChoiceUser::existAction($model->id,FilmChoiceUser::TYPE_SUBSCRIBE);
+            },
+            'user_star' => function($model){
+                //返回用户的评分 如果用户没有评分就返回0
+                return FilmComment::getUserStar($model->id);
             }
-
 
         ];
     }
