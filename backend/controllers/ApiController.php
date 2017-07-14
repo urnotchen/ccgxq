@@ -203,9 +203,11 @@ class ApiController extends \yii\rest\Controller
 //        Header::validateStat();
 
         $yesterday = DateHelper::getYesterdayTimestamp(time());
+        var_dump($yesterday);
+        var_dump(StatDaily::buildDailyStatKey());
         $count = Yii::$app->redis->bitcount(StatDaily::buildDailyStatKey());
-
-
+        var_dump($count);
+        var_dump(Yii::$app->redis->get(StatDaily::buildDailyStatKey()));
         $statDaily = StatDaily::getInstance(['day' => $yesterday]);
         $statDaily->day = $yesterday;
         $statDaily->count = $count;
