@@ -2,8 +2,6 @@
 
 namespace backend\models;
 
-use backend\models\FilmChoiceUser;
-use backend\modules\movie\models\MovieOnlineResource;
 
 class Movie extends \common\models\Movie
 {

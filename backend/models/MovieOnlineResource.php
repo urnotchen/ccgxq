@@ -21,7 +21,14 @@ class MovieOnlineResource extends \common\models\MovieOnlineResource{
                 $record->movie_id = $arr['movie_id'];
                 $record->definition = $eachDefinition;
                 $record->save();
+
+
             }
+        }
+        $movie = Movie::findOne(['id' => $arr['movie_id']]);
+        if($movie){
+            $movie->resource = Movie::RESOURCE_YES;
+            $movie->save();
         }
     }
 

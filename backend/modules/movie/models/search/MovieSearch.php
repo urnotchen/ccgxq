@@ -141,6 +141,7 @@ class MovieSearch extends Movie
                     break;
                 case FilmProperty::PROPERTY_HOT:
                     $query->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
+                        ->andWhere(['resource' => self::RESOURCE_NO])
                         ->andWhere(['or', ['property' => $this->film_property], ['property' => null]])
                         ->propertyHotSequence();
                     break;

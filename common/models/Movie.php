@@ -30,6 +30,7 @@ class Movie extends \yii\db\ActiveRecord
     use \common\traits\InstanceTrait;
     use \common\traits\FindOrExceptionTrait;
 
+    const RESOURCE_NO = 0 , RESOURCE_YES = 1;
     public static function tableName()
     {
         return 'movie';
@@ -58,7 +59,7 @@ class Movie extends \yii\db\ActiveRecord
 //        ];
         return [
             [['id'], 'required'],
-            [['id', 'pic_id', 'release_year', 'comment_num', 'episodes', 'single_running_time','release_timestamp'], 'integer'],
+            [['id', 'pic_id', 'release_year', 'comment_num', 'episodes', 'single_running_time','release_timestamp','resource'], 'integer'],
             [['score', 'one_star', 'two_star', 'three_star', 'four_star', 'five_star'], 'number'],
             [['movie_url', 'director', 'type', 'producer_country', 'language', 'release_date', 'imdb', 'imdb_title', 'official_website', 'premiere', 'running_time'], 'string', 'max' => 255],
             [['title', 'screen_writer', 'alias'], 'string', 'max' => 500],

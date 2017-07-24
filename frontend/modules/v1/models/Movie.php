@@ -130,6 +130,7 @@ class Movie extends \frontend\models\Movie
             case FilmProperty::PROPERTY_HOT:
                 $query = self::find()->select('movie.*,(select @rownum:=0)')->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
                     ->andWhere(['or', ['property' => $property], ['property' => null]])
+                    ->andWhere(['resource' => self::RESOURCE_NO])
                     ->beforeNowYear()
                     ->groupBy('movie.id')
                     ->propertyHotSequence();
