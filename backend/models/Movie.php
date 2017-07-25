@@ -15,7 +15,9 @@ class Movie extends \common\models\Movie
         $res = self::find()->select('title')
                 ->join('join',MovieOnlineResource::tableName(),MovieOnlineResource::tableName().'.movie_id = '.self::tableName().'.id')
                 ->join('join',FilmChoiceUser::tableName(),FilmChoiceUser::tableName().'.movie_id='.self::tableName().'.id' )
-                ->where([FilmChoiceUser::tableName().'.user_id' => $userId,FilmChoiceUser::tableName().'.type' => FilmChoiceUser::TYPE_SUBSCRIBE,FilmChoiceUser::tableName().'.status' => FilmChoiceUser::STATUS_NORMAL,FilmChoiceUser::tableName().'.push' => FilmChoiceUser::PUSH_NO])
+                ->join('join',FilmProperty::tableName(),FilmProperty::tableName().'.movie_id = '.self::tableName().'.id')
+                ->where([FilmChoiceUser::tableName().'.user_id' => $userId,FilmChoiceUser::tableName().'.type' => FilmChoiceUser::TYPE_WANT,FilmChoiceUser::tableName().'.status' => FilmChoiceUser::STATUS_NORMAL,FilmChoiceUser::tableName().'.push' => FilmChoiceUser::PUSH_NO])
+                ->andWhere([FilmProperty::tableName().'.property' => FilmProperty::PROPERTY_HOT])
                 ->andWhere(['between',MovieOnlineResource::tableName().'.created_at',time() - 86400 ,time()])
                 ->groupBy(self::tableName().'.id')->column();
 

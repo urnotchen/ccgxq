@@ -75,7 +75,8 @@ class StatMovieSearch extends StatMovie
             'query' => $query,
             'sort' => [
                 'defaultOrder' => [
-                    'day' => SORT_DESC
+                    'day' => SORT_DESC,
+                    'num' => SORT_DESC
                 ]
             ]
         ]);

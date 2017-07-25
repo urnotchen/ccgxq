@@ -24,7 +24,7 @@ class StatUserAction extends \yii\db\ActiveRecord
 
     const SUB_TYPE_ZHAN_WANT = 1 , SUB_TYPE_ZHAN_SAW = 2 , SUB_TYPE_ZHAN_SUBSCRIBE = 3;
 
-    const ZHAN_TYPE_LIST = [self::SUB_TYPE_ZHAN_WANT => FilmChoiceUser::TYPE_WANT,self::SUB_TYPE_ZHAN_SAW => FilmChoiceUser::TYPE_SAW,self::SUB_TYPE_ZHAN_SUBSCRIBE => FilmChoiceUser::TYPE_SUBSCRIBE];
+    const ZHAN_TYPE_LIST = [self::SUB_TYPE_ZHAN_WANT => FilmChoiceUser::TYPE_WANT,self::SUB_TYPE_ZHAN_SAW => FilmChoiceUser::TYPE_SAW];
     /**
      * @inheritdoc
      */
