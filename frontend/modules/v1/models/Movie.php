@@ -112,28 +112,31 @@ class Movie extends \frontend\models\Movie
 
         switch ($property) {
             case FilmProperty::PROPERTY_NEWEST:
-                $query = self::find()->select('movie.*,(select @rownum:=0)')->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
-                    ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
-                    ->andWhere(['or', ['property' => $property], ['property' => null]])
-                    ->beforeNowYear()
+                $query = self::find()->select('movie.*,(select @rownum:=0)')->join('left join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
+                    ->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
+                    ->andWhere(['property' => $property])
+//                    ->andWhere(['or', ['property' => $property], ['property' => null]])
+//                    ->beforeNowYear()
                     ->groupBy('movie.id')
                     ->propertyNewestSequence();
                 break;
             case FilmProperty::PROPERTY_SELECTED:
                 $query = self::find()->select('movie.*,(select @rownum:=0)')->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
-                    ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
+                    ->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
                     ->andWhere(['or', ['property' => $property], ['property' => null]])
                     ->beforeNowYear()
                     ->groupBy('movie.id')
                     ->releaseTimestampSequence();
                 break;
             case FilmProperty::PROPERTY_HOT:
-                $query = self::find()->select('movie.*,(select @rownum:=0)')->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
-                    ->andWhere(['or', ['property' => $property], ['property' => null]])
-                    ->andWhere(['resource' => self::RESOURCE_NO])
-                    ->beforeNowYear()
+                $query = self::find()->select('movie.*,(select @rownum:=0)')->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
+                    ->andWhere(['property' => $property], ['property' => null])
+//                    ->andWhere(['or', ['property' => $property], ['property' => null]])
+//                    ->andWhere(['resource' => self::RESOURCE_NO])
+//                    ->beforeNowYear()
                     ->groupBy('movie.id')
                     ->propertyHotSequence();
+
                 break;
             case FilmProperty::PROPERTY_RECOMMEND_OFFICIAL:
                 $query = self::find()->select('movie.*,(select @rownum:=0)')->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')

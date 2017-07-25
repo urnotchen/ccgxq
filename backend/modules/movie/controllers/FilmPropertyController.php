@@ -158,13 +158,14 @@ class FilmPropertyController extends Controller
         }else{
             if($motion == 'delete'){
                 if($res){
-                    $frontRows = FilmProperty::find()->where(['>','sequence',$res->sequence])->andWhere(['property' => $res->property])->all();
+                    if($res->sequence != 0) {
+                        $frontRows = FilmProperty::find()->where(['>', 'sequence', $res->sequence])->andWhere(['property' => $res->property])->all();
 
-                    foreach($frontRows?$frontRows:[] as $eachRow){
-                        $eachRow->sequence -= 1;
-                        $eachRow->save();
+                        foreach ($frontRows ? $frontRows : [] as $eachRow) {
+                            $eachRow->sequence -= 1;
+                            $eachRow->save();
+                        }
                     }
-
                     $res->delete();
 //                    $res->sequence = 0;
 //                    $res->save();

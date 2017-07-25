@@ -22,6 +22,7 @@ use yii\widgets\ActiveForm;
     <?php  echo $form->field($model, 'actor') ?>
 
     <?php  echo $form->field($model, 'film_type')->dropDownList(\backend\modules\movie\models\FilmType::getTypeList(),['prompt' => '类型']) ?>
+    <?php  echo $form->field($model, 'film_property')->hiddenInput() ?>
 
 <!--    --><?php // echo $form->field($model, 'release_year')->dropDownList(range(1900,date("Y"))) ?>
 

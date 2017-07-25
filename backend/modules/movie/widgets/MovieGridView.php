@@ -104,6 +104,13 @@ class MovieGridView extends GridView
 
             'comment_num' => 'comment_num',
             'score' => 'score',
+            'resource' => [
+                'label' => '资源',
+                'format' => 'raw',
+                'value' => function($model){
+                    return $model->resource?'有':'无';
+                }
+            ],
             'order' => [
                 'label' => '位置',
                 'format' => 'raw',

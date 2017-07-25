@@ -46,7 +46,12 @@ class MovieQuery extends \yii\db\ActiveQuery{
     }
     public function propertyNewestSequence(){
 
-        $this->orderBy(['film_property.sequence' => SORT_DESC,'film_property.created_at' => SORT_DESC,'movie_online_resource.created_at' => SORT_DESC,'movie.release_timestamp' => SORT_DESC]);
+//        $this->orderBy(['movie_online_resource.created_at' => SORT_DESC]);
+//        $this->groupBy('movie_online_resource.created_at');
+        $this->orderBy(['movie.resource' => SORT_DESC,'film_property.sequence' => SORT_DESC,'film_property.created_at' => SORT_DESC,'movie.release_timestamp' => SORT_DESC]);
+//        $this->groupBy('movie_online_resource.movie_id');
+//        $this->orderBy('case  when movie_online_resource.created_at is not null then film_property.sequence desc, film_property.created_at desc, movie_online_resource.created_at desc, movie.release_timestamp desc
+//                               else movie_online_resource.created_at desc ,film_property.sequence desc ,film_property.created_at desc ,movie.release_timestamp desc end');
         return $this;
     }
 
