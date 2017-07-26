@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\helper\BasicHelper;
 use backend\helper\MovieHelper;
 use backend\models\FilmChoiceUser;
+use backend\models\FilmProperty;
 use backend\models\FrontUser;
 use backend\models\Movie;
 use backend\models\MovieOnlineResource;
@@ -13,6 +14,7 @@ use backend\models\StatMovie;
 use backend\models\StatUserAction;
 use backend\models\UserToken;
 use backend\modules\movie\services\MovieListService;
+use common\helpers\Curl;
 use common\helpers\DateHelper;
 use common\services\StatisticsService;
 
@@ -23,6 +25,7 @@ use common\models\StatMonthly;
 use backend\models\User;
 use Yii;
 use yii\db\Exception;
+use yii\helpers\BaseJson;
 
 /*}}}*/
 
@@ -413,8 +416,35 @@ class ApiController extends \yii\rest\Controller
             //有错误也要继续运行
 
         }
+    }
 
+    /*
+     * 自动添加最新,最热的属性
+     * 每天16点运行一次
+     * */
+    public function actionAutoFilmProperty(){
 
+        $newestApi = 'https://api.douban.com/v2/movie/in_theaters?count=40&city=yes';
+        $hotApi = 'https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&page_limit=40&page_start=0';
+
+        $newestArr = BaseJson::decode(Curl::httpGet($newestApi, $https = true));
+        $hotJson = BaseJson::decode(Curl::httpGet($hotApi, $https = true));
+
+        //热门列表
+        foreach($hotJson['subjects'] as $eachMovie){
+            preg_match('/subject\/(\d+)/',$eachMovie['url'],$movieId);
+            $movieId = (isset($movieId[1])?$movieId[1]:'');
+            if($movieId) {
+                FilmProperty::autoAddFilmProperty($movieId, FilmProperty::PROPERTY_HOT);
+            }
+        }//最新列表
+        foreach($newestArr['subjects'] as $eachMovie){
+            preg_match('/subject\/(\d+)/',$eachMovie['alt'],$movieId);
+            $movieId = (isset($movieId[1])?$movieId[1]:'');
+            if($movieId) {
+                FilmProperty::autoAddFilmProperty($movieId, FilmProperty::PROPERTY_NEWEST);
+            }
+        }
     }
 
 

@@ -97,26 +97,7 @@ class MovieSearch extends Movie
             'single_running_time' => $this->single_running_time,
         ]);
 //
-        $query->andFilterWhere(['like', 'movie_url', $this->movie_url])
-            ->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'director', $this->director])
-            ->andFilterWhere(['like', 'screen_writer', $this->screen_writer])
-            ->andFilterWhere(['like', 'actor', $this->actor])
-            ->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'producer_country', $this->producer_country])
-            ->andFilterWhere(['like', 'language', $this->language])
-            ->andFilterWhere(['like', 'release_date', $this->release_date])
-            ->andFilterWhere(['like', 'alias', $this->alias])
-            ->andFilterWhere(['like', 'imdb', $this->imdb])
-            ->andFilterWhere(['like', 'imdb_title', $this->imdb_title])
-            ->andFilterWhere(['like', 'official_website', $this->official_website])
-            ->andFilterWhere(['like', 'premiere', $this->premiere])
-            ->andFilterWhere(['like', 'running_time', $this->running_time]);
-        if($this->film_type){
-            //join the type_conn for searching
-            $query->join('join',FilmTypeConn::tableName(),Movie::tableName().'.id = '.FilmTypeConn::tableName().'.movie_id' )->andFilterWhere([FilmTypeConn::tableName().'.type_id' => $this->film_type]);
 
-        }
 
         if($this->filmmaker_id){
             $query->andWhere(['id' => FilmmakerRoleConn::getFilmmakerWorkNum($this->filmmaker_id)]);
@@ -161,6 +142,28 @@ class MovieSearch extends Movie
                     );
             }
         }
+
+        $query->andFilterWhere(['like', 'movie_url', $this->movie_url])
+            ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'director', $this->director])
+            ->andFilterWhere(['like', 'screen_writer', $this->screen_writer])
+            ->andFilterWhere(['like', 'actor', $this->actor])
+            ->andFilterWhere(['like', 'type', $this->type])
+            ->andFilterWhere(['like', 'producer_country', $this->producer_country])
+            ->andFilterWhere(['like', 'language', $this->language])
+            ->andFilterWhere(['like', 'release_date', $this->release_date])
+            ->andFilterWhere(['like', 'alias', $this->alias])
+            ->andFilterWhere(['like', 'imdb', $this->imdb])
+            ->andFilterWhere(['like', 'imdb_title', $this->imdb_title])
+            ->andFilterWhere(['like', 'official_website', $this->official_website])
+            ->andFilterWhere(['like', 'premiere', $this->premiere])
+            ->andFilterWhere(['like', 'running_time', $this->running_time]);
+        if($this->film_type){
+            //join the type_conn for searching
+            $query->join('join',FilmTypeConn::tableName(),Movie::tableName().'.id = '.FilmTypeConn::tableName().'.movie_id' )->andFilterWhere([FilmTypeConn::tableName().'.type_id' => $this->film_type]);
+
+        }
+
 
         if($this->user_id){
             //todo 这里要整合一下流程 现在比较乱

@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use yii\db\Exception;
 
 /**
  * This is the model class for table "film_property".
@@ -18,8 +19,32 @@ use Yii;
  */
 class FilmProperty extends \common\models\FilmProperty
 {
-    public static function getProperty($property,$movie_id){
+    public static function getProperty($property,$movieId){
 
-        return FilmProperty::findOne(['property' => $property,'status' => FilmProperty::STATUS_NORMAL,'movie_id' => $movie_id]);
+        return FilmProperty::findOne(['property' => $property,'status' => FilmProperty::STATUS_NORMAL,'movie_id' => $movieId]);
+    }
+
+    /*
+     * 添加到列表
+     * */
+    public static function autoAddFilmProperty($movieId,$property){
+
+        $record = self::getProperty($property,$movieId);
+        if ($record) {
+            $record->updated_at = time();
+        } else {
+            $movie = Movie::findOne($movieId);
+            if(!$movie) {
+                return ;
+            }
+            $record = new self;
+            $record->movie_id = $movieId;
+            $record->property = $property;
+            $record->status = self::STATUS_NORMAL;
+            $record->created_by = 0;
+            $record->updated_by = 0;
+        }
+        $record->detachBehavior('blameable');
+        $record->save();
     }
 }

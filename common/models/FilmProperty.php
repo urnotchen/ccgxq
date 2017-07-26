@@ -63,6 +63,8 @@ class FilmProperty extends \yii\db\ActiveRecord
         return [
             [['movie_id','property'], 'required'],
             [['id', 'movie_id', 'property', 'sequence','status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            ['movie_id','exist','targetClass' => Movie::className(),'targetAttribute' => 'id'],
+            [['movie_id','property'],'unique','targetAttribute' => ['movie_id','property']]
         ];
     }
 

@@ -21,8 +21,17 @@ class MovieOnlineResource extends \common\models\MovieOnlineResource{
                 $record->movie_id = $arr['movie_id'];
                 $record->definition = $eachDefinition;
                 $record->save();
-
-
+            }
+        }
+        //如果电影有资源 并且在热门新片列表 自动加入最新列表
+        $res = FilmProperty::getProperty(FilmProperty::PROPERTY_HOT,$arr['movie_id']);
+        if($res){
+            $newestProperty = FilmProperty::getProperty(FilmProperty::PROPERTY_NEWEST,$arr['movie_id']);
+            if($newestProperty) {
+                $res->delete();
+            }else{
+                $res->property = FilmProperty::PROPERTY_NEWEST;
+                $res->save();
             }
         }
         $movie = Movie::findOne(['id' => $arr['movie_id']]);
