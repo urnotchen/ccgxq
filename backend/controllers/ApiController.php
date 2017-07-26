@@ -430,19 +430,20 @@ class ApiController extends \yii\rest\Controller
         $newestArr = BaseJson::decode(Curl::httpGet($newestApi, $https = true));
         $hotJson = BaseJson::decode(Curl::httpGet($hotApi, $https = true));
 
-        //热门列表
+        //热门电影 => 最新列表
         foreach($hotJson['subjects'] as $eachMovie){
             preg_match('/subject\/(\d+)/',$eachMovie['url'],$movieId);
             $movieId = (isset($movieId[1])?$movieId[1]:'');
             if($movieId) {
-                FilmProperty::autoAddFilmProperty($movieId, FilmProperty::PROPERTY_HOT);
+                FilmProperty::autoAddFilmProperty($movieId, FilmProperty::PROPERTY_NEWEST);
             }
-        }//最新列表
+        }
+        //接口 正在热映 => 热门列表
         foreach($newestArr['subjects'] as $eachMovie){
             preg_match('/subject\/(\d+)/',$eachMovie['alt'],$movieId);
             $movieId = (isset($movieId[1])?$movieId[1]:'');
             if($movieId) {
-                FilmProperty::autoAddFilmProperty($movieId, FilmProperty::PROPERTY_NEWEST);
+                FilmProperty::autoAddFilmProperty($movieId, FilmProperty::PROPERTY_HOT);
             }
         }
     }
