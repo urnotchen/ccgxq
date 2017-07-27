@@ -10,8 +10,8 @@ namespace frontend\modules\v1\models\forms;
 class SearchTimeline extends \frontend\components\rest\TimelineModel
 {
     protected $_modelClass = 'frontend\modules\v1\models\SearchMovie';
-    protected $_orderBy    = 'score desc';
-    protected $_line       = 'score';
+    protected $_orderBy    = 'comment_num desc';
+    protected $_line       = 'comment_num';
     protected $_primaryKey = 'id';
 
     public static function timeline($rawParams, array $where = [])

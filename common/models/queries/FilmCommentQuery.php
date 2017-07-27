@@ -17,15 +17,15 @@ class FilmCommentQuery extends \yii\db\ActiveQuery{
     public function typeSequence(){
 
         $typeList = implode(',',FilmComment::TYPE_RANGE);
-
-        $this->orderBy(new Expression("FIELD(type,{$typeList})"));
+        $userId = \Yii::$app->getUser()->id;
+        $this->orderBy(new Expression("find_in_set('user_id',{$userId}), FIELD(type,{$typeList})"));
 
         return $this;
 
     }
     public function goodNumSequence(){
 
-            $this->orderBy(['good_num' => SORT_DESC]);
+            $this->addOrderBy(['good_num' => SORT_DESC]);
 
             return $this;
 
