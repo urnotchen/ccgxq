@@ -104,7 +104,7 @@ class FilmComment extends \frontend\models\FilmComment
 
     public static function getCommentListQuery($movie_id){
 
-        return self::find()->select('film_comment.*,(select @rownum:=0)')->where(['movie_id' => $movie_id])->typeSequence()->goodNumSequence();
+        return self::find()->select('film_comment.*,(select @rownum:=0)')->where(['movie_id' => $movie_id])->andWhere(['not',['comment' => null]])->typeSequence()->goodNumSequence();
 
     }
     /*
