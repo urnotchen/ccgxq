@@ -399,8 +399,7 @@ class ApiController extends \yii\rest\Controller
         //这个暂时不做了 因为是以网上资源为主的
 
         //movie_online_resource表中有资源但是电影表里没有的电影 添加到列表
-        $noMovieIds = [];
-
+        $noMovieIds = MovieOnlineResource::getNoMovieIds($today,$today + 86400);
         //如果有前一天没采集或者采集失败的 加入列表 失败次数大于3 不采了
         $errorScrapyAr = ScrapyUpdateProcess::getReScrapeId($yesterday);
 
