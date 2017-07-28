@@ -18,7 +18,7 @@ class FilmCommentQuery extends \yii\db\ActiveQuery{
 
         $typeList = implode(',',FilmComment::TYPE_RANGE);
         $userId = \Yii::$app->getUser()->id;
-        $this->orderBy(new Expression("find_in_set('user_id',{$userId}), FIELD(type,{$typeList})"));
+        $this->orderBy(new Expression("user_id = {$userId} desc, FIELD(type,{$typeList})"));
 
         return $this;
 
