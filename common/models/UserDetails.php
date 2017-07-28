@@ -118,16 +118,16 @@ class UserDetails extends \yii\db\ActiveRecord
      */
     public function getAvatar()
     {
-//        if (File::isFileExist($this->avatar)) {
-//            return $this->avatar;
-//        }
+//        $avatar = 'http://' . \Yii::$app->params['qiniuDomain'] . '/' . $this->avatar;
+//        return \Yii::$app->request->hostInfo . '/files/images/default_avatar.jpg';
 
-        $avatar = 'http://' . \Yii::$app->params['qiniuDomain'] . '/' . $this->avatar;
-//        if (File::isFileExist($avatar)) {
-//            return $avatar;
-//        }
+        if(strpos($this->avatar,'http') !== 0 || strpos($this->avatar,'http') === false){
+            $avatar = \Yii::$app->params['qiniuDomain'].$this->avatar;
+        }else{
+            $avatar = $this->avatar;
+        }
 
-        return \Yii::$app->request->hostInfo . '/files/images/default_avatar.jpg';
+        return $avatar;
     }
 }
 

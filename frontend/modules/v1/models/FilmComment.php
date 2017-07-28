@@ -55,7 +55,7 @@ class FilmComment extends \frontend\models\FilmComment
                     return $model->image->path?\Yii::$app->params['qiniuDomain'].$model->image->path:'';
                 }else{
                     $user = UserDetails::findOne(\Yii::$app->getUser()->id);
-                    return $user->avatar;
+                    return $user->getAvatar();
                 }
             },
             'zan' => function($model){
