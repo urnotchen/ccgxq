@@ -40,7 +40,7 @@ class FilmComment extends \frontend\models\FilmComment
                     return $model->username;
                 }else{
                     //todo 返回用户名
-                    $user = User::findOne(['id' => \Yii::$app->getUser()->id]);
+                    $user = User::findOne(['id' => $model->user_id]);
                     if($user->userDetails){
                         return $user->userDetails->nickname;
                     }
@@ -55,7 +55,7 @@ class FilmComment extends \frontend\models\FilmComment
                     return $model->image->path?\Yii::$app->params['qiniuDomain'].$model->image->path:'';
                 }else{
                     $user = UserDetails::findOne(\Yii::$app->getUser()->id);
-                    return $user->getAvatar();
+                    return $user->avatar;
                 }
             },
             'zan' => function($model){
