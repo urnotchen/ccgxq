@@ -171,4 +171,11 @@ class FilmComment extends \frontend\models\FilmComment
 
         return $res?$res->star:0;
     }
+
+    public static function getCommentSelf($movieId){
+
+        $res =  self::findOne(['movie_id' => $movieId,'user_id' => (string)\Yii::$app->user->id,'type' => self::TYPE_USER]);
+
+        return $res?$res:null;
+    }
 }
