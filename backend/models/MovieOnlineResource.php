@@ -46,9 +46,6 @@ class MovieOnlineResource extends \common\models\MovieOnlineResource{
      * return @params array
      * */
     public static function getNoMovieIds($beginAt,$endAt){
-
-        $beginAt = 0;
-        $endAt = time();
         return self::find()
             ->select('movie_id')
             ->where(['between','created_at',$beginAt,$endAt - 1])

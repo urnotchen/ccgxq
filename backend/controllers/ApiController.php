@@ -399,7 +399,7 @@ class ApiController extends \yii\rest\Controller
         //这个暂时不做了 因为是以网上资源为主的
 
         //movie_online_resource表中有资源但是电影表里没有的电影 添加到列表
-        $noMovieIds = MovieOnlineResource::getNoMovieIds($today,$today + 86400);
+        $noMovieIds = MovieOnlineResource::getNoMovieIds($yesterday,$today);
         //如果有前一天没采集或者采集失败的 加入列表 失败次数大于3 不采了
         $errorScrapyAr = ScrapyUpdateProcess::getReScrapeId($yesterday);
 
@@ -423,6 +423,9 @@ class ApiController extends \yii\rest\Controller
      * */
     public function actionAutoFilmProperty(){
 
+        //热门列表转换成最新列表,
+
+
         $newestApi = 'https://api.douban.com/v2/movie/in_theaters?count=40&city=yes';
         $hotApi = 'https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&page_limit=40&page_start=0';
 
@@ -437,12 +440,40 @@ class ApiController extends \yii\rest\Controller
                 FilmProperty::autoAddFilmProperty($movieId, FilmProperty::PROPERTY_NEWEST);
             }
         }
+        //清空热门列表的顺序
+        $movieHotList = FilmProperty::getList(FilmProperty::PROPERTY_HOT);
+        foreach($movieHotList as $eachMovie) {
+            $eachMovie->sequence = null;
+            $eachMovie->save();
+        }
         //接口 正在热映 => 热门列表
+        $i = count($newestArr['subjects']);
         foreach($newestArr['subjects'] as $eachMovie){
             preg_match('/subject\/(\d+)/',$eachMovie['alt'],$movieId);
             $movieId = (isset($movieId[1])?$movieId[1]:'');
             if($movieId) {
-                FilmProperty::autoAddFilmProperty($movieId, FilmProperty::PROPERTY_HOT);
+                $record = FilmProperty::autoAddFilmProperty($movieId, FilmProperty::PROPERTY_HOT);
+                if($record){
+                    $record->sequence = $i;
+                    $record->save();
+                    $i--;
+                }
+            }
+        }
+
+        $movieHotList = FilmProperty::getList(FilmProperty::PROPERTY_HOT);
+        foreach($movieHotList as $eachMovie) {
+            $resource = MovieOnlineResource::findOne(['movie_id' => $eachMovie->movie_id]);
+            if ($resource) {
+                if ($eachMovie->sequence != 0) {
+                    $frontRows = FilmProperty::find()->where(['>', 'sequence', $eachMovie->sequence])->andWhere(['property' => $eachMovie->property])->all();
+
+                    foreach ($frontRows ? $frontRows : [] as $eachRow) {
+                        $eachRow->sequence -= 1;
+                        $eachRow->save();
+                    }
+                }$eachMovie->delete();
+                FilmProperty::autoAddFilmProperty($eachMovie->movie_id, FilmProperty::PROPERTY_NEWEST);
             }
         }
     }

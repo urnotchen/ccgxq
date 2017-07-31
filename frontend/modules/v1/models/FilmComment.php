@@ -116,7 +116,7 @@ class FilmComment extends \frontend\models\FilmComment
      * */
     public static function getCommentFive($movie_id){
 
-        return self::find()->where(['movie_id' => $movie_id])->typeSequence()->goodNumSequence()->limit(5)->all();
+        return self::find()->where(['movie_id' => $movie_id])->andWhere(['not',['comment' => null]])->typeSequence()->goodNumSequence()->limit(5)->all();
     }
 
     /*
@@ -142,7 +142,7 @@ class FilmComment extends \frontend\models\FilmComment
      * */
     public static function getCommentNum($movieId){
 
-        return (int)self::find()->where(['movie_id' => $movieId])->count();
+        return (int)self::find()->where(['movie_id' => $movieId])->andWhere(['not',['comment' => null]])->count();
     }
 
     protected function getStatisticsService()

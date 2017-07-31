@@ -95,7 +95,7 @@ class FilmChoiceUser extends \yii\db\ActiveRecord
     * */
     public static function getMovieIds($type,$userId){
 
-        return self::find()->select('id')
+        return self::find()->select('movie_id')
             ->where(['type' => $type,'status' => self::STATUS_NORMAL,'user_id' => $userId])
             ->column();
     }

@@ -46,5 +46,25 @@ class FilmProperty extends \common\models\FilmProperty
         }
         $record->detachBehavior('blameable');
         $record->save();
+        return $record;
+    }
+    /*
+     * 从列表中取消
+     * */
+    public static function autoDelFilmProperty($movieId,$property){
+
+        $record = self::getProperty($property,$movieId);
+        if ($record) {
+            $record->delete();
+        }
+        $record->detachBehavior('blameable');
+    }
+
+    /*
+     * 获取某属性列表
+     * */
+    public static function getList($property){
+
+        return self::find()->where(['property' => $property])->all();
     }
 }

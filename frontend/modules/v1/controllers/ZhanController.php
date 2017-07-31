@@ -13,6 +13,7 @@ use frontend\modules\v1\models\FilmChoiceUser;
 use frontend\modules\v1\models\FilmComment;
 use frontend\modules\v1\models\FilmProperty;
 use frontend\modules\v1\models\FilmRecommendUser;
+use frontend\modules\v1\models\FilmTypeConn;
 use frontend\modules\v1\models\forms\MovieDetailsForm;
 use frontend\modules\v1\models\forms\MovieZhanListForm;
 use frontend\modules\v1\models\forms\ZhanRevocationForm;
@@ -62,7 +63,9 @@ class ZhanController extends Controller{
         $rawParams = \Yii::$app->getRequest()->get();
 
         $movieNum = 20;
-
+        $newNum = 2;
+        $highNum = 5;
+        $likeNum = 13;
         $userId= $this->getUser()->id;
 
         //不是第一次,就找有无未推荐完的电影(官方20部剩余的或是扩展推荐剩余的,choice的为default)
@@ -78,6 +81,7 @@ class ZhanController extends Controller{
         if (FilmRecommendUser::yetRecommend($userId)) {
 
             //不是第一次,就找有无未推荐完的电影(官方20部剩余的或是扩展推荐剩余的,choice的为default)
+
             $waitSeeMovies = $this->service->getWaitSeeRecommendMovies($userId,$movieNum);
 //            return 2;
             //如果待看的电影有20部,直接返回待看的电影列表
@@ -86,47 +90,75 @@ class ZhanController extends Controller{
 //                $this->service->addLastRecommendCache($userId,$movieIds);
                 $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies),$userId,FilmRecommendUser::TYPE_USER);
                 return $waitSeeMovies;
+            }else{
+                $waitSeeMovies = $this->service->getWaitSeeRecommendMovies($userId,$likeNum);
             }
 
-            //获取已评分电影的扩展
-            $scoredExpandMovies = $this->service->getScoredExpandMovies($userId,$waitSeeMovies,$movieNum - count($waitSeeMovies));
-//return count($scoredExpandMovies);
-            //如果待看的电影和评分扩展的电影加一起有20部,返回待看和评分扩展的电影列表
-            if(count($scoredExpandMovies) + count($waitSeeMovies) == $movieNum){
-                $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies,$scoredExpandMovies),$userId,FilmRecommendUser::TYPE_USER);
 
-                return array_merge($waitSeeMovies,$scoredExpandMovies);
-            }
+            $arr = $waitSeeMovies;
 
-            //获取想看的电影的扩展
-            $likedExpandMovies = $this->service->getLikeExpandMovies($userId,array_merge($waitSeeMovies,$scoredExpandMovies),$movieNum - count($waitSeeMovies) - count($scoredExpandMovies));
+            if(count($arr) < $likeNum) {
+                //获取已评分电影的扩展
+                $scoredExpandMovies = $this->service->getScoredExpandMovies($userId, $waitSeeMovies, $likeNum - count($waitSeeMovies));
+                //如果待看的电影和评分扩展的电影加一起有20部,返回待看和评分扩展的电影列表
+                if (count($scoredExpandMovies) + count($waitSeeMovies) < $likeNum) {
+//                $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies,$scoredExpandMovies),$userId,FilmRecommendUser::TYPE_USER);
 
-            //如果待看的电影,评分扩展的电影,想看扩展的电影加一起有20部,返回待看,评分扩展的电影列表
-            if(count($scoredExpandMovies) + count($waitSeeMovies) + count($likedExpandMovies) == $movieNum){
-                $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies,$scoredExpandMovies,$likedExpandMovies),$userId,FilmRecommendUser::TYPE_USER);
-                return array_merge($waitSeeMovies,$scoredExpandMovies,$likedExpandMovies);
-            }
+                    $arr = array_merge($arr, $scoredExpandMovies);
+                }
+                if(count($arr) < 13) {
+                    //获取想看的电影的扩展
+                    $likedExpandMovies = $this->service->getLikeExpandMovies($userId, array_merge($waitSeeMovies, $scoredExpandMovies), $movieNum - count($waitSeeMovies) - count($scoredExpandMovies));
 
-            //不是第一次,就先找3个月内的2部新片
+                    //如果待看的电影,评分扩展的电影,想看扩展的电影加一起有20部,返回待看,评分扩展的电影列表
+                    $arr = array_merge($arr, $likedExpandMovies);
 
-
-            if($movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies) <= 2) {
-                $newestMovies = $this->service->getNewestMovies($userId,array_merge($waitSeeMovies,$scoredExpandMovies,$likedExpandMovies),3,$movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies));
-                if (count($scoredExpandMovies) + count($waitSeeMovies) + count($likedExpandMovies) == $movieNum) {
-                    $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies, $scoredExpandMovies, $likedExpandMovies, $newestMovies), $userId, FilmRecommendUser::TYPE_USER);
-                    return array_merge($waitSeeMovies, $scoredExpandMovies, $likedExpandMovies, $newestMovies);
                 }
             }
+            if (count($arr) < $likeNum) {
+//                $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies,$scoredExpandMovies,$likedExpandMovies),$userId,FilmRecommendUser::TYPE_USER);
+                $zhanOfficial = $this->service->generateOfficialZhan($userId);
+                if($zhanOfficial){
+                    return $zhanOfficial;
+                }else{
 
+                    $arrNew = $this->service->getNewestMovies($userId,array_merge($arr),12,$movieNum - count($arr));
+
+                    if (count($arr) + count($arrNew) == $movieNum) {
+                        $this->service->addRecommendRecordByAr(array_merge($arr,$arrNew), $userId, FilmRecommendUser::TYPE_USER);
+                        return array_merge($arr,$arrNew);
+                    }
+                }
+            }
+//            if($movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies) <= 2) {
+
+            //5部高分片
+            $types = [];
+            foreach($arr as $each){
+                $types = array_merge(FilmTypeConn::getType($each->id));
+            }
+            $types = array_unique($types);
+
+            $arrHigh = $this->service->getHighMovies($userId,$arr,$types,$highNum);
+            //不是第一次,就先找3个月内的2部新片
+            $arrNew = $this->service->getNewestMovies($userId,array_merge($arr,$arrHigh),3,2);
+//            $this->service->addRecommendRecordByAr(array_merge($arr,$arrHigh, $newestMovies), $userId, FilmRecommendUser::TYPE_USER);
+//            $arrNew =  array_merge($arr,$arrHigh, $newestMovies);
+
+            if(count($arr) + count($arrHigh) + count($arrNew) == 20){
+                $this->service->addRecommendRecordByAr(array_merge($arr,$arrHigh,$arrNew),$userId,FilmRecommendUser::TYPE_USER);
+                return array_merge($arr,$arrHigh,$arrNew);
+            }
             //如果以上的电影列表凑不到20部,就再生成一次官方推荐给用户
             if(count($this->service->generateOfficialZhan($userId)) == 20){
                 return $this->service->generateOfficialZhan($userId);
             }else{
-                $newestMovies = $this->service->getNewestMovies($userId,array_merge($waitSeeMovies,$scoredExpandMovies,$likedExpandMovies),6,$movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies));
 
-                if (count($newestMovies) + count($scoredExpandMovies) + count($waitSeeMovies) + count($likedExpandMovies) == $movieNum) {
-                    $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies, $scoredExpandMovies, $likedExpandMovies, $newestMovies), $userId, FilmRecommendUser::TYPE_USER);
-                    return array_merge($waitSeeMovies, $scoredExpandMovies, $likedExpandMovies, $newestMovies);
+                $arrNew = $this->service->getNewestMovies($userId,array_merge($arr,$arrHigh),6,$movieNum - count($arr) - count($arrHigh));
+
+                if (count($arr) + count($arrHigh) + count($arrNew) == $movieNum) {
+                    $this->service->addRecommendRecordByAr(array_merge($arr, $arrHigh,$arrNew), $userId, FilmRecommendUser::TYPE_USER);
+                    return array_merge($arr, $arrHigh,$arrNew);
                 }
             }
 

@@ -150,7 +150,8 @@ class Movie extends \frontend\models\Movie
             case FilmProperty::PROPERTY_RECOMMEND_OFFICIAL:
                 $query = self::find()->select('movie.*,(select @rownum:=0)')->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
                     ->where(['or', ['property' => $property], ['property' => null]])
-                    ->andWhere(['not',[Movie::tableName().'.id' => FilmRecommendUser::getUserAllMovieIds($user_id)]])
+                    ->andWhere(['not',[Movie::tableName().'.id' =>
+                        array_unique(array_merge(FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$user_id),FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_SAW,$user_id),FilmRecommendUser::getUserAllMovieIds($user_id)))]])
                     ->limit(20)
                     ->orderBy('rand()');
 //                    ->propertyHotSequence();

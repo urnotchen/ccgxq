@@ -40,6 +40,7 @@ class ZhanService extends \common\services\BizService
             ->andWhere(['not',['movie_id' => $cache->get('lastRecommend_'.$userId)]])
             //加入已看的电影 不再展现
             ->andWhere(['not',['movie_id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$userId)]])
+            ->andWhere(['not',['movie_id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_SAW,$userId)]])
             ->limit($movieNum)->all();
 
     }
@@ -85,6 +86,7 @@ class ZhanService extends \common\services\BizService
                 ->andWhere(['not',['recommend_movie_id' => $alreadyMovieIds]])
                 //加入已看的电影 不再展现
                 ->andWhere(['not',['recommend_movie_id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$userId)]])
+                ->andWhere(['not',['recommend_movie_id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_SAW,$userId)]])
                 ->groupBy('recommend_movie_id')
                 ->limit($num)->column();
             $alreadyMovieIds = array_merge($alreadyMovieIds,$recommendMovieIds);
@@ -121,6 +123,7 @@ class ZhanService extends \common\services\BizService
             ->andWhere(['not',[FilmRecommend::tableName().'.recommend_movie_id' => $alreadyMovieIds]])
             //加入已看的电影 不再展现
             ->andWhere(['not',['recommend_movie_id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$userId)]])
+            ->andWhere(['not',['recommend_movie_id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_SAW,$userId)]])
             ->limit($movieNum)->all();
 
         return $expandMovies;
@@ -137,8 +140,21 @@ class ZhanService extends \common\services\BizService
             array_push($alreadyMovieIds,$eachMovie->id);
         }
 
-        return Zhan::getNewestMovies($alreadyMovieIds,$monthNum,$movieNum);
+        return Zhan::getNewestMovies($userId,$alreadyMovieIds,$monthNum,$movieNum);
 
+    }
+
+    /*
+     * 获取其他类型的高分电影
+     * */
+    public function getHighMovies($userId,$alreadyMovies,$types,$movieNum){
+
+        $alreadyMovieIds = FilmRecommendUser::getUserAllMovieIds($userId);
+        foreach($alreadyMovies as $eachMovie){
+            array_push($alreadyMovieIds,$eachMovie->id);
+        }
+
+        return Zhan::getHighMovies($userId,$alreadyMovieIds,$types,$movieNum);
     }
 
     /*
