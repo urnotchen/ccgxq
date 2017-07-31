@@ -83,13 +83,14 @@ class FilmCommentSearch extends FilmComment
             }
         }
 
-        $query->andFilterWhere(['like', 'user_id', $this->user_id])
-            ->andFilterWhere(['like', 'username', $this->username])
+//        $query->andFilterWhere(['like', 'comment.user_id', $this->user_id])
+        $query->andWhere([self::tableName().'.user_id' => (string)$this->user_id]);
+        $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'comment', $this->comment]);
 
+        //需要内容
         if($this->exist_content){
             $query->andWhere(['not',['comment' => null]]);
-            $query->andWhere([ 'user_id' => $this->user_id]);
         }
 
         return $dataProvider;
