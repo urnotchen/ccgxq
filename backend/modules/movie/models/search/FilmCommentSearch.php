@@ -84,7 +84,9 @@ class FilmCommentSearch extends FilmComment
         }
 
 //        $query->andFilterWhere(['like', 'comment.user_id', $this->user_id])
-        $query->andWhere([self::tableName().'.user_id' => (string)$this->user_id]);
+        if($this->user_id) {
+            $query->andWhere([self::tableName() . '.user_id' => (string)$this->user_id]);
+        }
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'comment', $this->comment]);
 

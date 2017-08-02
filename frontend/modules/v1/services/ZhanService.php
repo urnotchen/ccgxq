@@ -158,6 +158,16 @@ class ZhanService extends \common\services\BizService
     }
 
     /*
+     * 推荐电影不够了,获取超过7分的电影,评价人数从高到低排序
+     * */
+    public function getCommonMovies($userId,$movieNum){
+
+        $alreadyMovieIds = FilmRecommendUser::getUserAllMovieIds($userId);
+
+        return Zhan::getCommonMovies($userId,$alreadyMovieIds,$movieNum);
+    }
+
+    /*
      * 把筛选后后续的推荐添加到推荐表中
      * 主要的工作是把ar中的id提取出来
      * */

@@ -23,8 +23,8 @@ class FilmRecommendUser extends \yii\db\ActiveRecord
 
     use FindOrExceptionTrait;
 
-    //电影斩官方生成的电影,根据官方推荐电影的评分数据给用户推荐的电影,用户评论了其他的电影(在电影斩外)
-    const TYPE_OFFICIAL = 1,TYPE_USER = 2,TYPE_COMMENT = 3;
+    //电影斩官方生成的电影,根据官方推荐电影的评分数据给用户推荐的电影,用户评论了其他的电影(在电影斩外),电影斩补充推荐的数据(评分>7分)
+    const TYPE_OFFICIAL = 1,TYPE_USER = 2,TYPE_COMMENT = 3,TYPE_COMMON = 4;
     //是否已经推荐了关联电影
     const STATUS_WAIT_RECOMMEND = 1 , STATUS_YET_RECOMMEND = 2;
     //(TYPE_OFFICIAL,TYPE_USER)只有这两个状态下才有这个choice参数,因为这两个表明了是电影斩推荐的

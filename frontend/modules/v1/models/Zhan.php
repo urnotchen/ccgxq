@@ -63,4 +63,19 @@ class Zhan extends \frontend\modules\v1\models\Movie{
             ->groupBy('movie.id')
             ->choiceMovie()->limit($movieNum)->orderBy(['score' => SORT_DESC])->all();
     }
+    /*
+     * 获取评价超过7分的电影 评价人数从多到少排序
+     * 只做电影斩推荐用,时间不用太严格,默认每个月30天
+     * */
+    public static function getCommonMovies($userId,$alreadyMovieIds,$movieNum){
+
+
+        return self::find()
+            ->where(['>=','score',7])
+            ->andWhere(['not',[Movie::tableName().'.id' => $alreadyMovieIds]])
+            //加入想看的电影 不再展现
+            ->andWhere(['not',[Movie::tableName().'.id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$userId)]])
+            ->andWhere(['not',[Movie::tableName().'.id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_SAW,$userId)]])
+            ->choiceMovie()->limit($movieNum)->orderBy(['comment_num' => SORT_DESC])->all();
+    }
 }

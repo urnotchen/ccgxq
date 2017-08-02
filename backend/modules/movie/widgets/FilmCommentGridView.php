@@ -96,7 +96,8 @@ HTML;
                     if($model->username){
                         return $model->username;
                     }else{
-                        return UserDetails::findOne($model->user_id)->nickname;
+                        $res = UserDetails::findOne($model->user_id);
+                        return $res?$res->nickname:'';
                     }
                 }
             ],

@@ -116,19 +116,23 @@ class ZhanController extends Controller{
                 }
             }
             if (count($arr) < $likeNum) {
-//                $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies,$scoredExpandMovies,$likedExpandMovies),$userId,FilmRecommendUser::TYPE_USER);
-                $zhanOfficial = $this->service->generateOfficialZhan($userId);
-                if($zhanOfficial){
-                    return $zhanOfficial;
-                }else{
-
-                    $arrNew = $this->service->getNewestMovies($userId,array_merge($arr),12,$movieNum - count($arr));
-
-                    if (count($arr) + count($arrNew) == $movieNum) {
-                        $this->service->addRecommendRecordByAr(array_merge($arr,$arrNew), $userId, FilmRecommendUser::TYPE_USER);
-                        return array_merge($arr,$arrNew);
-                    }
-                }
+                //推荐电影不足再生成一次电影斩
+//                $zhanOfficial = $this->service->generateOfficialZhan($userId);
+//                if($zhanOfficial){
+//                    return $zhanOfficial;
+//                }else{
+//
+//                    $arrNew = $this->service->getNewestMovies($userId,array_merge($arr),12,$movieNum - count($arr));
+//
+//                    if (count($arr) + count($arrNew) == $movieNum) {
+//                        $this->service->addRecommendRecordByAr(array_merge($arr,$arrNew), $userId, FilmRecommendUser::TYPE_USER);
+//                        return array_merge($arr,$arrNew);
+//                    }
+//                }
+                //推荐电影不足 改为推荐7分以上的电影 按照评价人数从多到少排序推荐
+                $commonMovies = $this->service->getCommonMovies($userId,$movieNum);
+                $this->service->addRecommendRecordByAr($commonMovies,$userId,FilmRecommendUser::TYPE_COMMON);
+                return $commonMovies;
             }
 //            if($movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies) <= 2) {
 
