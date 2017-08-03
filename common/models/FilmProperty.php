@@ -31,14 +31,14 @@ class FilmProperty extends \yii\db\ActiveRecord
     use EnumTrait,FindOrExceptionTrait,KVTrait,SaveExceptionTrait;
 
     //属性:最新,热门,精选,官方推荐
-    const PROPERTY_NEWEST = 1 , PROPERTY_HOT = 2 , PROPERTY_SELECTED = 3 , PROPERTY_RECOMMEND_OFFICIAL = 4;
+    const PROPERTY_NEWEST = 1 , PROPERTY_HOT = 2 ,PROPERTY_RECOMMEND_OFFICIAL = 4;
 
     //state of movie's property
     const STATUS_NORMAL = 0 , STATUS_TRASH = 1;
 
 
     //可进行添加属性的属性id列表
-    public static $propertyList = [self::PROPERTY_NEWEST,self::PROPERTY_HOT,self::PROPERTY_SELECTED,self::PROPERTY_RECOMMEND_OFFICIAL];
+    public static $propertyList = [self::PROPERTY_NEWEST,self::PROPERTY_HOT,self::PROPERTY_RECOMMEND_OFFICIAL];
 
     /**
      * @inheritdoc
@@ -97,7 +97,7 @@ class FilmProperty extends \yii\db\ActiveRecord
             'property' => [
                 self::PROPERTY_NEWEST => '最新',
                 self::PROPERTY_HOT => '热门',
-                self::PROPERTY_SELECTED => '精选',
+//                self::PROPERTY_SELECTED => '精选',
                 self::PROPERTY_RECOMMEND_OFFICIAL => '官方推荐',
             ],
         ];

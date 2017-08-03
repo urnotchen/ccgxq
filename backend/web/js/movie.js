@@ -13,18 +13,7 @@ function setProperty(){
         data:{movie_id:movie_id,property_id:property_id,motion:motion},
         type:'post',
         success:function(data){
-            //console.log($(this));
-            //if(motion == 'add') {
-            //    $("#tempId").text($("#tempId").text().replace('加入', '取消'));
-            //    $("#tempId").attr('motion','delete');
-            //}else{
-            //    if(motion == 'delete') {
-            //        $("#tempId").text($("#tempId").text().replace('取消', '加入'));
-            //        $("#tempId").attr('motion', 'add');
-            //    }
-            //}
             $.pjax.reload({container:"#movie_index",timeout:5000});
-
             alert(data);
         },
         error:function(data){
@@ -42,9 +31,6 @@ function setSequence(){
         data:{motion:motion,property_id:property_id},
         type:'post',
         success:function(data){
-            console.log(data);
-            alert(data['text']);
-
 
             $.pjax.reload({container:"#movie_index",timeout:5000});
 

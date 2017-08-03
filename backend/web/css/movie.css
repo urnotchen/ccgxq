@@ -11,9 +11,20 @@
     /*max-width:200px;*/
     /*max-height: 200px;*/
     /*vertical-align:top;*/
-    width: 150px;
-    height: 200px;
+    width: 75px;
+    height: 100px;
     object-fit: cover;
+}
+.float_left{
+    float: left;
+}
+.div_movie_poster{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.div_movie_details{
 }
 .filmmaker_img{
     width: 75px;

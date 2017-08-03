@@ -14,9 +14,9 @@ class StatDaily extends \backend\models\StatDaily
         $sevenDayBegin = strtotime(date('Y-m-d', strtotime('-7 day')));
         $sevenDayEnd = strtotime(date('Y-m-d')) - 1;
 
-        return self::find()->where([
+        return round(self::find()->where([
             'between', 'day', $sevenDayBegin, $sevenDayEnd
-        ])->sum('count')/7;
+        ])->sum('count')/7);
     }
 
     public static function getRangeStatDaily($begin, $end)

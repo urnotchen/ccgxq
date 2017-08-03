@@ -34,11 +34,15 @@ class MovieSearch extends Movie
 
     //用于用户可能喜欢的推荐
     public $user_id;
+
+    //后台搜索框
+    public $all_title,$definition;
+
     public function rules()
     {
         return [
-            [['id', 'pic_id', 'release_year', 'comment_num', 'episodes', 'single_running_time','release_timestamp','film_type','film_property','user_id'], 'integer'],
-            [['movie_url', 'title', 'director', 'screen_writer', 'actor', 'type', 'producer_country', 'language', 'release_date', 'alias', 'imdb', 'imdb_title', 'official_website', 'premiere', 'running_time'], 'string'],
+            [['id', 'pic_id', 'release_year', 'comment_num', 'episodes', 'single_running_time','release_timestamp','film_type','film_property','user_id','definition'], 'integer'],
+            [['movie_url', 'title', 'director', 'screen_writer', 'actor', 'type', 'producer_country', 'language', 'release_date', 'alias', 'imdb', 'imdb_title', 'official_website', 'premiere', 'running_time','all_title'], 'string'],
             [['score', 'one_star', 'two_star', 'three_star', 'four_star', 'five_star'], 'number'],
             ['filmmaker_id','exist','targetClass' => Filmmaker::className(),'targetAttribute' => 'id'],
         ];
@@ -115,13 +119,13 @@ class MovieSearch extends Movie
                         ->groupBy('movie.id')
                         ->propertyNewestSequence();
                     break;
-                case FilmProperty::PROPERTY_SELECTED:
-                    $query = $query
-//                        ->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
-                        ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
-                        ->andWhere(['or', ['property' => $this->film_property], ['property' => null]])
-                        ->releaseTimestampSequence();
-                    break;
+//                case FilmProperty::PROPERTY_SELECTED:
+//                    $query = $query
+////                        ->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
+//                        ->join('left join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
+//                        ->andWhere(['or', ['property' => $this->film_property], ['property' => null]])
+//                        ->releaseTimestampSequence();
+//                    break;
                 case FilmProperty::PROPERTY_HOT:
                     $query->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
 //                        ->andWhere(['resource' => self::RESOURCE_NO])
@@ -141,6 +145,15 @@ class MovieSearch extends Movie
                         \common\components\ResponseCode::INVALID_MOVIE_LIST_PROPERTY
                     );
             }
+        }
+        if($this->all_title){
+            $query->andFilterWhere(['or',['like','title',$this->all_title],['like','alias',$this->all_title]]);
+        }
+        if($this->definition){
+            if($this->film_property != FilmProperty::PROPERTY_NEWEST){
+                $query->joinWith('movieOnlineResource',true,'join');
+            }
+            $query->andWhere(['definition' => $this->definition]);
         }
 
         $query->andFilterWhere(['like', 'movie_url', $this->movie_url])

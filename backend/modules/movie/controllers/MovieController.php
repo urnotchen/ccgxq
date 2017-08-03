@@ -4,6 +4,7 @@ namespace backend\modules\movie\controllers;
 
 use backend\modules\movie\models\FilmVideoWebsite;
 use backend\modules\movie\models\Image;
+use backend\modules\movie\models\ScrapyUpdateProcess;
 use backend\modules\movie\services\MovieListService;
 use yii\base\ErrorException;
 use yii\base\Exception;
@@ -74,26 +75,25 @@ class MovieController extends \yii\web\Controller
     {
         $rawParams = \Yii::$app->request->post();
 
-        $model = new Movie;
-        $movieResource = new MovieResource;
-        $onlineResource = new OnlineResource;
+        $model = new ScrapyUpdateProcess;
 
-        if ($model->load($rawParams) && $model->save()) {
-            $movieResource->movie_id = $onlineResource->movie_id = $model->id;
-
-            if (
-                $movieResource->load($rawParams) && $movieResource->save() &&
-                $onlineResource->load($rawParams) && $onlineResource->save()
-            ) {
-
-                return $this->redirect('index');
+        if($model->load($rawParams)){
+            $model->scrape_date = strtotime(date("Y-m-d"));
+            $model->referer = 'https://movie.douban.com/';
+            preg_match('/subject\/(\d+)\//',$model->movie_url,$arr);
+            if(isset($arr[1])){
+                $model->movie_id = $arr[1];
+                if($model->save()){
+                    \Yii::$app->getSession()->setFlash('success', ["添加成功"]);
+                }else{
+                    \Yii::$app->getSession()->setFlash('error', ["已有此电影"]);
+                }
+            }else{
+                \Yii::$app->getSession()->setFlash('error', ["链接格式不正确"]);
             }
         }
-
         return $this->render('create', [
             'model' => $model,
-            'movieResource' => $movieResource,
-            'onlineResource' => $onlineResource
         ]);
     }
 
@@ -102,26 +102,17 @@ class MovieController extends \yii\web\Controller
         $rawParams = \Yii::$app->request->post();
 
         $model = Movie::findOneOrException(['id' => $id]);
-        $movieResource = $model->movieResource;
-        $onlineResource = $model->onlineResource;
 
-        if (
-            $model->load($rawParams) && $model->save() &&
-            $movieResource->load($rawParams) && $movieResource->save() &&
-            $onlineResource->load($rawParams) && $onlineResource->save()
-        ) {
 
-            return $this->redirect('index');
+//        $model->director = implode(',', Json::decode($model->director));
+//        $model->actor = implode(',', Json::decode($model->actor));
+        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-
-        $model->director = implode(',', Json::decode($model->director));
-        $model->actor = implode(',', Json::decode($model->actor));
-
-        return $this->render('update', [
-            'model' => $model,
-            'movieResource' => $movieResource,
-            'onlineResource' => $onlineResource
-        ]);
     }
 
     public function actionView($id)

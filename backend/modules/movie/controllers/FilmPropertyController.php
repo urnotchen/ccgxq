@@ -211,7 +211,7 @@ class FilmPropertyController extends Controller
                 $property->sequence = 1;
                 $property->save();
             }
-            return ['text' => '上移成功'];
+            return true;
         }else{
             if($motion == 'down'){
                 if($property->sequence > 1) {
@@ -222,12 +222,12 @@ class FilmPropertyController extends Controller
                     $property->sequence = $tempSequence;
                     $property->save();
                     $upProperty->save();
-                    return ['text' => '下移成功'];
+                    return true;
                 }else{
-                    return ['text' => '此电影序列为1,无法下移'];
+                    return false;   // return ['text' => '此电影序列为1,无法下移'];
                 }
             }
-            return ['text' => '无此运动轨迹'];
+            return false;   //return ['text' => '无此运动轨迹'];
         }
     }
 

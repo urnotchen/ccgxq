@@ -155,3 +155,10 @@ a.desc:after {
     height: 50px;
     vertical-align:top;
 }
+
+.font_30{
+    font-size: 30px;
+}
+.font_60{
+    font-size: 60px;
+}

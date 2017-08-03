@@ -13,8 +13,6 @@ $this->title = 'CREATE';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'movieResource' => $movieResource,
-        'onlineResource' => $onlineResource
     ]) ?>
 
 </div>

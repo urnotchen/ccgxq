@@ -30,21 +30,21 @@ $userPlatformCount = UserToken::getUserPlatformCount();
 
 <div class="row">
     <div class="col-lg-4 col-md-4 col-xs-12">
-        <div class="col-lg-12 col-md-12 col-xs-12 bg-yellow small-box">
+        <div class="col-lg-12 col-md-12 col-xs-12 bg-yellow customized_min_height info-box">
             <div class="col-md-10 col-sm-10 margin">
                 <div class="active-user-count-label-num">
                     <small><small><small><span class="glyphicon glyphicon-question-sign pointer" title="7日内平均活跃用户数(不包含注册当日)"></span></small></small></small>
-                    日 ： <strong><?=$statDaily?></strong>
+                    日 ： <strong class="font_30"><?=$statDaily?></strong>
                     <small><small><?= Math::division($statDaily * 100, $userTotal)?>%</small></small>
                 </div>
                 <div class="active-user-count-label-num">
                     <small><small><small><span class="glyphicon glyphicon-question-sign pointer" title="上周活跃超过2天(含)的用户数"></span></small></small></small>
-                    周 ： <strong><?=$statWeekly?></strong>
+                    周 ： <strong class="font_30"><?=$statWeekly?></strong>
                     <small><small><?= Math::division($statWeekly * 100, $userTotal)?>%</small></small>
                 </div>
                 <div class="active-user-count-label-num">
                     <small><small><small><span class="glyphicon glyphicon-question-sign pointer" title="一个月内活跃超过4天(含)的用户数，必须有2天是7天以后的才行"></span></small></small></small>
-                    月 ： <strong><?=$statMonth?></strong>
+                    月 ： <strong class="font_30"><?=$statMonth?></strong>
                     <small><small><?= Math::division($statMonth * 100, $userTotal)?>%</small></small>
                 </div>
                 <div class="user-count-tab-text">活跃用户</div>
@@ -55,12 +55,12 @@ $userPlatformCount = UserToken::getUserPlatformCount();
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-xs-12">
-        <div class="col-lg-12 col-md-12 col-xs-12 bg-red small-box">
+        <div class="col-lg-12 col-md-12 col-xs-12 bg-red info-box" style="min-height:180px;">
             <div class="col-md-10 col-sm-10">
-                <div class="user-count-label-num margin">
+                <div class="user-count-label-num margin font_60">
                     <?=$userTotal?>
                 </div>
-                <div class="user-count-tab-text margin">所有注册用户</div>
+                <div class="user-count-tab-text margin ">所有注册用户</div>
             </div>
             <div class="icon col-md-4 col-sm-4 pull-right">
                 <i class="ion ion-stats-bars pull-right"></i>
@@ -68,9 +68,9 @@ $userPlatformCount = UserToken::getUserPlatformCount();
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-xs-12">
-        <div class="col-lg-12 col-md-12 col-xs-12 bg-blue small-box">
+        <div class="col-lg-12 col-md-12 col-xs-12 bg-blue info-box" style="min-height:180px;">
             <div class="col-md-10 col-sm-10">
-                <div class="user-count-label-num margin"><small><small><small><?= $userIncrement?></small></small></small></div>
+                <div class="user-count-label-num margin "><small><small><span class="font_60"><?= $userIncrement?></span></small></small></div>
                 <div class="user-count-tab-text margin">昨日新增用户</div>
             </div>
             <div class="icon col-md-4 col-sm-4 pull-right">

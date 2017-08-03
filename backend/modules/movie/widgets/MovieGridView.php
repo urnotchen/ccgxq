@@ -3,6 +3,7 @@
 namespace backend\modules\movie\widgets;
 
 
+use backend\helper\MovieHelper;
 use backend\modules\movie\models\FilmComment;
 use backend\modules\movie\models\FilmProperty;
 use backend\modules\movie\models\Movie;
@@ -108,8 +109,14 @@ class MovieGridView extends GridView
                 'label' => '资源',
                 'format' => 'raw',
                 'value' => function($model){
-                    return $model->resource?'有':'无';
-                }
+                    $movieOnlineResource = $model->movieOnlineResource;
+                    $str = '';
+                    foreach($movieOnlineResource as $eachResource){
+                        $str .= Html::a($eachResource->enum('definition')[$eachResource->definition],"http://snake.bluelive.me/crawl/movie-resource/index?MovieResourceSearch[definition]={$eachResource->definition}&MovieResourceSearch[douban]={$eachResource->movie_id}",
+                            ['target' => '_blank','style' => ['display' => 'block']]);
+                    }
+                    return $str;
+                },
             ],
             'order' => [
                 'label' => '位置',
@@ -127,6 +134,21 @@ class MovieGridView extends GridView
             ],
             'type' => 'type',
             'release_date' => 'release_date',
+            'movieArea' => [
+                'label' => '电影',
+                'format' => 'raw',
+                'value' => function($model){
+                    $title = MovieHelper::getChineseName($model->title).'('.MovieHelper::getLocalName($model->title).')';
+                    return $this->render('/movie/movie_area',[
+                        'title' => $title,
+                        'imageSrc' => $model->image?Yii::$app->params['qiniuDomain'].str_replace('pictures','',$model->image->path):'',
+                        'movieUrl' => $model->movie_url,
+                        'type' => $model->type,
+                        'releaseDate' => $model->release_date,
+                        'director' => $model->director,
+                    ]);
+                },
+            ],
             'sequence' => [
                 'label' => '顺序',
                 'format' => 'raw',
