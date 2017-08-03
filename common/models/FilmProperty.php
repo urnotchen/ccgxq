@@ -31,7 +31,7 @@ class FilmProperty extends \yii\db\ActiveRecord
     use EnumTrait,FindOrExceptionTrait,KVTrait,SaveExceptionTrait;
 
     //属性:最新,热门,精选,官方推荐
-    const PROPERTY_NEWEST = 1 , PROPERTY_HOT = 2 ,PROPERTY_RECOMMEND_OFFICIAL = 4;
+    const PROPERTY_NEWEST = 1 , PROPERTY_HOT = 2 , PROPERTY_RECOMMEND_OFFICIAL = 4;
 
     //state of movie's property
     const STATUS_NORMAL = 0 , STATUS_TRASH = 1;

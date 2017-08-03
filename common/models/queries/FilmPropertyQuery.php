@@ -33,10 +33,10 @@ class FilmPropertyQuery extends \yii\db\ActiveQuery{
 
     }
 
-    public function onlyPropertySelected(){
-
-        $this->andWhere(['property' => FilmProperty::PROPERTY_SELECTED]);
-
-    }
+//    public function onlyPropertySelected(){
+//
+//        $this->andWhere(['property' => FilmProperty::PROPERTY_SELECTED]);
+//
+//    }
 
 }

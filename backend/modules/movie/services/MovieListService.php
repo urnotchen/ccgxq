@@ -29,12 +29,12 @@ class MovieListService extends  \common\services\MovieListService{
                     ->propertyNewestSequence();
                 var_dump($query->createCommand()->getRawSql());
                 break;
-            case FilmProperty::PROPERTY_SELECTED:
-                $query->join('join', MovieIndex::tableName(), Movie::tableName() . '.id=' . MovieIndex::tableName() . '.douban')
-                    ->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
-                    ->andWhere(['or', ['property' => $property], ['property' => null]])
-                    ->releaseTimestampSequence();
-                break;
+//            case FilmProperty::PROPERTY_SELECTED:
+//                $query->join('join', MovieIndex::tableName(), Movie::tableName() . '.id=' . MovieIndex::tableName() . '.douban')
+//                    ->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
+//                    ->andWhere(['or', ['property' => $property], ['property' => null]])
+//                    ->releaseTimestampSequence();
+//                break;
             case FilmProperty::PROPERTY_HOT:
                 $query->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
                     ->where(['or', ['property' => $property], ['property' => null]])
