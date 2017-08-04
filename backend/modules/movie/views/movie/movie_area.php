@@ -19,7 +19,7 @@ use backend\helper\MovieHelper;
     </div>
     <!--文字区域-->
     <div class="inline float_left div_movie_poster" style="width:70%">
-        <div class="force_new_line"><strong><?= $title?></strong></div>
+        <div class="force_new_line"><strong class="font_16"><?= $title?></strong></div>
         <div class="force_new_line">导演:<?= $director?></span></div>
         <div class="force_new_line"><?= $type?></span></div>
         <div class="force_new_line"><?= $releaseDate?></span></div>

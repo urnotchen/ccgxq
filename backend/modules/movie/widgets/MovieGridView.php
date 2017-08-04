@@ -134,6 +134,9 @@ class MovieGridView extends GridView
 //                    return $this->property;
 
                     if($sequence = FilmProperty::getProperty($this->property,$model->id)) {
+                        if(!$sequence->sequence){
+                            return '无';
+                        }
                         return FilmProperty::find()->where(['property' => $this->property])->max('sequence') - $sequence->sequence + 1;
                     }
                 }
@@ -144,7 +147,10 @@ class MovieGridView extends GridView
                 'label' => '电影',
                 'format' => 'raw',
                 'value' => function($model){
-                    $title = MovieHelper::getChineseName($model->title).'('.MovieHelper::getLocalName($model->title).')';
+                    $title = MovieHelper::getChineseName($model->title);
+                    if($localName = MovieHelper::getLocalName($model->title)){
+                        $title = MovieHelper::getChineseName($model->title).'('.$localName.')';
+                    }
                     return $this->render('/movie/movie_area',[
                         'title' => $title,
                         'imageSrc' => $model->image?Yii::$app->params['qiniuDomain'].str_replace('pictures','',$model->image->path):'',
