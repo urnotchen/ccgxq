@@ -58,7 +58,6 @@ class FilmRecommendUser extends \frontend\models\FilmRecommendUser
                 $filmRecommendUser->save();
             }
         }
-        $filmRecommendUser->save();
 
         return $filmRecommendUser;
     }/*}}}*/
