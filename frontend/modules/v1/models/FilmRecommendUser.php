@@ -125,7 +125,7 @@ class FilmRecommendUser extends \frontend\models\FilmRecommendUser
     public static function getSawMovie($userId,$movieNum){
 
         //找以前推荐了的但是没看的已看过的电影
-        $res = self::find()->select('movie_id')->where(['choice' => self::CHOICE_SAW_DEFAULT])->limit($movieNum)->column();
+        $res = self::find()->select('movie_id')->where(['user_id' => $userId,'choice' => self::CHOICE_SAW_DEFAULT])->limit($movieNum)->column();
 
         if(count($res) == $movieNum){
             return $res;
