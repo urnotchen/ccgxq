@@ -20,6 +20,7 @@ use frontend\modules\v1\models\forms\FilmCommentTimeline;
 use frontend\modules\v1\models\forms\MovieDetailsForm;
 use frontend\modules\v1\models\User;
 use yii\data\ActiveDataProvider;
+use yii\db\Exception;
 
 class CommentController extends Controller{
 
@@ -89,12 +90,15 @@ class CommentController extends Controller{
         $rawParams = \Yii::$app->getRequest()->post();
         $form = new FilmCommentForm();
         $comment = $form->prepare($rawParams);
-        if($comment->content){
-            $this->statisticsService->setCommentCount(time(),$this->getUser()->id);
-
-        }
-        if($form->source == FilmComment::SOURCE_ZHAN){
-            $this->statisticsService->zhanUserChoiceCount(time(),FilmChoiceUser::TYPE_SAW,$this->getUser()->id);
+        try {
+            if ($comment->content && $this->statisticsService) {
+                $this->statisticsService->setCommentCount(time(), $this->getUser()->id);
+            }
+            if ($form->source == FilmComment::SOURCE_ZHAN && $this->statisticsService) {
+                $this->statisticsService->zhanUserChoiceCount(time(), FilmChoiceUser::TYPE_SAW, $this->getUser()->id);
+            }
+        }catch(Exception $e){
+            //redis报错 继续
         }
         return FilmComment::addComment($comment,$this->getUser()->id);
     }

@@ -5,6 +5,8 @@ use common\models\User;
 use common\services\StatisticsService;
 use yii\base\Exception;
 
+
+
 /**
  * frontend 所有的 controller 都继承自本controller
  * 
@@ -38,8 +40,9 @@ class Controller extends \yii\rest\Controller
         User::updateLastUseTime($user->id);
         try {
             $this->statisticsService->setAU(time(), $user->id);
-        }catch(Exception $e){
+        }catch( \yii\db\Exception $e){
             //如果redis缓存有问题 就忽略 不能影响其他部分
+//            $this->statisticsService = null;
 
         }
         return $user;
@@ -47,8 +50,13 @@ class Controller extends \yii\rest\Controller
 
     protected function getStatisticsService()
     {
-        if ($this->_statisticsService === null) {
-            $this->_statisticsService = new StatisticsService();
+        if ($this->_statisticsService === null)
+            try {
+                $this->_statisticsService = new StatisticsService();
+            }catch( \yii\db\Exception $e){
+                //如果redis缓存有问题 就忽略 不能影响其他部分
+                $this->_statisticsService = null;
+
         }
 
         return $this->_statisticsService;

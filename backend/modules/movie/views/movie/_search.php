@@ -52,7 +52,9 @@ use kartik\select2\Select2;
         <div class="help-block"></div>
 
     </div>
-
+    <div class="form-group pull-right">
+        <?= \yii\helpers\Html::a('添加电影', ['create'], ['class' => 'btn btn-success right', 'style' => 'margin-bottom: 10px','target' => '_blank'])?>
+    </div>
     <?php ActiveForm::end(); ?>
 
 </div>

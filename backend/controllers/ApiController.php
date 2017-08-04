@@ -6,6 +6,7 @@ use backend\helper\BasicHelper;
 use backend\helper\MovieHelper;
 use backend\models\FilmChoiceUser;
 use backend\models\FilmProperty;
+use backend\models\FilmRecommend;
 use backend\models\FrontUser;
 use backend\models\Movie;
 use backend\models\MovieOnlineResource;
@@ -403,9 +404,12 @@ class ApiController extends \yii\rest\Controller
         //如果有前一天没采集或者采集失败的 加入列表 失败次数大于3 不采了
         $errorScrapyAr = ScrapyUpdateProcess::getReScrapeId($yesterday);
 
+        //把没有关联电影没有采到的加入到采集,限制500部
+        $recommendIds = FilmRecommend::getNoRecommendIds();
+
         //将这些添加到待采集数据库中
         try {
-            foreach (array_merge($weekUpdMovieIds, $noMovieIds) as $movieId) {
+            foreach (array_merge($weekUpdMovieIds, $noMovieIds,$recommendIds) as $movieId) {
                 ScrapyUpdateProcess::addRecord($today, $movieId);
             }
             foreach ($errorScrapyAr as $eachAr) {
@@ -472,7 +476,8 @@ class ApiController extends \yii\rest\Controller
                         $eachRow->sequence -= 1;
                         $eachRow->save();
                     }
-                }$eachMovie->delete();
+                }
+                $eachMovie->delete();
                 FilmProperty::autoAddFilmProperty($eachMovie->movie_id, FilmProperty::PROPERTY_NEWEST);
             }
         }

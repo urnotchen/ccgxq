@@ -36,6 +36,11 @@ class Movie extends \common\models\Movie
             ->andWhere("from_unixtime(release_timestamp,'%w') = {$weekDay}")
             ->column();
     }
+
+    public static function getAllIds(){
+
+        return self::find()->select('id')->column();
+    }
 }
 
 ?>

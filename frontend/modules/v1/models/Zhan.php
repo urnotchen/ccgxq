@@ -7,7 +7,6 @@
  */
 namespace frontend\modules\v1\models;
 
-
 class Zhan extends \frontend\modules\v1\models\Movie{
 
     public function fields()
@@ -43,7 +42,7 @@ class Zhan extends \frontend\modules\v1\models\Movie{
             //加入想看的电影 不再展现
             ->andWhere(['not',['id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$userId)]])
             ->andWhere(['not',['id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_SAW,$userId)]])
-            ->choiceMovie()->limit($movieNum)->orderBy('rand()')->all();
+            ->choiceMovie()->newestOrder()->limit($movieNum)->orderBy('rand()')->all();
     }
 
     /*
@@ -51,7 +50,6 @@ class Zhan extends \frontend\modules\v1\models\Movie{
      * 只做电影斩推荐用,时间不用太严格,默认每个月30天
      * */
     public static function getHighMovies($userId,$alreadyMovieIds,$types,$movieNum){
-
 
         return self::find()
             ->join('join',FilmTypeConn::tableName(),Movie::tableName().'.id = '.FilmTypeConn::tableName().'.movie_id')
@@ -77,5 +75,13 @@ class Zhan extends \frontend\modules\v1\models\Movie{
             ->andWhere(['not',[Movie::tableName().'.id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_WANT,$userId)]])
             ->andWhere(['not',[Movie::tableName().'.id' => FilmChoiceUser::getMovieIds(FilmChoiceUser::TYPE_SAW,$userId)]])
             ->choiceMovie()->limit($movieNum)->orderBy(['comment_num' => SORT_DESC])->all();
+    }
+
+    /*
+     * 获取n部已经看过的电影,评分为3-5分,并且这部电影不能重复推荐两次
+     * */
+    public static function getSawMovies($userId,$movieNum){
+
+        return self::find()->where(['id' => FilmRecommendUser::getSawMovie($userId,$movieNum)])->all();
     }
 }

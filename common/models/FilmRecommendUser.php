@@ -30,7 +30,8 @@ class FilmRecommendUser extends \yii\db\ActiveRecord
     //(TYPE_OFFICIAL,TYPE_USER)只有这两个状态下才有这个choice参数,因为这两个表明了是电影斩推荐的
     //TYPE_COMMENT,代表着是外部的评价,不是电影斩内部的信息
     //这个是为了完全记录电影斩推荐的电影,用户的操作轨迹
-    const CHOICE_DEFAULT = 1 , CHOICE_SAW = 2 , CHOICE_COLLECT = 3 , CHOICE_PASS = 4;
+    //默认生成了的,还没做出操作/看过/想看/跳过/看过的电影再推荐(默认)/
+    const CHOICE_DEFAULT = 1 , CHOICE_SAW = 2 , CHOICE_COLLECT = 3 , CHOICE_PASS = 4 , CHOICE_SAW_DEFAULT = 5 , CHOICE_RECOMMEND_SAW = 6;
     //记录的来源
     const SOURCE_ZHAN = 1 , SOURCE_OTHER = 2;
 

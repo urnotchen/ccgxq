@@ -50,6 +50,7 @@ class MovieOnlineResource extends \common\models\MovieOnlineResource{
             ->select('movie_id')
             ->where(['between','created_at',$beginAt,$endAt - 1])
             ->andWhere(['not',['movie_id' => Movie::getIds()]])
+            ->limit(500)
             ->column();
     }
 }

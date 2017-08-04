@@ -104,7 +104,13 @@ class MovieGridView extends GridView
             ],
 
             'comment_num' => 'comment_num',
-            'score' => 'score',
+            'score' => [
+                'attribute' => 'score',
+                'format' => 'raw',
+                'value' => function($model){
+                    return "<span class='text-red lead'>{$model->score}</span>";
+                }
+            ],
             'resource' => [
                 'label' => '资源',
                 'format' => 'raw',
@@ -162,12 +168,12 @@ class MovieGridView extends GridView
                     $button = '';
                     if($motionPossible['up']){
                         $button .= <<<HTML
-                            <button class = "motion" property_id = {$property_id} motion ="up">上移</button>
+                            <a href="####"  class = "motion" property_id = {$property_id} motion ="up">上移</a>
 HTML;
                     }
                     if($motionPossible['down']){
                         $button .= <<<HTML
-                            <button class = "motion" property_id = {$property_id} motion = "down">下移</button>
+                            <a href="####" class = "motion" property_id = {$property_id} motion = "down">下移</a>
 HTML;
                     }
                     return $button;

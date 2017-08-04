@@ -13,7 +13,10 @@ class AddRecommendUserBehavior extends Behavior{
 
     public function events()
     {
-        return [FilmComment::EVENT_AFTER_INSERT => 'addRecommendUser'];
+        return [
+            FilmComment::EVENT_AFTER_INSERT => 'addRecommendUser',
+            FilmComment::EVENT_BEFORE_UPDATE => 'updateRecommendUser',
+        ];
     }
 
     public function addRecommendUser($event){
@@ -21,6 +24,15 @@ class AddRecommendUserBehavior extends Behavior{
         if($this->comment){
             //添加到推荐表
             FilmRecommendUser::record($this->comment);
+            //添加到个人选择表
+//            FilmChoiceUser::userAction($this->comment->movie_id,FilmChoiceUser::TYPE_SAW,self::Ac)
+        }
+    }
+    public function updateRecommendUser($event){
+
+        if($this->comment){
+            //添加到推荐表
+            FilmRecommendUser::updateZhanSaw($this->comment);
             //添加到个人选择表
 //            FilmChoiceUser::userAction($this->comment->movie_id,FilmChoiceUser::TYPE_SAW,self::Ac)
         }

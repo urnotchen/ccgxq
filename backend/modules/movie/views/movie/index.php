@@ -7,14 +7,12 @@ $this->title = 'MOVIE';
 
 ?>
 
-<div class="row" id="movie-index">
+<div class="row" id="movie-index" style="max-width: 1200px;">
 
-    <div class="col-md-12">
+    <div class="col-md-12" >
         <?php \yii\widgets\Pjax::begin(['id' => 'movie_index', 'timeout' => 5000]); ?>
 
         <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
-
-        <?= \yii\helpers\Html::a('添加电影', ['create'], ['class' => 'btn btn-success', 'style' => 'margin-bottom: 10px','target' => '_blank'])?>
 
         <?php \bluelive\adminlte\widgets\BoxWidget::begin()?>
 

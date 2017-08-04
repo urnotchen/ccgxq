@@ -19,6 +19,10 @@ class FilmComment extends \frontend\models\FilmComment
             'class' => AddRecommendUserBehavior::className(),
             'comment' => $this,
         ];
+        $behaviors['updateRecommendUser'] =[
+            'class' => AddRecommendUserBehavior::className(),
+            'comment' => $this,
+        ];
         $behaviors['addUserChoice'] =[
             'class' => AddUserChoiceBehavior::className(),
             'comment' => $this,

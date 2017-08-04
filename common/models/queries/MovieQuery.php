@@ -76,6 +76,14 @@ class MovieQuery extends \yii\db\ActiveQuery{
         return $this;
     }
 
+    //近3个月内 评分>=6 评价人数>=5000
+    public function newestOrder(){
+
+        $this->andWhere(['>=','score',6])->andWhere(['>=','comment_num',5000])->andWhere(['between','release_timestamp',time() - 3 * 30 * 86400,time()]);
+        return $this;
+
+    }
+
 
 
 

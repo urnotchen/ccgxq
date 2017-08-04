@@ -67,7 +67,6 @@ class ZhanController extends Controller{
         $highNum = 5;
         $likeNum = 13;
         $userId= $this->getUser()->id;
-
         //不是第一次,就找有无未推荐完的电影(官方20部剩余的或是扩展推荐剩余的,choice的为default)
         //如果有剩余,就推荐剩余的
         //没有剩余,推荐扩展的
@@ -82,14 +81,19 @@ class ZhanController extends Controller{
 
             //不是第一次,就找有无未推荐完的电影(官方20部剩余的或是扩展推荐剩余的,choice的为default)
 
+            //判断用户看过的电影超没超过100部,超过则需要推荐1部已看过的电影
+            $sawMovies = [];
+            if(FilmRecommendUser::needSawRecommend($userId)){
+                $sawMovies = $this->service->getSawMovie($userId,1);
+            }
             $waitSeeMovies = $this->service->getWaitSeeRecommendMovies($userId,$movieNum);
-//            return 2;
+
             //如果待看的电影有20部,直接返回待看的电影列表
             if(count($waitSeeMovies) == $movieNum){
 //                $movieIds = $this->service->arFieldId($waitSeeMovies,'id');
 //                $this->service->addLastRecommendCache($userId,$movieIds);
                 $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies),$userId,FilmRecommendUser::TYPE_USER);
-                return $waitSeeMovies;
+                return array_merge($waitSeeMovies,$sawMovies);
             }else{
                 $waitSeeMovies = $this->service->getWaitSeeRecommendMovies($userId,$likeNum);
             }
@@ -100,6 +104,7 @@ class ZhanController extends Controller{
             if(count($arr) < $likeNum) {
                 //获取已评分电影的扩展
                 $scoredExpandMovies = $this->service->getScoredExpandMovies($userId, $waitSeeMovies, $likeNum - count($waitSeeMovies));
+
                 //如果待看的电影和评分扩展的电影加一起有20部,返回待看和评分扩展的电影列表
                 if (count($scoredExpandMovies) + count($waitSeeMovies) < $likeNum) {
 //                $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies,$scoredExpandMovies),$userId,FilmRecommendUser::TYPE_USER);
@@ -132,7 +137,7 @@ class ZhanController extends Controller{
                 //推荐电影不足 改为推荐7分以上的电影 按照评价人数从多到少排序推荐
                 $commonMovies = $this->service->getCommonMovies($userId,$movieNum);
                 $this->service->addRecommendRecordByAr($commonMovies,$userId,FilmRecommendUser::TYPE_COMMON);
-                return $commonMovies;
+                return array_merge($commonMovies,$sawMovies);
             }
 //            if($movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies) <= 2) {
 
@@ -151,20 +156,18 @@ class ZhanController extends Controller{
 
             if(count($arr) + count($arrHigh) + count($arrNew) == 20){
                 $this->service->addRecommendRecordByAr(array_merge($arr,$arrHigh,$arrNew),$userId,FilmRecommendUser::TYPE_USER);
-                return array_merge($arr,$arrHigh,$arrNew);
+                return array_merge($arr,$arrHigh,$arrNew,$sawMovies);
             }
             //如果以上的电影列表凑不到20部,就再生成一次官方推荐给用户
-            if(count($this->service->generateOfficialZhan($userId)) == 20){
-                return $this->service->generateOfficialZhan($userId);
-            }else{
+//            if(count($this->service->generateOfficialZhan($userId)) == 20){
+//                return $this->service->generateOfficialZhan($userId);
+//            }else{
 
-                $arrNew = $this->service->getNewestMovies($userId,array_merge($arr,$arrHigh),6,$movieNum - count($arr) - count($arrHigh));
-
-                if (count($arr) + count($arrHigh) + count($arrNew) == $movieNum) {
-                    $this->service->addRecommendRecordByAr(array_merge($arr, $arrHigh,$arrNew), $userId, FilmRecommendUser::TYPE_USER);
-                    return array_merge($arr, $arrHigh,$arrNew);
-                }
-            }
+            //推荐电影不足 改为推荐7分以上的电影 按照评价人数从多到少排序推荐
+            $commonMovies = $this->service->getCommonMovies($userId,$movieNum);
+            $this->service->addRecommendRecordByAr($commonMovies,$userId,FilmRecommendUser::TYPE_COMMON);
+            return array_merge($commonMovies,$sawMovies);
+//            }
 
 //            return $this->service->userRecommend($rawParams);
         } else {

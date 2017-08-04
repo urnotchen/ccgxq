@@ -68,6 +68,7 @@ class ZhanService extends \common\services\BizService
 //            ->where(['user_id' => $userId, 'choice' => [FilmRecommendUser::CHOICE_SAW],'status' => FilmRecommendUser::STATUS_WAIT_RECOMMEND])
             //不管是不是在电影斩里面评分的 都推荐关联的
             ->where(['user_id' => $userId,'status' => FilmRecommendUser::STATUS_WAIT_RECOMMEND])
+            ->andWhere(['not', ['type' => FilmRecommendUser::TYPE_COMMENT]])
             ->andWhere(['>=','star',3])
             ->column();
 //        $movieIds = FilmRecommend::find()->select('recommend_movie_id')
@@ -165,6 +166,14 @@ class ZhanService extends \common\services\BizService
         $alreadyMovieIds = FilmRecommendUser::getUserAllMovieIds($userId);
 
         return Zhan::getCommonMovies($userId,$alreadyMovieIds,$movieNum);
+    }
+
+    /*
+     * 获取1一部已经看过的电影,评分为3-5分
+     * */
+    public function getSawMovie($userId,$movieNum){
+
+        return Zhan::getSawMovies($userId,$movieNum);
     }
 
     /*
