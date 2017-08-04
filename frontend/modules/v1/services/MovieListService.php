@@ -31,11 +31,21 @@ class MovieListService extends  \common\services\MovieListService{
         $cache = \Yii::$app->cache;
 
         if ($cache->get("movie_list_{$type}_{$max}_{$since}_{$count}")) {
-            return $cache->get("movie_list_{$type}_{$max}_{$since}_{$count}");
+
+            $res = $cache->get("movie_list_{$type}_{$max}_{$since}_{$count}");
+            if($res == 'isEmpty'){
+                return [];
+            }else{
+                return $res;
+            }
         } else {
             $query = Movie::getMovieListByProperty($type,$user_id);
             $res = MovieListTimeline::timeline($rawParams,QueryHelper::executeMultiTimelineQuery($query));
-            $cache->set("movie_list_{$type}_{$max}_{$since}_{$count}", $res, 60 * 60);
+            if($res) {
+                $cache->set("movie_list_{$type}_{$max}_{$since}_{$count}", $res, 60 * 60);
+            }else{
+                $cache->set("movie_list_{$type}_{$max}_{$since}_{$count}",'isEmpty',60 * 60);
+            }
 
             return $res;
         }
