@@ -43,7 +43,7 @@ class FilmChoiceUser extends \common\models\FilmChoiceUser{
     public static function getUserChoiceNum($type,$userId){
 
         return self::find()
-            ->where(['type' => $type,'user_id' => $userId])
+            ->where(['type' => $type,'user_id' => $userId,'status' => self::STATUS_NORMAL])
             ->count();
     }
 }
