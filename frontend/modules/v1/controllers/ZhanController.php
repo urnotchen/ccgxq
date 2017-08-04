@@ -106,40 +106,23 @@ class ZhanController extends Controller{
                 $scoredExpandMovies = $this->service->getScoredExpandMovies($userId, $waitSeeMovies, $likeNum - count($waitSeeMovies));
 
                 //如果待看的电影和评分扩展的电影加一起有20部,返回待看和评分扩展的电影列表
-                if (count($scoredExpandMovies) + count($waitSeeMovies) < $likeNum) {
-//                $this->service->addRecommendRecordByAr(array_merge($waitSeeMovies,$scoredExpandMovies),$userId,FilmRecommendUser::TYPE_USER);
 
-                    $arr = array_merge($arr, $scoredExpandMovies);
-                }
-                if(count($arr) < 13) {
+                $arr = array_merge($arr, $scoredExpandMovies);
+
+                if(count($arr) < $likeNum) {
                     //获取想看的电影的扩展
                     $likedExpandMovies = $this->service->getLikeExpandMovies($userId, array_merge($waitSeeMovies, $scoredExpandMovies), $movieNum - count($waitSeeMovies) - count($scoredExpandMovies));
 
                     //如果待看的电影,评分扩展的电影,想看扩展的电影加一起有20部,返回待看,评分扩展的电影列表
                     $arr = array_merge($arr, $likedExpandMovies);
-
+                }
+                if (count($arr) < $likeNum) {
+                    $commonMovies = $this->service->getCommonMovies($userId,$movieNum);
+                    $this->service->addRecommendRecordByAr($commonMovies,$userId,FilmRecommendUser::TYPE_COMMON);
+                    return array_merge($commonMovies,$sawMovies);
                 }
             }
-            if (count($arr) < $likeNum) {
-                //推荐电影不足再生成一次电影斩
-//                $zhanOfficial = $this->service->generateOfficialZhan($userId);
-//                if($zhanOfficial){
-//                    return $zhanOfficial;
-//                }else{
-//
-//                    $arrNew = $this->service->getNewestMovies($userId,array_merge($arr),12,$movieNum - count($arr));
-//
-//                    if (count($arr) + count($arrNew) == $movieNum) {
-//                        $this->service->addRecommendRecordByAr(array_merge($arr,$arrNew), $userId, FilmRecommendUser::TYPE_USER);
-//                        return array_merge($arr,$arrNew);
-//                    }
-//                }
-                //推荐电影不足 改为推荐7分以上的电影 按照评价人数从多到少排序推荐
-                $commonMovies = $this->service->getCommonMovies($userId,$movieNum);
-                $this->service->addRecommendRecordByAr($commonMovies,$userId,FilmRecommendUser::TYPE_COMMON);
-                return array_merge($commonMovies,$sawMovies);
-            }
-//            if($movieNum - count($scoredExpandMovies) - count($waitSeeMovies) - count($likedExpandMovies) <= 2) {
+
 
             //5部高分片
             $types = [];
@@ -151,34 +134,21 @@ class ZhanController extends Controller{
             $arrHigh = $this->service->getHighMovies($userId,$arr,$types,$highNum);
             //不是第一次,就先找3个月内的2部新片
             $arrNew = $this->service->getNewestMovies($userId,array_merge($arr,$arrHigh),3,2);
-//            $this->service->addRecommendRecordByAr(array_merge($arr,$arrHigh, $newestMovies), $userId, FilmRecommendUser::TYPE_USER);
-//            $arrNew =  array_merge($arr,$arrHigh, $newestMovies);
 
             if(count($arr) + count($arrHigh) + count($arrNew) == 20){
                 $this->service->addRecommendRecordByAr(array_merge($arr,$arrHigh,$arrNew),$userId,FilmRecommendUser::TYPE_USER);
                 return array_merge($arr,$arrHigh,$arrNew,$sawMovies);
             }
-            //如果以上的电影列表凑不到20部,就再生成一次官方推荐给用户
-//            if(count($this->service->generateOfficialZhan($userId)) == 20){
-//                return $this->service->generateOfficialZhan($userId);
-//            }else{
 
             //推荐电影不足 改为推荐7分以上的电影 按照评价人数从多到少排序推荐
             $commonMovies = $this->service->getCommonMovies($userId,$movieNum);
             $this->service->addRecommendRecordByAr($commonMovies,$userId,FilmRecommendUser::TYPE_COMMON);
             return array_merge($commonMovies,$sawMovies);
-//            }
 
-//            return $this->service->userRecommend($rawParams);
         } else {
             //第一次进入,没被推荐过 推荐官方的,生成20部
-            //也有可能是一直在过 没有合适的 也要重新推荐20部
             //电影斩官方推荐不缓存,因为要随机
             return $this->service->generateOfficialZhan($userId);
-//            $query = Movie::getMovieListByProperty(FilmProperty::PROPERTY_RECOMMEND_OFFICIAL, $userId);
-//            $queryClone = clone $query;
-//            FilmRecommendUser::addToRecommendRecord($queryClone->select('movie.id')->column(), $userId, FilmRecommendUser::TYPE_OFFICIAL);
-//            return $query->all();
         }
     }
 
