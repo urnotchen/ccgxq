@@ -95,8 +95,8 @@ class FilmProperty extends \yii\db\ActiveRecord
 
         return [
             'property' => [
-                self::PROPERTY_NEWEST => '最新',
-                self::PROPERTY_HOT => '热门',
+                self::PROPERTY_NEWEST => '最新资源',
+                self::PROPERTY_HOT => '热门新片',
 //                self::PROPERTY_SELECTED => '精选',
                 self::PROPERTY_RECOMMEND_OFFICIAL => '官方推荐',
             ],

@@ -15,7 +15,7 @@ class FilmRecommend extends \common\models\FilmRecommend{
      * */
     public static function getNoRecommendIds(){
 
-        return self::find()->select('recommend_movie_id')->where(['not',['recommend_movie_id' => Movie::getAllIds()]])->andWhere(['id' => 0])->groupBy('recommend_movie_id')->limit(1000)->column();
+        return self::find()->select('recommend_movie_id')->where(['not',['recommend_movie_id' => Movie::getAllIds()]])->groupBy('recommend_movie_id')->limit(1000)->column();
 
     }
 }
