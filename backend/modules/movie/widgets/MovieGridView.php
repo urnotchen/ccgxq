@@ -49,7 +49,7 @@ class MovieGridView extends GridView
                 $result[] = $value;
         }
 
-        $result[] = $this->getActionColumn();
+        $result[] = $this->getActionColumn($this->stringColumns);
 
 
         return $result;
@@ -137,7 +137,7 @@ class MovieGridView extends GridView
                         if(!$sequence->sequence){
                             return '无';
                         }
-                        return FilmProperty::find()->where(['property' => $this->property])->max('sequence') - $sequence->sequence + 1;
+                        return FilmProperty::getSequenceMax($this->property) - $sequence->sequence + 1;
                     }
                 }
             ],
@@ -195,19 +195,19 @@ HTML;
 
     }/*}}}*/
 
-    public function getActionColumn()
+    public function getActionColumn($stringColumns)
     {/*{{{*/
         return [
             'label'=>'操作',
             'format'=>'raw',
-            'value' => function($model){
+            'value' => function($model) use ($stringColumns){
 
                 $comment = Url::to(['film-comment/index', 'FilmCommentSearch[movie_id]' => $model->id]);
                 $view = Url::to(['movie/view', 'id' => $model->id]);
                 $update = Url::to(['movie/update', 'id' => $model->id]);
                 $trash = Url::to(['movie/trash', 'id' => $model->id]);
 
-                $common_options = array_merge([
+                $commonOptions = array_merge([
                     'data-pjax' => '0',
                     'value' => $model->id,
                 ]);
@@ -215,16 +215,16 @@ HTML;
                 $trashOption = array_merge([
                     'data-confirm' => Yii::t('yii', '确定要将这条记录扔进垃圾桶?'),
                     'data-method' => 'post',
-                ], $common_options);
+                ], $commonOptions);
 
 
-                $comment_btn = Html::a("查看评论", $comment,['target' => '_blank','data-pjax' => '0']);
-                $update_btn = Html::a('修改电影', $update);
-                $view_btn = Html::a('查看电影', $view);
-                $trash_btn = Html::a('扔进垃圾桶', $trash, $trashOption);
+                $commentButton = Html::a("查看评论", $comment,['target' => '_blank','data-pjax' => '0']);
+                $updateButton = Html::a('修改电影', $update);
+                $viewButton = Html::a('查看电影', $view);
+                $trashButton = Html::a('扔进垃圾桶', $trash, $trashOption);
 
-                $propertyOption = array_merge(['class' => 'setProperty'],$common_options);
-                $deletePropertyOption = array_merge(['class' => 'deleteProperty'],$common_options);
+                $propertyOption = array_merge(['class' => 'setProperty'],$commonOptions);
+//                $deletePropertyOption = array_merge(['class' => 'deleteProperty'],$common_options);
 
 
                 $propertyAlreadyList = FilmProperty::getMovieProperties($model->id);
@@ -239,11 +239,18 @@ HTML;
                     $propertyButton = "<li>".$button."</li>".$propertyButton;
                 }
 
-                $menu_bar = "<li>{$view_btn}</li>
-                             <li>{$update_btn}</li>
-                             <li>{$trash_btn}</li>
+                $property = FilmProperty::getProperty($this->property,$model->id);
+                $sequenceButtonStr ='';
+                if(in_array('order',$stringColumns)) {
+                    $sequenceButton = Html::a('调整顺序', '#', ['class' => 'quick_change_sequence', 'property_id' => $property->id]);
+                    $sequenceButtonStr = "<li>{$sequenceButton}</li>";
+                }
+                $menu_bar = "<li>{$viewButton}</li>
+                             <li>{$updateButton}</li>
+                             <li>{$trashButton}</li>
                              <li role='separator' class='divider'></li>
-                             <li>{$comment_btn}</li>
+                             <li>{$commentButton}</li>
+                             $sequenceButtonStr
                              <li>{$propertyButton}</li>";
 
 

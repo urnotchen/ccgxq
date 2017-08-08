@@ -6,6 +6,17 @@ use backend\modules\movie\widgets\MovieGridView;
 $this->title = 'MOVIE';
 
 ?>
+<!--引入模态对话框 -->
+<?php
+\yii\bootstrap\Modal::begin([
+    'header' => '<h2>快捷修改</h2>',
+    'id'=>'modal_quick_change_sequence',
+    'size'=>'modal-sm',
+]);
+echo '<div id="modal_content_quick_change_sequence"> </div>';
+
+\yii\bootstrap\Modal::end()
+?>
 
 <div class="row" id="movie-index" style="max-width: 1200px;">
 
@@ -22,12 +33,16 @@ $this->title = 'MOVIE';
                         'stringColumns' => ['order','movieArea', 'score','comment_num','resource','sequence'],
                         'dataProvider' => $dataProvider,
                         'property' => Yii::$app->request->queryParams['MovieSearch']['film_property'],
+                        'pager' => [
+                            'linkOptions' => ['data-pjax' => 0],
+                            ]
                     ]);
                 }else{
                    echo MovieGridView::widget([
                         'stringColumns' => ['movieArea', 'score','comment_num','resource'],
                         'dataProvider' => $dataProvider,
-                    ]);
+                        'footerRowOptions' => ['data-pjax' => 0],
+                   ]);
                 }
             ?>
 

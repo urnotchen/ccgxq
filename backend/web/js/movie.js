@@ -40,3 +40,28 @@ function setSequence(){
         }
     });
 }
+
+/*
+ * 首页快速调整位置
+ * */
+$(".quick_change_sequence").on("click",quickChangeSequence);
+function quickChangeSequence(){
+
+    var propertyId = $(this).attr('property_id');
+    $("#modal_content_quick_change_sequence").load("/movie/film-property/quick-change-sequence?propertyId=" + propertyId);
+    $("#modal_quick_change_sequence").modal();
+    return false;
+}
+
+$("#submit_quick_change_sequence").on("click",submitQuickChangeSequence);
+function submitQuickChangeSequence(){
+    var sequence = $("#quick_change_sequence_val").val();
+    var propertyId = $("#quick_change_sequence_val").attr('property_id');
+    $.post({
+        data:{sequence:sequence},
+        url:"/movie/film-property/quick-change-sequence?propertyId=" + propertyId,
+        success:function(){
+            window.location.reload();
+        }
+    });
+}

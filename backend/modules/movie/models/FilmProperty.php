@@ -29,4 +29,30 @@ class FilmProperty extends \backend\models\FilmProperty{
             $movieProperty->save();
         }
     }
+
+    /*
+     * 获取所有位置在当前元素之上的元素
+     * */
+    public static function getGtSequenceItems($property,$sequence){
+
+        return self::find()->where(['property' => $property])->andWhere(['>', 'sequence', $sequence])
+            ->orderBy(['sequence' => SORT_ASC])->all();
+    }
+    /*
+     * 获取所有位置在当前元素之下的元素
+     * */
+    public static function getLtSequenceItems($property,$sequence){
+
+        return self::find()->where(['status' => FilmProperty::STATUS_NORMAL,'property' => $property])->andWhere(['<', 'sequence', $sequence])
+            ->orderBy(['sequence' => SORT_DESC])->all();
+    }
+
+    /*
+     * 获取某列表有顺序的元素
+     * */
+    public static function getHaveSequenceItems($property){
+
+        return self::find()->where(['status' => FilmProperty::STATUS_NORMAL,'property' => $property])->andWhere(['>','sequence',0])->orderBy(['sequence' => SORT_ASC])->all();
+    }
+
 }

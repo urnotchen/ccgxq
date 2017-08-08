@@ -53,7 +53,6 @@ class MovieController extends \yii\web\Controller
     {
         $searchModel = new MovieSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
@@ -64,7 +63,6 @@ class MovieController extends \yii\web\Controller
     {
         $searchModel = new MovieSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
-
         return $this->render('recommend', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
@@ -134,6 +132,7 @@ class MovieController extends \yii\web\Controller
     public function actionTest(){//
         var_dump($this->service->zhanTest());
     }
+
 
     protected function getService()
     {

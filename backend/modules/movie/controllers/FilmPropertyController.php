@@ -195,15 +195,14 @@ class FilmPropertyController extends Controller
         $property = FilmProperty::findOneOrException(['id' => $property_id]);
         if($motion == 'up'){
             if($property->sequence) {
-                $upProperty = FilmProperty::find()->where(['property' => $property->property])->andWhere(['>', 'sequence', $property->sequence])
-                    ->orderBy(['sequence' => SORT_ASC])->limit(1)->one();
+                $upProperty = FilmProperty::getGtSequenceItems($property->property,$property->sequence)[0];
                 $tempSequence = $upProperty->sequence;
                 $upProperty->sequence = $property->sequence;
                 $property->sequence = $tempSequence;
                 $property->save();
                 $upProperty->save();
             }else{
-                $res = FilmProperty::find()->where(['status' => FilmProperty::STATUS_NORMAL,'property' => $property->property])->andWhere(['>','sequence',0])->all();
+                $res = FilmProperty::getHaveSequenceItems($property->property);
                 foreach($res?$res:[] as $eachProperty){
                     $eachProperty->sequence = $eachProperty->sequence + 1;
                     $eachProperty->save();
@@ -215,8 +214,7 @@ class FilmPropertyController extends Controller
         }else{
             if($motion == 'down'){
                 if($property->sequence > 1) {
-                    $upProperty = FilmProperty::find()->where(['status' => FilmProperty::STATUS_NORMAL,'property' => $property->property])->andWhere(['<', 'sequence', $property->sequence])
-                        ->orderBy(['sequence' => SORT_DESC])->limit(1)->one();
+                    $upProperty = FilmProperty::getLtSequenceItems($property->property,$property->sequence)[0];
                     $tempSequence = $upProperty->sequence;
                     $upProperty->sequence = $property->sequence;
                     $property->sequence = $tempSequence;
@@ -231,4 +229,63 @@ class FilmPropertyController extends Controller
         }
     }
 
+    /*
+    * 快速修改电影顺序
+    * */
+    public function actionQuickChangeSequence($propertyId){
+
+        if(\Yii::$app->request->isPost){
+            $sequence = Yii::$app->request->post('sequence');
+            $model = FilmProperty::findOne(['id' => $propertyId]);
+            //如果设置的位置有重复,新元素顺延一位,前面的元素不变,后面的元素位置顺延
+            $properties = FilmProperty::getHaveSequenceItems($model->property);
+            $maxSequence = FilmProperty::getSequenceMax($model->property);
+            $i = 0;
+
+            if(!$model->sequence) {
+                foreach ($properties as $eachProperty) {
+                    $eachPropertySequence = $maxSequence - $eachProperty->sequence + 1;
+                    if ($eachPropertySequence < $sequence) {
+                        $eachProperty->sequence++;
+                        $eachProperty->save();
+                    }
+                }
+                $maxSequence = FilmProperty::getSequenceMax($model->property);
+                $model->sequence = $maxSequence + 1;
+                $model->save();
+            }else{
+                //从下往上升
+                if($sequence < ($maxSequence - $model->sequence + 1)){
+                    foreach ($properties as $eachProperty) {
+                        $eachPropertySequence = $maxSequence - $eachProperty->sequence + 1;
+                        if ($eachPropertySequence >= $sequence && $eachPropertySequence < ($maxSequence - $model->sequence + 1)) {
+                            $eachProperty->sequence --;
+                            $eachProperty->save();
+                        }
+                    }
+                }else{
+
+                    foreach ($properties as $eachProperty) {
+                        $eachPropertySequence = $maxSequence - $eachProperty->sequence + 1;
+                        if ($eachPropertySequence <= $sequence && $eachPropertySequence > ($maxSequence - $model->sequence  + 1)) {
+                            $eachProperty->sequence ++;
+                            $eachProperty->save();
+                        }
+                    }
+                }
+                $model->sequence = ($maxSequence - $sequence + 1)?($maxSequence - $sequence + 1):1;
+                $model->save();
+            }
+
+        return true;
+            //如果设置的位置没有,比最大值大,重新排序,最大值为新设置的属性,剩下的不变
+            //如果设置的位置没有,比最小值小,其他元素加1,新设置的元素垫底
+        }else {
+            $model = FilmProperty::findOne($propertyId);
+            return $this->renderAjax('quick_change_sequence', [
+                'sequence' => $model->sequence,
+                'propertyId' => $propertyId,
+            ]);
+        };
+    }
 }

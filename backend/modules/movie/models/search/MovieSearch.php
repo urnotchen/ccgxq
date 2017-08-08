@@ -112,7 +112,7 @@ class MovieSearch extends Movie
             switch ($this->film_property) {
                 case FilmProperty::PROPERTY_NEWEST:
                     $query = $query
-                        ->join('join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
+                        ->join('left join', MovieOnlineResource::tableName(), Movie::tableName() . '.id=' . MovieOnlineResource::tableName() . '.movie_id')
                         ->join('join', FilmProperty::tableName(), Movie::tableName() . '.id=' . FilmProperty::tableName() . '.movie_id')
                         ->where(['property' => $this->film_property])
 //                        ->andWhere(['or', ['property' => $this->film_property], ['property' => null]])

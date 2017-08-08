@@ -7,6 +7,7 @@ use Codeception\Exception\ElementNotFound;
 use common\models\queries\FilmPropertyQuery;
 use common\models\queries\MovieQuery;
 use common\traits\EnumTrait;
+use common\traits\InstanceTrait;
 use common\traits\KVTrait;
 use common\traits\SaveExceptionTrait;
 use rmrevin\yii\fontawesome\FA;
@@ -28,7 +29,7 @@ use common\traits\FindOrExceptionTrait;
  */
 class FilmProperty extends \yii\db\ActiveRecord
 {
-    use EnumTrait,FindOrExceptionTrait,KVTrait,SaveExceptionTrait;
+    use EnumTrait,FindOrExceptionTrait,KVTrait,SaveExceptionTrait,InstanceTrait;
 
     //属性:最新,热门,精选,官方推荐
     const PROPERTY_NEWEST = 1 , PROPERTY_HOT = 2 , PROPERTY_RECOMMEND_OFFICIAL = 4;
