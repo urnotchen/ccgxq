@@ -251,7 +251,7 @@ class FilmPropertyController extends Controller
                     }
                 }
                 $maxSequence = FilmProperty::getSequenceMax($model->property);
-                $model->sequence = $maxSequence + 1;
+                $model->sequence = $maxSequence - $sequence + 1;
                 $model->save();
             }else{
                 //从下往上升
