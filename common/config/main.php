@@ -58,8 +58,8 @@ return [
                 'class' => 'Swift_SmtpTransport',
                 'constructArgs' => ['smtp.ym.163.com', 25],
                 'host' => 'smtp.ym.163.com',  //每种邮箱的host配置不一样
-                'username' => 'useradmin@bluelive.cn',
-                'password' => 'Lgdev2017',
+                'username' => 'useradmin@bluelive.cn14141',
+                'password' => 'Lgdev20174114141',
 //            'port' => '25',
 //            'encryption' => 'tls',
 

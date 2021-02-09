@@ -1,8 +1,4 @@
 <?php
-
 namespace backend\models;
 
-class Message extends \common\models\Message
-{
-
-}
+class Message extends \common\models\Message{}

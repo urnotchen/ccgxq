@@ -4,6 +4,8 @@ namespace backend\modules\setting\controllers;
 
 use backend\modules\rights\models\Assignment;
 use backend\modules\rights\models\TaskUser;
+
+use backend\modules\setting\models\Partment;
 use Yii;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
@@ -58,6 +60,7 @@ class UserController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $status_kv = User::enum('status');
         $user_kv = User::kv('id', 'real_name');
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -85,11 +88,14 @@ class UserController extends Controller
         $model = new User();
         $model->scenario = 'create';
 
+        $department_kv = Partment::kv('id','partname');
+
         if ($model->load(Yii::$app->request->post()) && $model->save())
             return $this->redirect(['view', 'id' => $model->id]);
 
         return $this->render('create', [
             'model' => $model,
+            'department_kv' => $department_kv,
         ]);
     }/*}}}*/
 
@@ -227,13 +233,15 @@ class UserController extends Controller
     {/*{{{*/
         $model = $this->findModel($id);
         $model->scenario = 'default';
+        $department_kv = Partment::kv('id','partname');
 
         if ($model->load(Yii::$app->request->post()) && $model->save())
             return $this->redirect(['view', 'id' => $model->id]);
 
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        return $this->render('update', [
+            'model' => $model,
+            'department_kv' => $department_kv,
+        ]);
         }/*}}}*/
 
     public function actionDelete($id)

@@ -54,7 +54,7 @@ class BaseUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     {/*{{{*/
         return [
 
-            [['username', 'email'], 'required', 'on' => 'default'],
+            [['username', 'email','department'], 'required', 'on' => 'default'],
             [['username', 'email', 'password'], 'required', 'on' => 'create'],
             [['password'], 'required', 'on' => 'resetPassword'],
             [['email'], 'required', 'on' => 'requestResetPassword'],
@@ -83,12 +83,12 @@ class BaseUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             # 普通修改
             'default' => [
                 'role_id', 'username', 'email', 'avatar', 'real_name', 'qq',
-                'alipay', 'mark', 'status',
+                'alipay', 'mark', 'status','department'
             ],
             # 创建用户
             'create' => [
                 'role_id', 'username', 'email', 'avatar', 'real_name', 'qq',
-                'alipay', 'mark', 'status',
+                'alipay', 'mark', 'status','department',
                 'password',
             ],
             # 重置密码
@@ -114,6 +114,8 @@ class BaseUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             'alipay'               => '支付宝',
             'mark'                 => '标注',
             'telephone'            => '手机号',
+
+            'department'           => '部门',
 
             'password'             => 'Password',
             'status'               => '状态',
@@ -261,5 +263,7 @@ class BaseUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             ];
         }
     }
-
+    public static  function getUserKv(){
+        return self::kv('id','real_name');
+    }
 }

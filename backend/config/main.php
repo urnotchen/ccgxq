@@ -8,14 +8,14 @@ $params = array_merge(
 
 return [
     'id' => 'app-backend',
-    'name' => '看啥电影»管理后台',
+    'name' => '高新区电子政务',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'language' => 'zh-CN',
     'modules' => [
-        'movie' => [
-            'class' => 'backend\modules\movie\Module',
+        'project' => [
+            'class' => 'backend\modules\project\Module',
             'as access' => [
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
@@ -28,6 +28,18 @@ return [
         ],
         'setting' => [
             'class' => 'backend\modules\setting\Module',
+            'as access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ],
+        'comm' => [
+            'class' => 'backend\modules\comm\Module',
             'as access' => [
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
@@ -52,21 +64,30 @@ return [
         ],
         'rights' => [
             'class' => 'backend\modules\rights\Module',
+//            'as access' => [
+//                'class' => \yii\filters\AccessControl::className(),
+//                'rules' => [
+//                    [
+//                        'allow' => true,
+//                        'roles' => ['?'],
+//                        'matchCallback' => function ($rule, $action) {return true;
+////                            return \Yii::$app->user->can(\backend\modules\rights\components\Rights::PERMISSION_RIGHTS_MANAGE);
+//                        },
+//                    ],
+//                ],
+//            ],
             'as access' => [
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                            return \Yii::$app->user->can(\backend\modules\rights\components\Rights::PERMISSION_RIGHTS_MANAGE);
-                        },
                     ],
                 ],
             ],
         ],
-        'stat' => [
-            'class' => 'backend\modules\stat\Module',
+        'order' => [
+            'class' => 'backend\modules\order\Module',
             'as access' => [
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
@@ -104,9 +125,9 @@ return [
             'translations' => [
                 '*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@app/messages',
+                    'basePath' => '@backend/messages',
                     'fileMap' => [
-                        'app' => 'yii.php',
+                        '*' => 'yii.php',
                         'app/error' => 'error.php',
                     ],
 
@@ -119,6 +140,9 @@ return [
                 'application/json' => 'yii\web\JsonParser',
                 'text/json' => 'yii\web\JsonParser',
             ]
+        ],
+        'timeFormatter' => [
+            'class' => 'backend\components\TimeFormatter',
         ],
 //        'user' => [
 //            'class'           => 'backend\components\User',
@@ -140,15 +164,16 @@ return [
 //            ],
 //        ],
         'assetManager' => [
-            'appendTimestamp' => true,
-            'forceCopy' => false,
-            'bundles' => [
-                'dmstr\web\AdminLteAsset' => [
-                    'css' => [
-                        '/css/AdminLTE.min.css',
+                'appendTimestamp' => true,
+                'forceCopy' => false,
+                'bundles' => [
+                    'dmstr\web\AdminLteAsset' => [
+                        'css' => [
+                            '/css/AdminLTE.min.css',
+                        ],
                     ],
+
                 ],
-            ],
         ],
         'urlManager' => [
             'enablePrettyUrl'     => true,

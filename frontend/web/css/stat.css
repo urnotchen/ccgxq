@@ -1,0 +1,12 @@
+.small-box {
+    height: 100px;
+}
+
+.icon {
+    top: 0!important;
+}
+
+#myLineChart {
+    width: 600px;
+    height: 300px;
+}

@@ -1,0 +1,61 @@
+.feedback-data_range {
+    padding-left: 15px;
+}
+
+.select2-selection__rendered {
+    padding-top: 5px!important;
+}
+
+.feedback-user {
+    width: 108px;
+}
+
+.user-avatar {
+    width: 57px;
+    height: 57px;
+}
+
+.feedback-type {
+    width: 80px;
+}
+
+.feedback-content {
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
+}
+
+.feedback-status {
+    width: 80px;
+}
+
+.feedback-app {
+    width: 80px;
+}
+
+.feedback-os {
+    width: 80px;
+}
+
+.feedback-time {
+    width: 250px;
+}
+
+.feedback-operation {
+    width: 150px;
+}
+
+#modal-content_reply {
+    height: 500px;
+}
+
+#feedback-box_body {
+    height: 375px;
+    overflow-y: auto;
+}
+
+#feedback-box_footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

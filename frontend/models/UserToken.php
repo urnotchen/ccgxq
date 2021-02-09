@@ -1,53 +1,22 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: chenxi
+ * Date: 2017/6/28
+ * Time: 11:45
+ */
 
-namespace frontend\models;
+namespace backend\models;
 
-class UserToken extends \common\models\UserToken
-{
-    use \common\traits\FindOrExceptionTrait {
-        findOneOrException as traitFindOneOrException;
-    }
+class UserToken extends \common\models\UserToken{
 
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
+    /*
+     * 获取用户的所有极光id
+     * @return array
+     * */
+    public static function getRegistrationIds($userId){
 
-    public static function findOneOrException(array $where, $closure = false)
-    {
-        try {
+        return self::find()->select('registration_id')->where(['user_id' => $userId])->column();
 
-            $model = static::traitFindOneOrException($where, $closure);
-            $model->checkAlive();
-
-            return $model;
-
-        } catch (\yii\web\HttpException $e) {
-
-            if ($e->statusCode == 404) {
-                throw new \yii\web\HttpException(
-                    403,
-                    'invalid access-token',
-                    \common\components\ResponseCode::INVALID_ACCESS_TOKEN
-                );
-            }
-
-            throw $e;
-        }
-    }
-
-    public function checkAlive()
-    {
-        if ($this->isExpired()) {
-
-            throw new \yii\web\HttpException(403,
-                'access_token has been expired',
-                \common\components\ResponseCode::ACCESS_TOKEN_EXPIRED
-            );
-        }
-
-        return true;
     }
 }
-
-?>

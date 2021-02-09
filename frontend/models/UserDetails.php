@@ -1,10 +1,14 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: chenxi
+ * Date: 2017/6/28
+ * Time: 12:00
+ */
 
-namespace frontend\models;
+namespace backend\models;
 
-class UserDetails extends \common\models\UserDetails
-{
+
+class UserDetails extends \common\models\UserDetails{
 
 }
-
-?>

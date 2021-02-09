@@ -1,12 +1,16 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: chenxi
+ * Date: 2017/6/16
+ * Time: 9:44
+ */
 
-namespace frontend\models;
+namespace backend\models;
 
+use common\models\BaseUser;
+use common\traits\KVTrait;
 
-class User extends \common\models\User implements \yii\web\IdentityInterface
-{
-    use \frontend\traits\UserIdentityTrait;
-
+class User extends \common\models\BaseUser{
+    use KVTrait;
 }
-
-?>

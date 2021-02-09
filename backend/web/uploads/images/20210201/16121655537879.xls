@@ -1,0 +1,9 @@
+<div>
+	<table cellspacing="0" rules="all" border="1" style="border-collapse:collapse;">
+		<tr>
+			<th scope="col">姓名</th><th scope="col">性别</th><th scope="col">所属网格</th><th scope="col">民族</th><th scope="col">身份证号</th><th scope="col">出生日期</th><th scope="col">文化程度</th><th scope="col">籍贯</th><th scope="col">健康状况</th>
+		</tr><tr>
+			<td>李老二</td><td>男</td><td>通齐社区利民服务站不知道测试</td><td>汉</td><td>&#39;230221197302070213</td><td>1973/2/7 0:00:00</td><td>研究生</td><td>龙江</td><td>健康</td>
+		</tr>
+	</table>
+</div>

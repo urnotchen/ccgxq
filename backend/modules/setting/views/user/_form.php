@@ -22,6 +22,8 @@ use backend\models\User;
 
     <?= $form->field($model, 'real_name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'department')->dropDownList($department_kv, ['prompt' => '请选择']) ?>
+
     <?= $form->field($model, 'qq')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'alipay')->textInput(['maxlength' => true]) ?>

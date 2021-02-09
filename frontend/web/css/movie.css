@@ -1,0 +1,41 @@
+/*强制换行*/
+.force_new_line{
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
+    /*width:15%;*/
+}
+
+/*电影海报图片*/
+.movie_poster{
+    /*max-width:200px;*/
+    /*max-height: 200px;*/
+    /*vertical-align:top;*/
+    width: 75px;
+    height: 100px;
+    object-fit: cover;
+}
+.float_left{
+    float: left;
+}
+.div_movie_poster{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.div_movie_details{
+}
+.filmmaker_img{
+    width: 75px;
+    height: 100px;
+    object-fit: cover;
+}
+.vertical_center{
+    text-align:center;
+    vertical-align:middle;
+    margin-top: 40%;
+}
+.font_16{
+    font-size: 16px;
+}

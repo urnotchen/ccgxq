@@ -1,0 +1,144 @@
+body {
+    background-color: #f2f3f7;
+}
+.mui-bar.mui-bar-tab {
+    height: 60px;
+    background-color: #fcfcfc;
+}
+.mui-bar-tab ~ .mui-content {
+    padding-bottom: 60px;
+}
+.mui-bar-tab .mui-tab-item {
+    position: relative;
+}
+.mui-bar-tab .mui-tab-item span {
+    position: relative;
+    z-index: 2;
+}
+.mui-bar-tab .mui-tab-item .iconfont {
+    font-size: 18px;
+}
+.mui-bar-tab .mui-tab-item.mui-active {
+    color: #fff;
+}
+.mui-bar-tab .mui-tab-item.mui-active:before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+    margin: auto;
+    background-color: #174ea9;
+    border-radius: 50%;
+}
+.mui-content {
+    background-color: transparent;
+}
+.index-banner {
+    height: 200px;
+    background: url("../../img/chongqing-gaoxin/index-banner.png") no-repeat center top;
+    background-size: 100% 100%;
+}
+.index-enter {
+    padding: 8px 20px;
+    background-color: #fff;
+}
+.index-enter .mui-col-xs-3 {
+    margin: 12px 0;
+}
+.index-enter .enter-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 8px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    background-color: #ccc;
+    border-radius: 50%;
+}
+.index-enter .enter-icon.icon-red {
+    background-color: #ff6b66;
+}
+.index-enter .enter-icon.icon-blue {
+    background-color: #418cf9;
+}
+.index-enter .enter-icon.icon-green {
+    background-color: #00dca8;
+}
+.index-enter .enter-icon.icon-yellow {
+    background-color: #ffaf51;
+}
+.index-enter .enter-icon .iconfont {
+    font-size: 22px;
+}
+.index-enter .enter-name {
+    text-align: center;
+}
+.index-topic {
+    margin-top: 8px;
+    padding: 16px 8px;
+    background-color: #fff;
+}
+.index-topic .mui-col-xs-6 {
+    padding: 0 4px;
+}
+.index-topic .topic {
+    height: 97px;
+    padding: 8px 12px;
+}
+.index-topic .topic .topic-title {
+    margin-bottom: 4px;
+    font-size: 16px;
+}
+.index-topic .topic .topic-title i {
+    font-style: normal;
+    color: #418ae8;
+}
+.index-topic .topic .topic-info {
+    padding-right: 10px;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #666;
+}
+.index-topic .topic.topic-query {
+    background: url("/files/images/topic1.png") no-repeat center top;
+    background-size: 100% 100%;
+}
+.index-topic .topic.topic-feedback {
+    background: url("/files/images/topic2.png") no-repeat center top;
+    background-size: 100% 100%;
+}
+.topic-enter {
+    height: 72px;
+    margin: 8px 4px 0;
+}
+.topic-enter a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 10px 20px 0;
+    color: #fff;
+}
+.topic-enter.enter-notice {
+    background: url("/files/images/enter1.png") no-repeat center top;
+    background-size: 100% 100%;
+}
+.topic-enter.enter-policy {
+    background: url("/files/images/enter2.png") no-repeat center top;
+    background-size: 100% 100%;
+}
+.topic-enter .topic-enter-title {
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+.topic-enter .topic-enter-btn {
+    display: inline-block;
+    padding: 1px 10px;
+    font-size: 12px;
+    background-color: #f9c66b;
+    border-radius: 200px;
+}

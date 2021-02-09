@@ -2,26 +2,145 @@
 
 namespace frontend\controllers;
 
+use frontend\models\forms\LoginForm;
+use frontend\models\forms\RegisterForm;
+use frontend\models\FrontUser;
+use frontend\models\Notice;
+use frontend\models\ProjectCategory;
+use Yii;
+
+
 /**
- * Site controller
+ * Class SiteController
+ * @package backend\controllers
  */
-class SiteController extends \frontend\components\rest\Controller
+class SiteController extends \yii\web\Controller
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                        'roles' => ['?','@'],
+                    ],
+                    [
+                        'actions' => ['logout', 'index','test','indexx','register'],
+                        'allow' => true,
+                        'roles' => ['?','@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => \yii\filters\VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function actions()
     {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            'api-error' => [
-                'class' => 'frontend\components\rest\ErrorAction',
-            ],
         ];
     }
 
-    public function actionIndex()
+    /**
+     * Displays homepage.
+     *
+     * @return string
+     */
+    public function actionIndexx()
     {
 
-        return 'hello and welcome. your IP: ' . \Yii::$app->request->userIP;
+
+        $notices = \frontend\models\Notice::getNotices(Notice::CATE_NOTICE);
+        return $this->render('index2', [
+            'notices' => $notices,
+            'personal_project' => ProjectCategory::getPersonalCategories(),
+            'company_project' => ProjectCategory::getCompanyCategories(),
+        ]);
+
+    }
+    public function actionIndex()
+        {
+
+
+            $notices = \frontend\models\Notice::getNotices(Notice::CATE_NOTICE,$keyword = null,6);
+            return $this->renderPartial('index', [
+                'notices' => $notices,
+                'personal_project' => ProjectCategory::getPersonalCategories(),
+                'company_project' => ProjectCategory::getCompanyCategories(),
+            ]);
+
+        }
+
+    /**
+     * Logout action.
+     *
+     * @return string
+     */
+    public function actionLogout()
+    {
+        \Yii::$app->user->logout();
+
+        return $this->goHome();
+    }
+    public function actionLogin(){
+
+
+        Yii::$app->getUser()->setReturnUrl(Yii::$app->getRequest()->get('return_url', ['/site/index']));
+
+//        if (!\Yii::$app->user->isGuest) {
+//            $this->goBack();
+//        }
+
+        $model = new LoginForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+
+            $this->goBack();
+        }
+
+        return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
+
+
+    public function actionRegister(){
+
+
+        Yii::$app->getUser()->setReturnUrl(Yii::$app->getRequest()->get('return_url', ['/site/index']));
+
+        if (!\Yii::$app->user->isGuest) {
+//            $this->goBack();
+        }
+
+        $model = new RegisterForm();
+
+        if ($model->load(Yii::$app->request->post())&& $model->save() ) {
+            $this->redirect('site/index');
+        }
+
+        return $this->render('register', [
+            'title' => '123',
+            'certificates_type_kv' => FrontUser::enum('certificates_type'),
+            'model' => $model,
+        ]);
     }
 }

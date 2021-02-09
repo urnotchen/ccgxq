@@ -28,13 +28,14 @@ class Module extends \yii\base\Module
     {
         $items = \Yii::$app->sidebarItems->getItems();
 
-        $items[] = $this->prepareItem('用户协议', 'misc','policy');
+//        $items[] = $this->prepareItem('部门管理', 'misc','policy');
+        $items[] = $this->prepareItem('公告管理', 'notice');
 
         $items[] = $this->prepareItem('管理员列表', 'user');
 
-        $items[] = $this->prepareItem('反馈列表', 'feedback');
+        $items[] = $this->prepareItem('角色管理', 'item','roles','rights');
 
-        $items[] = $this->prepareItem('APP版本', 'app-version');
+        $items[] = $this->prepareItem('邮件管理', 'email','index','comm');
 
         \Yii::$app->sidebarItems->setItems($items);
     }

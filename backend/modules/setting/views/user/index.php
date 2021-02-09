@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('添加员工', ['create'], ['class' => 'btn btn-success']) ?>
     </div>
        
-    <?php echo $this->render('_search', ['model' => $searchModel, 'status_kv' => $status_kv, 'user_kv' => $user_kv,]); ?>
+    <?php echo $this->render('_search', ['model' => $searchModel, 'status_kv' => $status_kv, 'user_kv' => $user_kv,]);?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -35,7 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'real_name',
                 'format' => 'raw',
                 'value' => function($model){
-                    return Html::tag('div',$model->real_name, ['style' => 'font-size:17px;color:gray']);
+//                    return Html::tag('div',$model->real_name, ['style' => 'font-size:17px;color:gray']);
+                    return $model->real_name;
                 },
             ],
             'username',
@@ -50,10 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'updated_at:datetime',
 
-            [
-                'attribute' => '创建者',
-                'value' => 'createdBy.username',
-            ],
+
 
             [
                 'class' => 'yii\grid\ActionColumn',

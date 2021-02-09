@@ -27,26 +27,32 @@ use yii\helpers\Html;
             ];
 
             $items[] = [
-                'text' => '电影',
-                'url' => ['/movie/movie/index'],
-                'activeModule' => 'movie',
+                'text' => '业务',
+                'url' => ['/comm/email/index'],
+                'activeModule' => 'comm',
             ];
 
             $items[] = [
-                'text' => '统计',
-                'url' => ['/stat/stat/index'],
-                'activeModule' => 'stat',
+                'text' => '项目',
+                'url' => ['/project/project-category/index'],
+                'activeModule' => 'project',
             ];
-
+//
             $items[] = [
-                'text' => '用户',
-                'url' => ['/user/user/index'],
-                'activeModule' => 'user',
+                'text' => '预约',
+                'url' => ['/order/order/index'],
+                'activeModule' => 'order',
             ];
+//
+//            $items[] = [
+//                'text' => '用户',
+//                'url' => ['/user/user/index'],
+//                'activeModule' => 'user',
+//            ];
 
             $items[] = [
                 'text' => '设置',
-                'url' => ['/setting/misc/policy'],
+                'url' => ['/setting/notice/index'],
                 'activeModule' => 'setting',
             ];
 
