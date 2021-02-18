@@ -8,7 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'name' => '齐齐哈尔高新区电子政务',
+    'name' => '齐齐哈尔高新区网上政务中心',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'frontend\controllers',
     'bootstrap' => ['log'],

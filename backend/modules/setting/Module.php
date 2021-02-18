@@ -35,7 +35,7 @@ class Module extends \yii\base\Module
 
         $items[] = $this->prepareItem('角色管理', 'item','roles','rights');
 
-        $items[] = $this->prepareItem('邮件管理', 'email','index','comm');
+      
 
         \Yii::$app->sidebarItems->setItems($items);
     }

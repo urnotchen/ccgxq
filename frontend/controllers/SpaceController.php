@@ -9,6 +9,21 @@ use yii\web\Controller;
 
 class SpaceController extends Controller{
 
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ]
+        ];
+    }
     public function actionIndex(){
         $user = FrontUser::getInfo();
         return $this->render('index',[

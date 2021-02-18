@@ -65,11 +65,11 @@ class MessageController extends Controller
 
 
         $model = new Message();
-        $this->layout = 'empty';
+      
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             echo '<script language="javascript">';
             echo 'alert("提交成功，后续会有工作人员与您联系");';
-            echo 'window.location.href="/site/indexx"';
+            echo 'window.location.href="/site/index"';
             echo '</script>';
 
 //            return $this->redirect(['site/indexx']);

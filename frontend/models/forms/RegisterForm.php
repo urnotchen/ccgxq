@@ -11,7 +11,7 @@ use yii\base\Model;
  */
 class RegisterForm extends FrontUser
 {
-    public $sure_password;
+//    public $sure_password;
 
     private $_user = false;
 
@@ -28,18 +28,22 @@ class RegisterForm extends FrontUser
             [['username', 'password','certificates_type','certificates_num','real_name','telephone'], 'required'],
 
             [['status'], 'integer'],
-            [['username', 'password','real_name','sure_password'], 'string', 'max' => 255],
+            [['username', 'password','real_name'], 'string', 'max' => 255],
             [['certificates_type','certificates_type','certificates_num','telephone'], 'string', 'max' => 255],
 
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-
-            ['sure_password', 'compare', 'compareAttribute' => 'password', 'operator' => '==='],
+            ['password', 'hashPassword'],
+//            ['sure_password', 'hashPassword'],
+//            ['sure_password', 'compare', 'compareAttribute' => 'password', 'operator' => '==='],
 
         ];
     }/*}}}*/
 
-
+    public function hashPassword($attr, $options)
+    {/*{{{*/
+        $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->$attr);
+    }/*}}}*/
     public function login()
     {/*{{{*/
         if ($this->validate()) {

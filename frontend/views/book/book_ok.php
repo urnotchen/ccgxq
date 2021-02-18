@@ -11,7 +11,7 @@
     <h4><i class="icon fa fa-check"></i> 预约成功</h4>
     系统将在 <span id="time">3</span> 秒钟后自动跳转至首页，如果未能跳转，<a href="/site/index" title="点击访问">请点击</a>。</p>
 </div>
-<?= $this->render('/layouts/bottom') ?>
+
 <script type="text/javascript">
     delayURL();
     function delayURL() {

@@ -54,27 +54,5 @@
     },
     "scripts": {
         "post-install-cmd": "php init --env=Development --overwrite=n"
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "git@gitlab.com:blue-components/yii2-authclient-others.git"
-        },
-        {
-            "type": "git",
-            "url": "git@gitlab.com:blue-components/yii2-adminlte-components.git"
-        },
-        {
-            "type": "git",
-            "url": "git@gitlab.com:blue-components/yii2-adminlte-generators.git"
-        },
-        {
-            "type": "git",
-            "url": "git@gitlab.com:blue-components/yii2-components.git"
-        },
-        {
-            "type": "git",
-            "url": "git@gitlab.com:blue-components/shell-scripts.git"
-        }
-    ]
+    }
 }

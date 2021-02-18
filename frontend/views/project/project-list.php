@@ -123,7 +123,7 @@ $icon = ['data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAvCAYAAABzJ5OsAAAE
                         <a href=/approval/index?project_id={$one['id']} style='line-height: normal'>
                         {$one['name']}<br/><span style='float: left'>实施主体:{$one['sszt']}</span></a>
                       
-                            <img style='float: right;width: 8px; height: 13px;margin-top: 5px;'src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAZCAYAAADuWXTMAAAA8ElEQVQ4jZ3ULU7EQBiA4afdIwBmD4AiJGQFlmBAkJAgsSSfIITzwEgsiqxmUcjeAFBwBQRmMMvv0u0MY+Yned5Jm6ZNzllKaRtnOImIN4VjNB6PG9xgD5td111PJpNcgtuIyDjE43y+SimNijBExDP28YLj0kD7sYiIB+zUBNrvm9pA+/ugJrCAawJ/4tJALy4JLMU9gcuUUgNNzkUfk5TSOu6xigucFuN5YBe38+15zc1rmGEDdzgYfOY+GBGvg7gPMvC2l8GleAj24hL4Jy6FC7gG/sC18BP/B/L195xhqwbCaDqd6rruCSs4KoXwDrEhmqfDAbuDAAAAAElFTkSuQmCC'> 
+              
                       
                 </li>";
         }

@@ -17,7 +17,7 @@ echo $form->field($model, 'label_arr')->hiddenInput(['value' => $label_arr])->la
 
 ?>
     <div class="form-group">
-        <?= Html::submitButton('Create', ['class' =>  'btn btn-success']) ?>
+        <?= Html::submitButton('上传', ['class' =>  'btn btn-success']) ?>
     </div>
 
 <?php ActiveForm::end() ?>

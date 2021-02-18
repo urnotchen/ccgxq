@@ -15,7 +15,7 @@ class Book extends \common\models\Book{
             $arr = [];
             $arr['order_name'] = $one->order->name;
             $arr['order_id'] = $one->order->id;
-            $arr['book_time'] = date("Y-m-d H:i",7 * 3600 +$one['book_begin_time']).'-'.date("H:i",7 * 3600 + $one['book_end_time']);
+            $arr['book_time'] = date("m-d H:i",$one['book_begin_time']).'-'.date("H:i",$one['book_end_time']);
             $arr['status'] = self::enum('status')[$one['status']];
             $arr['address'] =  $one->order->address;
             $tmp[] = $arr;

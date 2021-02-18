@@ -81,7 +81,7 @@ class Book extends \yii\db\ActiveRecord
             [['order_id', 'day_book_id','day_time', 'book_time_arr_val'], 'required'],
             [['order_id', 'day_time','book_time_arr_val','book_begin_time', 'book_end_time','book_time_arr_val', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['day_time'],'safe'],
-//            [['day_book_id','created_by'],'unique','targetAttribute' => ['day_book_id', 'created_by'],'skipOnEmpty' => false,'message' => '您已预约过当日项目，不可重复预约'],
+            [['day_book_id','created_by'],'unique','targetAttribute' => ['day_book_id', 'created_by'],'skipOnEmpty' => false,'message' => '您已预约过当日项目，不可重复预约'],
 
             ['book_time_arr_val','validateBookTime']
             ];

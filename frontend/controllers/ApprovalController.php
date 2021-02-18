@@ -63,16 +63,16 @@ class ApprovalController extends Controller
             $approval_id = Yii::$app->request->post('UploadForm')['approval_id'];
             $label_arr = Yii::$app->request->post('UploadForm')['label_arr'];
 //var_export($approval_id);
-var_export( Yii::$app->request->post('UploadForm'));die;
+// var_export( Yii::$app->request->post('UploadForm'));die;
             $model->imageFiles = UploadedFile::getInstances($model, 'imageFiles');
-            var_export($model->imageFiles);die;
+            // var_export($model->imageFiles);die;
             $model->approval_id = $approval_id;
             $model->label_arr = $label_arr;
             if ( $model->upload()) {
-                var_dump($model);die;
+                // var_dump($model);die;
                 // 文件上传成功
-                var_dump($model);
-                return;
+                // var_dump($model);
+                return $this->render('approval_ok');
             }else{
 
             }

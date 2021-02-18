@@ -52,7 +52,6 @@ use yii\widgets\ActiveForm;
 
                     </div>
                 </div>
-                <a href="zxzx_BusinessList.html?mintype=ts" class="operation text-primary">我的咨询</a>
             </div>
                 <?php ActiveForm::end(); ?>
 

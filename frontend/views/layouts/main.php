@@ -5,12 +5,12 @@
 
 use yii\helpers\Html;
 
-if ( in_array(Yii::$app->controller->action->id, ['login', 'error']) && Yii::$app->getUser()->isGuest) :
-
-    echo $this->render('main-login', [
-        'content' => $content
-    ]);
-else :
+//if ( in_array(Yii::$app->controller->action->id, ['login', 'error']) && Yii::$app->getUser()->isGuest) :
+//
+//    echo $this->render('main-login', [
+//        'content' => $content
+//    ]);
+//else :
 
     // 检查账号状态
 //    if (! Yii::$app->getUser()->checkStatus()) {
@@ -76,4 +76,4 @@ else :
     </html>
     <?php $this->endPage() ?>
 
-<?php endif; ?>
+<?php //endif; ?>

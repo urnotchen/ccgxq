@@ -16,8 +16,8 @@ use yii\helpers\Html;
                         <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
                         <span style="color: red;float: left">*</span>
                         <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
-                        <span style="color: red;float: left">*</span>
-                        <?= $form->field($model, 'sure_password')->textInput(['maxlength' => true]) ?>
+<!--                        <span style="color: red;float: left">*</span>-->
+<!--                        --><?php //echo  $form->field($model, 'sure_password')->textInput(['maxlength' => true]) ?>
                         <span style="color: red;float: left">*</span>
                         <?= $form->field($model, 'real_name')->textInput(['maxlength' => true]) ?>
                         <span style="color: red;float: left">*</span>

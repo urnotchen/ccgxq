@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
-$this->title = 'Sign In';
+$this->title = '登录';
 
 $fieldOptions1 = [
     'options' => ['class' => 'form-group has-feedback'],
@@ -23,9 +23,12 @@ $fieldOptions2 = [
     <div class="login-logo">
         <a href="#">用户登录</a>
     </div>
+  
     <!-- /.login-logo -->
     <div class="login-box-body">
-
+  <div style="float:right">
+                <a href='/site/register'>点击注册</a>
+            </div><br/><br/>
         <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
 
         <?= $form
@@ -40,7 +43,7 @@ $fieldOptions2 = [
 
         <div class="row">
             <div class="col-xs-8">
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                
             </div>
             <!-- /.col -->
             <div class="col-xs-4">

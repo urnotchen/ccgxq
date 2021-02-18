@@ -212,14 +212,14 @@
         }
 
     </style>
-
+<?php use yii\helpers\Html;?>
     <div style="margin-top:0px;padding-bottom:5px;padding-top: 10px;">
         <div style="background:url(https://www.sekahui.com/wap/wapimages/zujie/zujie_black.png);background-size: 100% auto; background-repeat: no-repeat;padding-top: 10px; ">
             <center>
                 <table style="width: 100%;">
                     <tbody><tr>
                         <td style="width: 40%;text-align: center;padding-top: 10px;padding-bottom: 10px;">
-                            <img style=" width:80%;border-radius:5px;src="<?php echo \yii\helpers\HTML::img(APP_DOMAIN_SCHEMA.APP_BACK_BASE_DOMAIN.$model->img);?>
+                            <img style=" width:80%;border-radius:5px;src="<?php echo HTML::img(APP_DOMAIN_SCHEMA.APP_BACK_BASE_DOMAIN.$model->img);?>
 
                         </td>
                         <td style="width: 60%;padding-top:10px;vertical-align: top;">
@@ -241,29 +241,29 @@
         <div class="clear"></div>
     </div>
 
-    <div style="text-align:left;padding-left: 10px; padding-right: 10px;line-height:22px; padding-top:10px; padding-bottom:6px;background: #f7f7f7;margin-top:0px;border-top:#ffffff solid 1px;">
-        <img src="/wap/wapimages/touxiang/14.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">
-        <img src="/wap/wapimages/touxiang/33.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">
-        <img src="/wap/wapimages/touxiang/26.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">
-        <img src="/wap/wapimages/touxiang/45.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">
-        <img src="/wap/wapimages/touxiang/80.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">
-        <img src="/wap/wapimages/touxiang/36.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">
-        <img src="/wap/wapimages/touxiang/37.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">
-        <img src="/wap/wapimages/touxiang/87.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">
-        <img src="/wap/wapimages/touxiang/9.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">
-        <img src="/wap/wapimages/touxiang/23.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">
-        &nbsp;
-        <span style="float: right;padding-right: 10px;font-size: 10px;color: #666666;">
-      	  已预约13836次
-      </span>
-    </div>
+    <!--<div style="text-align:left;padding-left: 10px; padding-right: 10px;line-height:22px; padding-top:10px; padding-bottom:6px;background: #f7f7f7;margin-top:0px;border-top:#ffffff solid 1px;">-->
+    <!--    <img src="/wap/wapimages/touxiang/14.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">-->
+    <!--    <img src="/wap/wapimages/touxiang/33.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">-->
+    <!--    <img src="/wap/wapimages/touxiang/26.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">-->
+    <!--    <img src="/wap/wapimages/touxiang/45.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">-->
+    <!--    <img src="/wap/wapimages/touxiang/80.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">-->
+    <!--    <img src="/wap/wapimages/touxiang/36.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">-->
+    <!--    <img src="/wap/wapimages/touxiang/37.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">-->
+    <!--    <img src="/wap/wapimages/touxiang/87.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">-->
+    <!--    <img src="/wap/wapimages/touxiang/9.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">-->
+    <!--    <img src="/wap/wapimages/touxiang/23.jpg" style="width:20px;height:20px;border-radius: 15px;margin-right: -10px;opacity: 0.70;filter:alpha(opacity=70);">-->
+    <!--    &nbsp;-->
+    <!--    <span style="float: right;padding-right: 10px;font-size: 10px;color: #666666;">-->
+    <!--  	  已预约13836次-->
+    <!--  </span>-->
+    <!--</div>-->
 
 
     <div class="nav" style="width: 100%;height: 65px;vertical-align: top;">
         <div class="tab border-b" style="width: 100%;">
             <a href="javascript:;" rel="external nofollow" class="curr" style="padding: 24px 0px 0px 0px;">项目介绍</a>
             <a href="javascript:;" rel="external nofollow" style="padding: 24px 0px 0px 0px;">预约须知</a>
-            <a href="javascript:;" rel="external nofollow" style="padding: 24px 0px 0px 0px;">点评推荐</a>
+            <a href="javascript:;" rel="external nofollow" style="padding: 24px 0px 0px 0px;">注意事项</a>
             <a href="javascript:;" rel="external nofollow" style="padding: 24px 0px 0px 0px;">地图位置</a>
             <a href="javascript:;" rel="external nofollow" style="display: none;"></a>
         </div>
@@ -291,74 +291,10 @@
                     <div style="height:100px;"></div>
                 </li>
                 <li>
-
-
-                    <div style=" margin-top:22px; vertical-align:middle; font-size:14px;  ">
-                        <center>
-                            <div style="margin-top:10px; border:solid  #EEEEEE 1px; background: #EEEEEE;border-radius:30px; width:70px;padding-top: 5px; padding-bottom: 5px;">
-                                <a href="javascript:praise(7, 6080);" style="padding: 0px;margin: 0px;">
-                                    <img id="praize-img-6080" src="/static/theme/jumei/img/x1.png" title="点赞" style=" vertical-align: top; border:none; height:22px;">
-                                    <div>
-                                        <font style="vertical-align: bottom;">
-                                            <font style="font-size:15px; color: #666666; vertical-align:bottom;"><strong>赞</strong></font>
-                                        </font>
-                                    </div>
-
-                                </a>
-                            </div>
-                            <br>
-                            <font style="vertical-align: bottom; font-size:12px;">收获<span id="praize-number-6080" style="color: #000000;text-align:left; vertical-align:middle; margin-left:1px;">9</span>份赞</font>
-                        </center>
-                    </div>
-                    <!--点评列表-->
-
-                    <div>
-
-
-
-
-
-                        <!--回复表单-->
-                        <a name="dianping"></a>
-                        <div style="font-size:12px; text-align:center; margin-top:25px; color: #000000; margin-bottom:80px;"><a href="/wap/login.php?r=JTJGd2FwJTJGbWVuZGlhbl95dWFuZ29uZ196aGVuZ3d1LnBocCUzRmlkJTNEWlRNalF6TWpBJTNE&amp;mendian=2630" style="color:#000000;">登录后可点评</a></div>
-                        <div style="height:100px;"></div>
-                        <script type="text/javascript" src="/static/js/upload/upload.js"></script>
-                        <script type="text/javascript">
-                            var picArray = new Array();
-
-                            function upPic(){
-                                if (picArray.length >= 9){
-                                    layer.msg('最多只能上传9张图片');
-                                    return;
-                                }
-                                $.upload({
-                                    url:'/wap/upload_dianping.php',
-                                    success:function(path){
-                                        picArray.push(path);
-                                        $('#pic').val(picArray.join(';'));
-                                        $('#pic'+picArray.length).html('<img src="'+path+'" height="60" height="60" border="0" onclick="delPic(\''+path+'\')" />');
-                                    }
-                                });
-                            }
-                            function delPic(path){
-                                if (confirm('确定删除当前图片吗？')){
-                                    for (var i=0; i<picArray.length; i++){
-                                        if (picArray[i] == path){
-                                            picArray.splice(i, 1);
-                                            $('#pic').val(picArray.join(';'));
-                                        }
-                                    }
-                                    for (var i=1; i<10; i++){
-                                        $('#pic'+i).html('');
-                                    }
-                                    for (var i=0; i<picArray.length; i++){
-                                        $('#pic'+(i+1)).html('<img src="'+picArray[i]+'" height="60" height="60" border="0" onclick="delPic(\''+picArray[i]+'\')" />');
-                                    }
-                                }
-                            }
-                        </script>
-
-                    </div></li>
+                     <div style=" padding-left:10px; padding-right:10px; font-size:12px; padding-top:10px; line-height:22px;text-align: left;">
+                    暂无
+ </div>
+                   </li>
                 <li>
                     <div style="padding-top: 5px; padding-bottom: 5px;font-size: 12px;text-align: left;border-bottom: #f7f7f7 dotted 1px;">
                         联系电话：<?php echo $model->phone?>       </div>

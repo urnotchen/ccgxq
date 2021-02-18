@@ -26,11 +26,11 @@ use yii\helpers\Html;
                 ],
             ];
 
-            $items[] = [
-                'text' => '业务',
-                'url' => ['/comm/email/index'],
-                'activeModule' => 'comm',
-            ];
+            // $items[] = [
+            //     'text' => '业务',
+            //     'url' => ['/comm/email/index'],
+            //     'activeModule' => 'comm',
+            // ];
 
             $items[] = [
                 'text' => '项目',

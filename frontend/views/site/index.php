@@ -31,23 +31,30 @@
 
 <div class="main mui-content" >
     <div style="background: url('http://221.209.110.28:4000/images/logo.png')">
-        <img src="http://221.209.110.28:4000/images/logo.png" style="max-width: 100%">
+        <img src="/files/images/logo.png" style="width: 100%">
     </div>
     <div class="index-banner"></div>
-    <div class="index-enter" style="    margin-top: 8px;">
-        <p style="color:#1a74ca;font-size: large ">通知公告<a href='/notice/index?cate_id=1'><span style="color:grey;float: right;font-size: small">更多</span></a></p>
+    <div class="topic-enter enter-notice"style="margin-top: 5px">
+            <a href="/notice/index?cate_id=1">
+                <div class="topic-enter-title">通知公告</div>
+                <div class="topic-enter-btn">查看更多</div>
+            </a>
+        </div>  
+    <div class="index-enter" style="    margin-top: 5px">
+        
+      
         <?php foreach ($notices as $one){
-            echo "<a href='/notice/view?id={$one["id"]}'><p style=\"color: black\">$one[title]<span style='float: right'>$one[created_at]&nbsp;</span></p></a>";
+            echo "<a href='/notice/view?id={$one["id"]}'><p style=\"color: black;overflow:hidden\">$one[title]<span style='float: right'>$one[created_at]&nbsp;</span></p></a>";
         }?>
     </div>
     <div class="index-enter" style="    margin-top: 8px;">
         <div class="mui-row">
             <div class="mui-col-xs-3">
-                <a href="/project-category/personal-index">
+                <a href=<?php echo "/notice/index?cate_id=".\frontend\models\Notice::CATE_JMZZ;?>>
                     <div class="enter-icon icon-red">
                         <i class="iconfont icon-zhuce"></i>
                     </div>
-                    <div class="enter-name">个人办事</div>
+                    <div class="enter-name">精密制造</div>
                 </a>
             </div>
 
@@ -60,7 +67,7 @@
                 </a>
             </div>
             <div class="mui-col-xs-3">
-                <a href="http://tysb.cqgxqzwzx.com:17070/appWB/#/home/500356/0/0/ykbApp">
+                <a href=<?php echo "/notice/index?cate_id=".\frontend\models\Notice::CATE_BSZN;?>>
                     <div class="enter-icon icon-yellow">
                         <i class="iconfont icon-detailed-list"></i>
                     </div>
@@ -77,7 +84,7 @@
             </div>
 
             <div class="mui-col-xs-3">
-                <a href="zxqh/notice.html">
+                <a href="/space/approval">
                     <div class="enter-icon icon-yellow">
                         <i class="iconfont icon-yuyuequhao"></i>
                     </div>
@@ -85,7 +92,7 @@
                 </a>
             </div>
             <div class="mui-col-xs-3">
-                <a href="pdqk/pdqk.html">
+                <a href="/space/index">
                     <div class="enter-icon icon-green">
                         <i class="iconfont icon-multiple"></i>
                     </div>
@@ -93,7 +100,7 @@
                 </a>
             </div>
             <div class="mui-col-xs-3">
-                <a href="jdcx/index.html">
+                <a href="/space/message">
                     <div class="enter-icon icon-red">
                         <i class="iconfont icon-search3"></i>
                     </div>
@@ -101,7 +108,7 @@
                 </a>
             </div>
             <div class="mui-col-xs-3">
-                <a href="zxpj/wssb_BusinessList.html">
+                <a href="/space/order">
                     <div class="enter-icon icon-blue">
                         <i class="iconfont icon-like"></i>
                     </div>
@@ -114,32 +121,28 @@
         <div class="mui-row">
             <div class="mui-col-xs-6">
                 <div class="topic topic-query">
-                    <a href="http://www.xycq.gov.cn/">
-                        <div class="topic-title">企业信用信息<i>查询</i></div>
+                    <a href=<?php echo "/notice/index?cate_id=".\frontend\models\Notice::CATE_QYTJ;?>>
+                        <div class="topic-title">高新区企业<i>推介</i></div>
                         <div class="topic-info">工商、税务、失信、多类信息齐全</div>
                     </a>
                 </div>
             </div>
             <div class="mui-col-xs-6">
-                <a href="/messages/create">
+                <a href="/message/create">
                     <div class="topic topic-feedback">
-                        <div class="topic-title">群众办事<i>咨询</i></div>
+                        <div class="topic-title">办事<i>咨询</i></div>
                     </div>
                 </a>
             </div>
         </div>
-        <div class="topic-enter enter-notice">
-            <a href="/notice/index?cate_id=1">
-                <div class="topic-enter-title">通知公告</div>
-                <div class="topic-enter-btn">查看更多</div>
-            </a>
-        </div>
+
         <div class="topic-enter enter-policy">
-            <a href="/notice/index?cate_id=2">
+            <a href=<?php echo "/notice/index?cate_id=".\frontend\models\Notice::CATE_POLICY;?>>
                 <div class="topic-enter-title">政策解读</div>
                 <div class="topic-enter-btn">查看更多</div>
             </a>
         </div>
+        <br/>
         <?= $this->render('/layouts/bottom') ?>
     </div>
 </div>

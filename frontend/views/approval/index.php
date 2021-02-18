@@ -1,8 +1,8 @@
 
-<link rel="stylesheet" type="text/css" href="http://tysb.cqgxqzwzx.com:17070/appWB/css/app.3920d22a.css">
-<link rel="stylesheet" type="text/css" href="http://tysb.cqgxqzwzx.com:17070/appWB/css/chunk-vendors.516db697.css">
-<link rel="stylesheet" type="text/css" href="http://tysb.cqgxqzwzx.com:17070/appWB/css/chunk-33d125fa.8c7de097.css">
-<link rel="stylesheet" type="text/css" href="http://tysb.cqgxqzwzx.com:17070/appWB/css/chunk-24cc06af.c9b3cbd6.css">
+<link rel="stylesheet" type="text/css" href="/css/jj/app.3920d22a.css">
+<link rel="stylesheet" type="text/css" href="/css/jj/chunk-vendors.516db697.css">
+<link rel="stylesheet" type="text/css" href="/css/jj/chunk-33d125fa.8c7de097.css">
+<link rel="stylesheet" type="text/css" href="/css/jj/chunk-24cc06af.c9b3cbd6.css">
 
 <script src="/js/jj/w-jquery_4.min.js"></script>
 <script src="/js/jj/jquery.rotate.js"></script>
@@ -16,11 +16,11 @@
 
 </head>
 <body style="font-size: 36px;">
-<div id="app">
+<div id="app" style="">
     <main data-v-6cbc16b6="" class="personal-work">
         <div data-v-67afcdc7="" data-v-6cbc16b6="" class="v-header">
             <div data-v-67afcdc7="" class="van-nav-bar van-hairline--bottom" style="z-index: 1;">
-                <div data-v-67afcdc7="" class="van-nav-bar__left"><a href="javascript:history.go(-1)"><i data-v-67afcdc7="" class="van-icon van-icon-arrow-left van-nav-bar__arrow"></i></a>
+                <div data-v-67afcdc7="" class="van-nav-bar__left" style="margin-top:15px"><a href="javascript:history.go(-1)"><i data-v-67afcdc7="" class="van-icon van-icon-arrow-left van-nav-bar__arrow"></i></a>
                 </div><div data-v-67afcdc7="" class="van-nav-bar__title van-ellipsis">办事指南</div>
                 <div data-v-67afcdc7="" class="van-nav-bar__right"></div>
             </div>
@@ -257,7 +257,7 @@
     </main>
 </div>
 <br/>
-<?= $this->render('/layouts/bottom') ?>
+<!--<?= $this->render('/layouts/bottom') ?>-->
 </body>
 </html>
 

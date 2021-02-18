@@ -14,16 +14,19 @@
 
                     <ul class="list-group list-group-unbordered">
                         <li class="list-group-item">
-                            <a href="info" style="color: black"><b>个人资料</b></a>
+                            <a href="/site/logout" style="color: black">退出登录</a>
                         </li>
                         <li class="list-group-item">
-                            <a href="order" style="color: black"><b>我的在线预约</b></a>
+                            <a href="info" style="color: black">个人资料</a>
                         </li>
                         <li class="list-group-item">
-                            <a href="message" style="color: black"><b>我的留言咨询</b></a>
+                            <a href="order" style="color: black">我的在线预约</a>
                         </li>
                         <li class="list-group-item">
-                            <a href="approval" style="color: black"><b>我的在线办事</b></a>
+                            <a href="message" style="color: black">我的留言咨询</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="approval" style="color: black">我的在线办事</a>
                         </li>
                     </ul>
 

@@ -40,7 +40,7 @@ class ProjectCategory extends \common\models\ProjectCategory {
         if ($num)
             $query->limit($num);
 
-        $res = $query->orderBy('created_at desc')->all();
+        $res = $query->all();
         $arr = [];
         foreach ($res as $one) {
 

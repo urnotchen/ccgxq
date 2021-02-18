@@ -67,7 +67,7 @@ class Message extends \yii\db\ActiveRecord
                 ],
                 'value' => function ($event) {
 
-                    if(!Yii::$app->request->user->isGuest()) {
+                    if(!Yii::$app->user->isGuest) {
                         return Yii::$app->user->id;
                     }
                     return null;

@@ -23,7 +23,7 @@ class Notice extends \yii\db\ActiveRecord
     use EnumTrait;
     use KVTrait;
     const STATUS_NORMAL = 1,STATUS_DELETE=2;
-    const CATE_NOTICE = 1,CATE_POLICY = 2;
+    const CATE_NOTICE = 1,CATE_POLICY = 2,CATE_JMZZ = 3,CATE_QYTJ = 4,CATE_BSZN = 5;
     public function behaviors()
     {
         return [
@@ -91,6 +91,9 @@ class Notice extends \yii\db\ActiveRecord
             'cate_id' => [
                 self::CATE_NOTICE => '公告通知',
                 self::CATE_POLICY => '政策截图',
+                self::CATE_JMZZ   => '精密制造',
+                self::CATE_QYTJ   => '企业推介',
+                self::CATE_BSZN   => '办事指南',
             ]
         ];
     }

@@ -25,24 +25,15 @@ class SiteController extends \yii\web\Controller
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
+
                     [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                        'roles' => ['?','@'],
-                    ],
-                    [
-                        'actions' => ['logout', 'index','test','indexx','register'],
+                        'actions' => ['logout', 'index','login','test','indexx','register'],
                         'allow' => true,
                         'roles' => ['?','@'],
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => \yii\filters\VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
+
         ];
     }
 
@@ -102,8 +93,8 @@ class SiteController extends \yii\web\Controller
     public function actionLogin(){
 
 
-        Yii::$app->getUser()->setReturnUrl(Yii::$app->getRequest()->get('return_url', ['/site/index']));
-
+//        Yii::$app->getUser()->setReturnUrl(Yii::$app->getRequest()->get('return_url', ['/site/index']));
+//
 //        if (!\Yii::$app->user->isGuest) {
 //            $this->goBack();
 //        }
@@ -128,7 +119,7 @@ class SiteController extends \yii\web\Controller
         Yii::$app->getUser()->setReturnUrl(Yii::$app->getRequest()->get('return_url', ['/site/index']));
 
         if (!\Yii::$app->user->isGuest) {
-//            $this->goBack();
+            $this->goBack();
         }
 
         $model = new RegisterForm();
@@ -138,9 +129,10 @@ class SiteController extends \yii\web\Controller
         }
 
         return $this->render('register', [
-            'title' => '123',
+            'title' => '注册',
             'certificates_type_kv' => FrontUser::enum('certificates_type'),
             'model' => $model,
         ]);
     }
+
 }
