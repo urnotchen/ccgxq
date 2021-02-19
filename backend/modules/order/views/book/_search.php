@@ -9,35 +9,47 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="book-search">
-
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'options' => [
+            'class' => 'form-inline',
+        ],
+        'fieldClass' => 'backend\widgets\ActiveField',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'order_id') ?>
+    <?= $form->field($model, 'order_id')->widget(
+        \kartik\select2\Select2::className(),
+        [
+            'data' => $order_kv,
+            'language' => 'zh-CN',
+            'pluginOptions' => [
+                'allowClear' => true
+            ],
+            'options' => ['placeholder' => '预约项目'],
+        ]
+    ) ?>
 
-    <?= $form->field($model, 'day_time') ?>
+    <?= $form->field($model, 'push_time', ['options' => ['class' => 'form-group']])->label(false)->widget(
+        \kartik\daterange\DateRangePicker::className(),
+        [
+            'options' => ['placeholder' => '筛选时间段'],
+            'pluginOptions'=>[
+                'locale'=>[
+                    'format'=>'Y-m-d',
+                    'separator'=>' ~ ',
+                ],
+                'opens'=>'right'
+            ],
+        ]
+    ) ?>
 
-    <?= $form->field($model, 'book_begin_time') ?>
 
-    <?= $form->field($model, 'book_end_time') ?>
-
-    <?php // echo $form->field($model, 'status') ?>
-
-    <?php // echo $form->field($model, 'created_at') ?>
-
-    <?php // echo $form->field($model, 'created_by') ?>
-
-    <?php // echo $form->field($model, 'updated_at') ?>
-
-    <?php // echo $form->field($model, 'updated_by') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('查询', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('重置', ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

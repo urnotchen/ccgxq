@@ -123,7 +123,7 @@
                 <div class="topic topic-query">
                     <a href=<?php echo "/notice/index?cate_id=".\frontend\models\Notice::CATE_QYTJ;?>>
                         <div class="topic-title">高新区企业<i>推介</i></div>
-                        <div class="topic-info">工商、税务、失信、多类信息齐全</div>
+                        <div class="topic-info"></div>
                     </a>
                 </div>
             </div>

@@ -2,6 +2,7 @@
 
 namespace backend\modules\order\controllers;
 
+use backend\modules\order\models\Order;
 use Yii;
 use common\models\Book;
 use backend\modules\order\models\search\BookSearch;
@@ -41,6 +42,7 @@ class BookController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'order_kv' => Order::getOrderKv(),
         ]);
     }
 

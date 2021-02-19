@@ -1,5 +1,6 @@
 <?php
 
+use backend\modules\order\models\Order;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -13,27 +14,51 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="book-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php  echo $this->render('_search', ['model' => $searchModel  ,    'order_kv' => Order::getOrderKv(),
+]); ?>
 
     <p>
         <?= Html::a('Create Book', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+
 
             'id',
-            'order_id',
-            'day_time',
-            'book_begin_time',
-            'book_end_time',
-            // 'status',
-            // 'created_at',
-            // 'created_by',
-            // 'updated_at',
-            // 'updated_by',
+            [
+                'attribute' => 'order_id',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return $model->order->name;
+                },
+            ],
+            [
+                'attribute' => 'day_time',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return \Yii::$app->timeFormatter->formatYMD($model->day_time);
+                },
+            ],
+            [
+                'attribute' => 'book_begin_time',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return \Yii::$app->timeFormatter->formatHI($model->book_begin_time);
+                },
+            ],
+            [
+                'attribute' => 'book_begin_time',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return \Yii::$app->timeFormatter->formatHI($model->book_end_time);
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

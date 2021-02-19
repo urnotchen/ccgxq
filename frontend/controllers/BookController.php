@@ -29,6 +29,23 @@ class BookController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+
+                    [
+                        'actions' => ['index','view'],
+                        'allow' => true,
+                        'roles' => ['?','@'],
+                    ],
+                    [
+                        'actions' => ['create','cancel'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+
         ];
     }
 

@@ -15,6 +15,7 @@ class TimeFormatter extends Object
     public $dateFormat     = 'Y-m-d';
     public $timeFormat     = 'H:i:s';
     public $datetimeFormat = 'Y-m-d H:i:s';
+    public $hourFormat = 'H:i';
 
     private $_todayTimestamp, $_yesterdayTimestamp, $_thisYear;
 
@@ -176,4 +177,11 @@ class TimeFormatter extends Object
 
         return date($this->dateFormat,$timestamp) ;
     }
+
+    public function formatHI($timestamp){
+
+        return date($this->hourFormat,$timestamp) ;
+    }
+
+
 }

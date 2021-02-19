@@ -29,11 +29,23 @@ class ApprovalController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index','view'],
+                        'allow' => true,
+                        'roles' => ['?','@'],
+                    ],
+                    [
+                        'actions' => ['upload'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
         ];
     }
-
-
-
 
 
     public function actionIndex($project_id)

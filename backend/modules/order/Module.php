@@ -26,6 +26,7 @@ class Module extends \yii\base\Module
         $items = Yii::$app->sidebarItems->getItems();
 
         $items[] = $this->prepareItem('预约项目', 'order');
+        $items[] = $this->prepareItem('群众预约', 'book');
         $items[] = $this->prepareItem('留言咨询', 'message');
 
         Yii::$app->sidebarItems->setItems($items);
