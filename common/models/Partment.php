@@ -80,4 +80,9 @@ class Partment extends \yii\db\ActiveRecord
             'updated_by' => '修改人',
         ];
     }
+
+    public static function getPartmentKv(){
+
+        return self::k_v('id','partname',['where' => ['status' => self::STATUS_NORMAL]]);
+    }
 }

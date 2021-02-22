@@ -84,19 +84,19 @@
             </div>
 
             <div class="mui-col-xs-3">
-                <a href="/space/approval">
-                    <div class="enter-icon icon-yellow">
-                        <i class="iconfont icon-yuyuequhao"></i>
+                <a href="/selection/create">
+                    <div class="enter-icon icon-blue">
+                        <i class="iconfont icon-like"></i>
                     </div>
-                    <div class="enter-name">进度查询</div>
+                    <div class="enter-name">我要评价</div>
                 </a>
             </div>
             <div class="mui-col-xs-3">
-                <a href="/space/index">
+                <a href="/space/approval">
                     <div class="enter-icon icon-green">
                         <i class="iconfont icon-multiple"></i>
                     </div>
-                    <div class="enter-name">排队查询</div>
+                    <div class="enter-name">进度查询</div>
                 </a>
             </div>
             <div class="mui-col-xs-3">
@@ -109,8 +109,8 @@
             </div>
             <div class="mui-col-xs-3">
                 <a href="/space/order">
-                    <div class="enter-icon icon-blue">
-                        <i class="iconfont icon-like"></i>
+                    <div class="enter-icon icon-yellow">
+                        <i class="iconfont icon-yuyuequhao"></i>
                     </div>
                     <div class="enter-name">预约查询</div>
                 </a>

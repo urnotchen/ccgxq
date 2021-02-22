@@ -7,10 +7,9 @@ use yii\widgets\ActiveForm;
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no,maximum-scale=1.0, minimum-scale=1.0">
     <title>咨询</title>
-    <link rel="stylesheet" href="https://www.cqgxqzwzx.com/assets/css/mui.min.css">
-    <link rel="stylesheet" href="https://www.cqgxqzwzx.com/assets/css/global.css">
-    <link rel="stylesheet" href="https://www.cqgxqzwzx.com/assets/fonts/myIcon/iconfont.css">
-    <link rel="stylesheet" href="https://www.cqgxqzwzx.com/assets/css/tszx/tszx.css">
+    <link rel="stylesheet" href="/css/jj/mui.min.css">
+    <link rel="stylesheet" href="/css/jj/global.css">
+    <link rel="stylesheet" href="/css/jj/tszx.css">
 </head>
 
 <body class="mui-ios mui-ios-11 mui-ios-11-0">
