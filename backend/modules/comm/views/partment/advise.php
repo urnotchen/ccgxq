@@ -61,7 +61,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     return \Yii::$app->timeFormatter->formatYMD($model->created_at);
                 },
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{delete}',
+            ],
         ],
     ]); ?>
 

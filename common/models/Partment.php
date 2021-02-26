@@ -75,7 +75,7 @@ class Partment extends \yii\db\ActiveRecord
             'partname' => '部门名称',
             'info' => '科室说明',
             'status' => '状态',
-            'grade' => '状态',
+            'grade' => '评分',
             'num' => '评分人数',
             'created_at' => '创建时间',
             'created_by' => '创建人',

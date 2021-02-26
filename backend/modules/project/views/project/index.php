@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'=>'raw',
                 'value' => function($model){
 
-                    return \Yii::$app->timeFormatter->humanReadable3($model->created_at);
+                    return \Yii::$app->timeFormatter->formatYMD($model->created_at);
                 },
             ],
             [

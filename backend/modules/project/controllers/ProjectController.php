@@ -2,6 +2,7 @@
 
 namespace backend\modules\project\controllers;
 
+use backend\modules\project\models\FrontUser;
 use backend\modules\project\models\ProjectCategory;
 use backend\modules\project\models\User;
 use Yii;
@@ -56,6 +57,7 @@ class ProjectController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'user_kv' => User::getUserKv(),
         ]);
     }
 
@@ -94,6 +96,7 @@ class ProjectController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
+                'category_kv' => ProjectCategory::getProjectCategoryKv(),
                 'model' => $model,
             ]);
         }

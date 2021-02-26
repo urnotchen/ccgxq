@@ -126,4 +126,9 @@ class Book extends \yii\db\ActiveRecord
     {/*{{{*/
         return $this->hasOne(\frontend\models\Order::className(), ['id' => 'order_id']);
     }/*}}}*/
+
+    public function getUser()
+    {/*{{{*/
+        return $this->hasOne(FrontUser::className(), ['id' => 'created_by']);
+    }/*}}}*/
 }

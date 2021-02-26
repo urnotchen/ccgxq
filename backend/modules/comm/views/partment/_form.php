@@ -17,9 +17,15 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'info')->textInput(['maxlength' => true]) ?>
 
 
+    <?= $form->field($model, 'grade')->textInput(['maxlength' => true]) ?>
+
+
+    <?= $form->field($model, 'num')->textInput(['maxlength' => true]) ?>
+
+
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : '更新', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

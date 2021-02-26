@@ -38,15 +38,8 @@ class Order extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'createdAt' => [
-                'class' => \yii\behaviors\AttributeBehavior::className(),
-                'attributes' => [
-                    \yii\db\ActiveRecord::EVENT_BEFORE_INSERT => 'created_at',
-                ],
-                'value' => function ($event) {
-                    return time();
-                },
-            ],
+            'timestamp' => \yii\behaviors\TimestampBehavior::className(),
+            'blameable' => \yii\behaviors\BlameableBehavior::className(),
             'status' => [
                 'class' => \yii\behaviors\AttributeBehavior::className(),
                 'attributes' => [

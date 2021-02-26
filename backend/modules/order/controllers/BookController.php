@@ -57,6 +57,8 @@ class BookController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'user_kv' =>User::getUserKv(),
+
         ]);
     }
 

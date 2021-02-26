@@ -4,6 +4,7 @@ namespace backend\modules\project\controllers;
 
 use backend\modules\comm\actions\Upload;
 use backend\modules\project\models\Project;
+use backend\modules\project\models\User;
 use backend\modules\setting\actions\Uploader;
 use Yii;
 use backend\modules\project\models\Approval;
@@ -58,6 +59,8 @@ class ApprovalController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'user_kv' => User::getUserKv(),
+
         ]);
     }
 

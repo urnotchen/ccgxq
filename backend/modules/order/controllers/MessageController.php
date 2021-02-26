@@ -2,6 +2,7 @@
 
 namespace backend\modules\order\controllers;
 
+use backend\modules\order\models\FrontUser;
 use Yii;
 use common\models\Message;
 use common\models\search\MessageSearch;

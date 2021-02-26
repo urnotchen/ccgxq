@@ -12,11 +12,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="message-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('修改', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('删除', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -32,12 +30,38 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'content:ntext',
             'reply:ntext',
-            'telephone:ntext',
-            'status',
-            'created_at',
-            'created_by',
-            'updated_at',
-            'updated_by',
+            [
+                'attribute' => 'status',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return $model::enum('status', $model->status);
+                },
+            ],
+            [
+                'attribute' => 'created_at',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return \Yii::$app->timeFormatter->formatYMD($model->created_at);
+                },
+            ],
+            [
+                'label' => '身份证号',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return $model->created_by?$model->user->certificates_num:'用户未登录';
+                },
+            ],
+            [
+                'attribute' => 'created_by',
+                'format'=>'raw',
+                'value' => function($model) use ($user_kv){
+
+                    return $model->created_by?$user_kv[$model->created_by]:'用户未登录';
+                },
+            ],
         ],
     ]) ?>
 

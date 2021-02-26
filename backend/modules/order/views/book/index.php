@@ -50,11 +50,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
-                'attribute' => 'book_begin_time',
+                'attribute' => 'book_end_time',
                 'format'=>'raw',
                 'value' => function($model){
 
                     return \Yii::$app->timeFormatter->formatHI($model->book_end_time);
+                },
+            ],
+            [
+                'label' => '证件号码',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return $model->user->certificates_num;
                 },
             ],
             [
@@ -66,7 +74,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{delete}'
+            ],
         ],
     ]); ?>
     <?php \bluelive\adminlte\widgets\BoxWidget::end(); ?>

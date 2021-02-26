@@ -7,16 +7,14 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Book */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Books', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => '群众预约', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="book-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('修改', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('删除', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -28,16 +26,55 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'order_id',
-            'day_time',
-            'book_begin_time',
-            'book_end_time',
-            'status',
-            'created_at',
-            'created_by',
-            'updated_at',
-            'updated_by',
+            [
+                'attribute' => 'order_id',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return $model->order->name;
+                },
+            ],
+            [
+                'attribute' => 'day_time',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return \Yii::$app->timeFormatter->formatYMD($model->day_time);
+                },
+            ],
+            [
+                'attribute' => 'book_begin_time',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return \Yii::$app->timeFormatter->formatHI($model->book_begin_time);
+                },
+            ],
+            [
+                'attribute' => 'book_begin_time',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return \Yii::$app->timeFormatter->formatHI($model->book_end_time);
+                },
+            ],
+            [
+                'label' => '身份证号',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return $model->user->certificates_num;
+                },
+            ],
+            [
+                'attribute' => 'created_by',
+                'format'=>'raw',
+                'value' => function($model) use ($user_kv){
+
+                    return $user_kv[$model->created_by];
+                },
+            ],
+
         ],
     ]) ?>
 

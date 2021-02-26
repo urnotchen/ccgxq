@@ -2,6 +2,7 @@
 
 namespace backend\modules\user\controllers;
 
+use backend\modules\user\models\FrontUser;
 use Yii;
 use common\models\Message;
 use common\models\search\MessageSearch;
@@ -52,6 +53,7 @@ class MessageController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
+            'user_kv' => FrontUser::getUserKv(),
             'model' => $this->findModel($id),
         ]);
     }

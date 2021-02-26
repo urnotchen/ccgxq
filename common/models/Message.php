@@ -129,7 +129,7 @@ class Message extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => '标题',
             'content' => '咨询内容',
-            'reply' => '回复',
+            'reply' => '回复内容',
             'telephone' => '电话号码',
             'name' => '姓名',
             'status' => '状态',
@@ -148,4 +148,8 @@ class Message extends \yii\db\ActiveRecord
             ],
         ];
     }
+    public function getUser()
+    {/*{{{*/
+        return $this->hasOne(FrontUser::className(), ['id' => 'created_by']);
+    }/*}}}*/
 }
