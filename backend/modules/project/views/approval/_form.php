@@ -43,8 +43,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'basic_fdbjsx')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'basic_is_charge')->textInput() ?>
-
+    <?= $form->field($model, 'basic_is_charge')->radioList(\backend\modules\project\models\Approval::enum('is_charge')) ?>
     <?= $form->field($model, 'basic_dbsxccs')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'basic_zxfs')->textInput(['maxlength' => true]) ?>

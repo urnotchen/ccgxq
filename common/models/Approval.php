@@ -45,6 +45,7 @@ class Approval extends \yii\db\ActiveRecord
     use KVTrait;
     const STATUS_NORMAL = 1,STATUS_DELETE=2;
     const ONLINE_YES = 1,ONLINE_NO = 2;
+    const IS_CHARGE_YES = 1,IS_CHARGE_NO = 2;
 
 
     public function behaviors()
@@ -133,6 +134,10 @@ class Approval extends \yii\db\ActiveRecord
             'is_online' => [
                 self::ONLINE_YES => '是',
                 self::ONLINE_NO => '否',
+            ],
+            'is_charge' => [
+                self::IS_CHARGE_YES => '是',
+                self::IS_CHARGE_NO => '否',
             ],
         ];
     }
