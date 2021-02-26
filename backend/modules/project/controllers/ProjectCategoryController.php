@@ -69,6 +69,7 @@ class ProjectCategoryController extends Controller
         $model = new ProjectCategory();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('index');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -90,6 +91,7 @@ class ProjectCategoryController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('index');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

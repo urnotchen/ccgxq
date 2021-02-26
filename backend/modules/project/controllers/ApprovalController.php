@@ -78,7 +78,7 @@ class ApprovalController extends Controller
 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
+            return $this->redirect('index');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             $this->layout = 'empty';
@@ -128,6 +128,7 @@ class ApprovalController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect('index');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             $tmp = json_decode($model->blclml);
