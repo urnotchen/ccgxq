@@ -14,30 +14,30 @@ use yii\filters\VerbFilter;
  */
 class SelectionController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-            'access' => [
-                'class' => \yii\filters\AccessControl::className(),
-                'rules' => [
+    // public function behaviors()
+    // {
+    //     return [
+    //         'verbs' => [
+    //             'class' => VerbFilter::className(),
+    //             'actions' => [
+    //                 'delete' => ['POST'],
+    //             ],
+    //         ],
+    //         'access' => [
+    //             'class' => \yii\filters\AccessControl::className(),
+    //             'rules' => [
 
-                    [
-                        'actions' => ['create'],
-                        'allow' => true,
-                        'roles' => ['?','@'],
-                    ],
-                ],
-            ],
+    //                 [
+    //                     'actions' => ['create'],
+    //                     'allow' => true,
+    //                     'roles' => ['?','@'],
+    //                 ],
+    //             ],
+    //         ],
 
 
-        ];
-    }
+    //     ];
+    // }
 
     /**
      * Lists all Selection models.

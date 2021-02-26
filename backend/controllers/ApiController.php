@@ -15,6 +15,8 @@ use backend\models\StatMovie;
 use backend\models\StatUserAction;
 use backend\models\UserToken;
 use backend\modules\movie\services\MovieListService;
+use backend\modules\order\models\DayBook;
+use backend\modules\order\models\Order;
 use common\helpers\Curl;
 use common\helpers\DateHelper;
 use common\services\StatisticsService;
@@ -59,7 +61,62 @@ class ApiController extends \yii\rest\Controller
 
         return $inherit;
     }/*}}}*/
+    /*
+        * 每日一次 预约项目每日情况总表
+        *
+        * */
+    public function actionCon(){
 
+        $orders = Order::getOrdersForCrontab();
+
+
+        foreach ($orders as$order){
+            $morning_time = explode('-',$order['morning_time']);
+            $morning_begin = strtotime($morning_time[0]);
+            $morning_end = strtotime($morning_time[1]);
+            $afternoon_time = explode('-',$order['afternoon_time']);
+            $afternoon_begin = strtotime($afternoon_time[0]);
+            $afternoon_end = strtotime($afternoon_time[1]);
+
+            //七点开始
+            $arr = [];
+            $book_time_arr = [];
+            $book_status_arr = [];
+            $book_num_arr = [];
+            $day_begin = strtotime('07:00');
+            $day_end = strtotime('21:00');
+            $book_total = 0;
+            for($i = 0;$day_begin < $day_end;$i++){
+                if($morning_begin <= $day_begin && $morning_end >= $day_begin){
+                    $book_time_arr[$i] = 1;
+                    $book_total++;}
+                else
+                    if($afternoon_begin <= $day_begin && $afternoon_end >= $day_begin){
+                        $book_time_arr[$i] = 1;
+                        $book_total++;}
+                    else
+                        $book_time_arr[$i] = 0;
+                $day_begin += 1800;
+
+                $book_num_arr[$i] = 0;
+                $book_status_arr[$i] = 0;
+
+
+            }
+            //还是用json存吧
+            $res = DayBook::addOneRecord([
+                'order_id' => $order->id,
+                'day_time' => strtotime('today'),
+                'book_time_arr' => json_encode($book_time_arr),
+                'book_num_arr' => json_encode($book_num_arr),
+                'book_status_arr' => json_encode($book_status_arr),
+                'pre_half_hour_people' => $order->pre_hour_people/2,
+                'book_total' => $book_total,
+                'book_num' => 0,
+            ]);
+
+        }
+    }
     public function actionUpdateZhan(){
 
         $this->service->updateZhan();
