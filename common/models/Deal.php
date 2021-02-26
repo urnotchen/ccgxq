@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\traits\EnumTrait;
+use common\traits\FindOrExceptionTrait;
 use common\traits\KVTrait;
 use Yii;
 
@@ -21,9 +22,10 @@ use Yii;
  */
 class Deal extends \yii\db\ActiveRecord
 {
+    use FindOrExceptionTrait;
     use EnumTrait;
     use KVTrait;
-    const STATUS_NORMAL = 1;
+    const STATUS_NORMAL = 1,STATUS_PASS = 2,STATUS_REJECT = 3;
     public function behaviors()
     {
         return [
@@ -88,14 +90,14 @@ class Deal extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'approval_id' => 'Approval ID',
-            'file_arr' => 'File',
-            'reply' => 'Reply',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'created_by' => 'Created By',
-            'updated_at' => 'Updated At',
-            'updated_by' => 'Updated By',
+            'approval_id' => '审批项目',
+            'file_arr' => '文件',
+            'reply' => '回复',
+            'status' => '状态',
+            'created_at' => '上传时间',
+            'created_by' => '上传人',
+            'updated_at' => '受理时间',
+            'updated_by' => '受理人',
         ];
     }
 
@@ -103,7 +105,9 @@ class Deal extends \yii\db\ActiveRecord
     {
         return [
             'status' => [
-                self::STATUS_NORMAL => '正常',
+                self::STATUS_NORMAL => '未处理',
+                self::STATUS_PASS => '已通过',
+                self::STATUS_REJECT => '未通过',
             ],
 
         ];

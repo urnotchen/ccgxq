@@ -30,12 +30,13 @@ class Module extends \yii\base\Module
 //
 //        $items[] = $this->prepareItem('角色管理', 'item','roles','rights');
 //
-        $items[] = $this->prepareItem('邮件管理', 'email','index','comm');
-        $items[] = $this->prepareItem('报修管理', 'repair','index','comm');
-        $items[] = $this->prepareItem('电话簿', 'phone','index','comm');
-        $items[] = $this->prepareItem('待办事项', 'dolist','index','comm');
-        $items[] = $this->prepareItem('会诊管理', 'consultation','index','comm');
-        $items[] = $this->prepareItem('会诊管理', 'conference','index','comm');
+        $items[] = $this->prepareItem('评价分数', 'partment','index','comm');
+        $items[] = $this->prepareItem('提出意见', 'partment','advise','comm');
+//        $items[] = $this->prepareItem('报修管理', 'repair','index','comm');
+//        $items[] = $this->prepareItem('电话簿', 'phone','index','comm');
+//        $items[] = $this->prepareItem('待办事项', 'dolist','index','comm');
+//        $items[] = $this->prepareItem('会诊管理', 'consultation','index','comm');
+//        $items[] = $this->prepareItem('会诊管理', 'conference','index','comm');
 
 
 

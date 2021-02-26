@@ -23,8 +23,8 @@ class Message extends \yii\db\ActiveRecord
 {
 
     use EnumTrait;
-    const STATUS_NORMAL = 1,STATUS_DELETE=2;
-
+    const STATUS_NORMAL = 1,STATUS_REPLAY=2;
+    const SCENARIO_REPLAY = 'none';
     /**
      * @inheritdoc
      */
@@ -47,7 +47,6 @@ class Message extends \yii\db\ActiveRecord
             [['title'], 'string', 'max' => 255],
         ];
     }
-
     public function behaviors()
     {
         return [
@@ -74,14 +73,48 @@ class Message extends \yii\db\ActiveRecord
                 },
             ],
 
-            'status' => [
+            'updatedAt' => [
+                'class' => \yii\behaviors\AttributeBehavior::className(),
+                'attributes' => [
+                    \yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_at',
+                ],
+                'value' => function ($event) {
+                    return time();
+                },
+            ],
+            'updatedBy' => [
+                'class' => \yii\behaviors\AttributeBehavior::className(),
+                'attributes' => [
+                    \yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_by',
+                ],
+                'value' => function ($event) {
+
+                    if(!Yii::$app->user->isGuest) {
+                        return Yii::$app->user->id;
+                    }
+                    return null;
+                },
+            ],
+
+            'status1' => [
                 'class' => \yii\behaviors\AttributeBehavior::className(),
                 'attributes' => [
                     \yii\db\ActiveRecord::EVENT_BEFORE_INSERT => 'status',
                 ],
                 'value' => function ($event) {
+                        return self::STATUS_NORMAL;
+                },
+            ],
 
-                    return self::STATUS_NORMAL;
+            'status' => [
+                'class' => \yii\behaviors\AttributeBehavior::className(),
+                'attributes' => [
+                    \yii\db\ActiveRecord::EVENT_BEFORE_UPDATE => 'status',
+                ],
+                'value' => function ($event) {
+                    if($event->sender->reply) {
+                        return self::STATUS_REPLAY;
+                    }
                 },
             ],
         ];
@@ -100,11 +133,19 @@ class Message extends \yii\db\ActiveRecord
             'telephone' => '电话号码',
             'name' => '姓名',
             'status' => '状态',
-            'created_at' => '咨询人',
-            'created_by' => '咨询时间',
-            'updated_at' => '回复人',
-            'updated_by' => '回复时间',
+            'created_at' => '咨询时间',
+            'created_by' => '咨询人',
+            'updated_at' => '回复时间',
+            'updated_by' => '回复人',
         ];
     }
-
+    public static function getEnumData()
+    {
+        return [
+            'status' => [
+                self::STATUS_NORMAL => '未回复',
+                self::STATUS_REPLAY => '已回复',
+            ],
+        ];
+    }
 }

@@ -4,6 +4,7 @@ namespace backend\modules\order\controllers;
 
 use backend\modules\order\actions\Upload;
 use backend\modules\order\models\form\OrderForm;
+use backend\modules\order\models\User;
 use Yii;
 use backend\modules\order\models\Order;
 use backend\modules\order\models\search\OrderSearch;
@@ -43,6 +44,7 @@ class OrderController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+
         ]);
     }
 
@@ -177,6 +179,9 @@ class OrderController extends Controller
 
                     $result = $action->result;
 //                    复制文件到前台
+                    if(!is_dir('../../frontend/web/uploads/images/'.date("Ymd"))){
+                        mkdir('../../frontend/web/uploads/images/'.date("Ymd"),0777);
+                    }
                     $res = copy(Yii::getAlias('@webroot').$result['url'],'../../frontend/web/uploads/images/'.date("Ymd").'/'.$result['title']);
                     if(!$res){
                         echo '上传失败';

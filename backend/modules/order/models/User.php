@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\stat\models;
+namespace backend\modules\order\models;
 
 
 class User extends \backend\models\FrontUser

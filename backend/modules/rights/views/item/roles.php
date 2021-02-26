@@ -6,13 +6,13 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Roles';
+$this->title = '角色列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="roles-index">
 
     <p>
-        <?= Html::a('Create Roles', ['role-create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('新增角色', ['role-create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php \bluelive\adminlte\widgets\BoxWidget::begin(); ?>

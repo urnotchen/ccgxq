@@ -26,11 +26,13 @@ use yii\helpers\Html;
                 ],
             ];
 
-            // $items[] = [
-            //     'text' => '业务',
-            //     'url' => ['/comm/email/index'],
-            //     'activeModule' => 'comm',
-            // ];
+
+//
+//            $items[] = [
+//                'text' => '信息发布',
+//                'url' => ['/project/project-category/index'],
+//                'activeModule' => 'project',
+//            ];
 
             $items[] = [
                 'text' => '项目',
@@ -43,12 +45,24 @@ use yii\helpers\Html;
                 'url' => ['/order/order/index'],
                 'activeModule' => 'order',
             ];
-//
-//            $items[] = [
-//                'text' => '用户',
-//                'url' => ['/user/user/index'],
-//                'activeModule' => 'user',
-//            ];
+            $items[] = [
+                'text' => '评价',
+                'url' => ['/comm/partment/index'],
+                'activeModule' => 'comm',
+            ];
+
+            $items[] = [
+                'text' => '咨询',
+                'url' => ['/user/message/index'],
+                'activeModule' => 'user',
+            ];
+
+
+            $items[] = [
+                'text' => '用户',
+                'url' => ['/statistics/front-user/index'],
+                'activeModule' => 'statistics',
+            ];
 
             $items[] = [
                 'text' => '设置',

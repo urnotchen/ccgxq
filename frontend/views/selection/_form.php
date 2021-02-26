@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
         'data' => $department,
     ])->label('请选择要评价的部门') ?>
 
-    <?= $form->field($model, 'grade')->radioList($grade)->label('您对当前科室评分') ?>
+    <?= $form->field($model, 'grade')->radioList($grade,['class'=>'label-group'])->label('您对当前部门评分') ?>
 
     <?= $form->field($model, 'advise')->textarea(['rows' => 6])->label('请您对部门存在的主要问题及您的意见')?>
 

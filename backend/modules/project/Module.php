@@ -30,6 +30,9 @@ class Module extends \yii\base\Module
 
         $items[] = $this->prepareItem('审批业务', 'approval');
 
+        $items[] = $this->prepareItem('在线审批', 'deal');
+
+
 
 
         \Yii::$app->sidebarItems->setItems($items);

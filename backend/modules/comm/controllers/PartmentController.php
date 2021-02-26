@@ -2,9 +2,11 @@
 
 namespace backend\modules\comm\controllers;
 
+use backend\modules\order\models\search\SelectionSearch;
+use common\models\Selection;
 use Yii;
-use common\models\Partment;
-use common\models\search\PartmentSearch;
+use backend\modules\comm\models\Partment;
+use backend\modules\comm\models\search\PartmentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -39,6 +41,16 @@ class PartmentController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionAdvise()
+    {
+        $searchModel = new SelectionSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('advise', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

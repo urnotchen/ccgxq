@@ -3,6 +3,7 @@
 namespace backend\modules\order\controllers;
 
 use backend\modules\order\models\Order;
+use backend\modules\order\models\User;
 use Yii;
 use common\models\Book;
 use backend\modules\order\models\search\BookSearch;
@@ -43,6 +44,7 @@ class BookController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'order_kv' => Order::getOrderKv(),
+            'user_kv' =>User::getUserKv(),
         ]);
     }
 

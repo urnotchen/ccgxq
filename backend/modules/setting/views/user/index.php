@@ -6,13 +6,13 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = '员工列表';
+$this->title = '管理员列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
      <?php \bluelive\adminlte\widgets\BoxWidget::begin(); ?>
     <div class="pull-right margin">
-        <?= Html::a('添加员工', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('添加管理员', ['create'], ['class' => 'btn btn-success']) ?>
     </div>
        
     <?php echo $this->render('_search', ['model' => $searchModel, 'status_kv' => $status_kv, 'user_kv' => $user_kv,]);?>

@@ -64,25 +64,25 @@ class FrontUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
         $this->password = Yii::$app->getSecurity()->generatePasswordHash($this->$attr);
     }/*}}}*/
 
-//    public function scenarios()
-//    {/*{{{*/
-//        return [
-//            # 普通修改
-//            'default' => [
-//                'role_id', 'username', 'email', 'avatar', 'real_name', 'qq',
-//                'alipay', 'mark', 'status','department'
-//            ],
-//            # 创建用户
-//            'create' => [
-//                'username', 'password','certificates_type','certificates_num','real_name','telephone',
-//            ],
-//            # 重置密码
-//            'resetPassword' => ['password'],
-//            # 请求重置密码
-//            'requestResetPassword' => ['email'],
-//            self::SCENARIO_PASSWORD => ['password'],
-//        ];
-//    }/*}}}*/
+    public function scenarios()
+    {/*{{{*/
+        return [
+            # 普通修改
+            'default' => [
+                'role_id', 'username', 'email', 'avatar', 'real_name', 'qq',
+                'alipay', 'mark', 'status','department'
+            ],
+            # 创建用户
+            'create' => [
+                'username', 'password','certificates_type','certificates_num','real_name','telephone',
+            ],
+            # 重置密码
+            'resetPassword' => ['password'],
+            # 请求重置密码
+            'requestResetPassword' => ['email'],
+            self::SCENARIO_PASSWORD => ['password'],
+        ];
+    }/*}}}*/
 
     public function attributeLabels()
     {/*{{{*/

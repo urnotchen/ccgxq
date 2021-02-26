@@ -18,7 +18,7 @@ class NoticeSearch extends Notice
     public function rules()
     {
         return [
-            [['id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [['id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by','cate_id'], 'integer'],
             [['title', 'content'], 'safe'],
         ];
     }
@@ -62,6 +62,7 @@ class NoticeSearch extends Notice
             'id' => $this->id,
             'status' => $this->status,
             'created_at' => $this->created_at,
+            'cate_id' => $this->cate_id,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,

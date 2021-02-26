@@ -39,24 +39,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'pre_hour_people')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'img')->widget(\xj\ueditor\Ueditor::className(), [
-        'style' => 'width:700px;height:600px',
-        'renderTag' => true,
-        'readyEvent' => 'console.log("ready")',
-        'jsOptions' => [
-            'serverUrl' => yii\helpers\Url::to(['upload']),
-            'autoHeightEnabled' => false,
-            'autoFloatEnable' => true,
-            'elementPathEnabled' => false,
-            'toolbars' => [[
+    <?= $form->field($model, 'img')->hiddenInput(['id' => 'order-img']);?>
 
-                'simpleupload'
-            ]],
-            'wordCount' => false,
-            'iframeCssUrl' => '/css/ueditor.css',
-            'initialStyle' => 'p{line-height:1.6em;font-family:微软雅黑,Microsoft YaHei;font-size:16px}',
-        ],
-    ]) ?>
+
+    <?= $form->field($model, 'process_tmp')->fileInput(['onchange' => "var formData = new FormData();formData.append('file', $(this)[0].files[0]);$.ajax({contentType: false, cache: false,processData: false, url: '/project/approval/upload-image',type: 'POST',data: formData,success: function(data) {\$('#order-img').val(data);}});"])->label(false) ?>
 
     <?= $form->field($model, 'content')->widget(\xj\ueditor\Ueditor::className(), [
         'style' => 'width:700px;height:600px',
@@ -84,11 +70,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'tips')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'map')->textarea(['rows' => 6]) ?>
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton('添加', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

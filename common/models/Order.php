@@ -65,7 +65,7 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['position_id', 'name',  'content', 'map', 'pre_hour_people','phone','address'], 'required'],
+            [['position_id', 'name',  'content',  'pre_hour_people','phone','address'], 'required'],
             [['position_id', 'times','interval', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
             [['content','morning_time','afternoon_time','tips','img'], 'string'],
 //            ['img','file', 'extensions' => 'png, jpg'],
@@ -126,7 +126,7 @@ class Order extends \yii\db\ActiveRecord
             'phone' => '联系电话',
             'address' => '地址信息',
             'work_time' => '营业时间',
-
+            'tips' => '注意事项',
             'status' => '状态',
             'created_at' => '创建时间',
             'created_by' => '创建人',

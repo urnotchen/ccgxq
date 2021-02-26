@@ -33,7 +33,6 @@ use yii\widgets\ActiveForm;
                     <div class="input-group">
                         <span class="input-group-addon">手机号</span>
                         <?= $form->field($model, 'telephone')->textInput(['placeholder' => '请输入手机号'])->label(false) ?>
-
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">标题</span>

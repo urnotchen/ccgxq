@@ -3,7 +3,7 @@ namespace backend\modules\order\models;
 
 class Order extends \backend\models\Order {
 
-
+    public $process_tmp;
     /*
      * 获取所有可预约的项目
      *

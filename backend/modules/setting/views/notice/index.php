@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\search\NoticeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Notices';
+$this->title = '文章列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <?php \bluelive\adminlte\widgets\BoxWidget::begin(); ?>
     <p>
-        <?= Html::a('Create Notice', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('添加文章', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

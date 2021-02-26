@@ -8,9 +8,8 @@
 
 namespace backend\models;
 
-use common\models\User;
 
-class FrontUser extends User{
+class FrontUser extends \common\models\FrontUser {
     public static function getUserTotal() {
 
         return static::find()->count();

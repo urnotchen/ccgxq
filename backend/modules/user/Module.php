@@ -28,16 +28,16 @@ class Module extends \yii\base\Module
         $items = \Yii::$app->sidebarItems->getItems();
 
         $items[] = [
-            'label' => '<span class="fa fa-cubes"></span> 用户管理',
+            'label' => '<span class="fa fa-cubes"></span> 留言咨询',
             'items' => [],
-            'url' => ['/user/user/index'],
+            'url' => ['/user/message/index'],
             'options' => [
                 'class' => \bluelive\adminlte\widgets\SidebarActiveWidget::widget([
                     'activeArr' => [
                         'dashboard',
                     ],
                     'activeControllerArr' => [
-                        'movie',
+                        'message',
                     ],
                 ]),
             ],

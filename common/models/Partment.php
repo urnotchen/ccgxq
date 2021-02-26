@@ -59,7 +59,8 @@ class Partment extends \yii\db\ActiveRecord
         return [
             [['partname'], 'required'],
             [['partname', 'info'], 'string'],
-            [[ 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
+            [[ 'status', 'created_at', 'created_by', 'updated_at', 'updated_by','num'], 'integer'],
+            [[ 'grade'], 'safe'],
 
         ];
     }
@@ -74,6 +75,8 @@ class Partment extends \yii\db\ActiveRecord
             'partname' => '部门名称',
             'info' => '科室说明',
             'status' => '状态',
+            'grade' => '状态',
+            'num' => '评分人数',
             'created_at' => '创建时间',
             'created_by' => '创建人',
             'updated_at' => '修改时间',
@@ -84,5 +87,13 @@ class Partment extends \yii\db\ActiveRecord
     public static function getPartmentKv(){
 
         return self::k_v('id','partname',['where' => ['status' => self::STATUS_NORMAL]]);
+    }
+
+    public static function score($department_id,$grade){
+
+        $department = self::findOne($department_id);
+        $department->grade = round(($department->grade * $department->num +$grade)/($department->num + 1),2);
+        $department->num = $department->num+1;
+        $department->save();
     }
 }

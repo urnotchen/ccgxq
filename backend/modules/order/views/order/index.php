@@ -7,36 +7,36 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\search\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Orders';
+$this->title = '预约项目';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Order', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('新建预约项目', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php \bluelive\adminlte\widgets\BoxWidget::begin(); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+
         'columns' => [
+
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'position_id',
+            [
+                'attribute' => 'position_id',
+                'format'=>'raw',
+                'value' => function($model){
+                    return $model::enum('position', $model->position_id);
+
+                },
+            ],
             'name',
-            'img',
-            'content:ntext',
-            // 'map',
-            // 'times:datetime',
-            // 'created_at',
-            // 'created_by',
-            // 'updated_at',
-            // 'updated_by',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    <?php \bluelive\adminlte\widgets\BoxWidget::end(); ?>
 </div>

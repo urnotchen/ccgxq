@@ -28,47 +28,16 @@ class Module extends \yii\base\Module
         $items = \Yii::$app->sidebarItems->getItems();
 
         $items[] = [
-            'label' => '<span class="fa fa-cubes"></span> 电影列表',
-            'items' => $this->getUserCategories(),
-            'url' => ['/movie/movie/index'],
-            'options' => [
-                'class' => \bluelive\adminlte\widgets\SidebarActiveWidget::widget([
-                    'activeArr' => [
-                        'dashboard',
-                    ],
-                    'activeControllerArr' => [
-                        'movie',
-                    ],
-                ]),
-            ],
-        ];
+            'label' => '<span class="fa fa-cubes"></span> 用户列表',
 
-        $items[] = [
-            'label' => '<span class="fa fa-cubes"></span> 电影人列表',
-            'items' => [],
-            'url' => ['/movie/filmmaker/index'],
+            'url' => ['/statistics/front-user/index'],
             'options' => [
                 'class' => \bluelive\adminlte\widgets\SidebarActiveWidget::widget([
                     'activeArr' => [
                         'dashboard',
                     ],
                     'activeControllerArr' => [
-                        'movie',
-                    ],
-                ]),
-            ],
-        ];
-        $items[] = [
-            'label' => '<span class="fa fa-cubes"></span> 电影简介列表',
-            'items' => [],
-            'url' => ['/movie/film-synopsis/index'],
-            'options' => [
-                'class' => \bluelive\adminlte\widgets\SidebarActiveWidget::widget([
-                    'activeArr' => [
-                        'dashboard',
-                    ],
-                    'activeControllerArr' => [
-                        'movie',
+                        'statistics',
                     ],
                 ]),
             ],
@@ -95,54 +64,7 @@ class Module extends \yii\base\Module
 //        ];
 //    }
 
-    public function getUserCategories()
-    {/*{{{*/
-        $idName = FilmProperty::enum('property');
 
-        $items = [];
-        $hasNoHighlighted = true;
-
-        /* 主要分类条目 */
-
-        foreach ($idName as $id => $name) {
-
-            $linkOptions = [];
-
-            $account_id = null;
-            if (Yii::$app->controller->id == 'movie' && Yii::$app->controller->action->id == 'index') {
-                $searchParams = Yii::$app->getRequest()->get('MovieSearch');
-                if (!empty($searchParams) && is_array($searchParams) && isset($searchParams['film_property'])) {
-                    $account_id = $searchParams['film_property'];
-                }
-            }
-
-            if ( $account_id !== null && $id == $account_id ) {
-                $linkOptions = ['class' => 'active-item'];
-                $hasNoHighlighted = $hasNoHighlighted && false;
-            }
-
-            $items[] = [
-                'label' => $name,
-                'url'   => Url::to([
-                    '/movie/movie/index',
-                    'MovieSearch[film_property]' => $id,
-                ]),
-                'linkOptions' => $linkOptions,
-            ];
-        }
-
-        /* 全部分类条目 */
-
-        $linkOptions = $hasNoHighlighted ? ['class' => 'active-item'] : [];
-
-        array_unshift($items, [
-                'label' => '全部',
-                'url' => Url::to(['/movie/movie/index']),
-                'linkOptions' => $linkOptions]
-        );
-
-        return $items;
-    }
 
     protected function prepareItemHeader($tag)
     {

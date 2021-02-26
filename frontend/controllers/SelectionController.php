@@ -76,6 +76,7 @@ class SelectionController extends Controller
         $model = new Selection();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Partment::score($model->department_id,$model->grade);
             echo '<script language="javascript">';
             echo 'alert("评价成功，感谢您的参与");';
             echo 'window.location.href="/site/index"';

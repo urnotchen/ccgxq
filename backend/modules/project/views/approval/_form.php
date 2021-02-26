@@ -110,9 +110,8 @@ use yii\widgets\ActiveForm;
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::Button($model->isNewRecord ? 'cs' : 'cs', ['class' => $model->isNewRecord ? 'btn btn-success1' : 'btn btn-primary']) ?>
-        <span class="cs">cs</span>
+        <?= Html::submitButton($model->isNewRecord ? '提交' : '修改', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+
     </div>
 
     <?php ActiveForm::end(); ?>
@@ -361,8 +360,14 @@ use yii\widgets\ActiveForm;
     // }
 
 </script>
+<style>
+    .menu-item {
+        float: left;
+        padding: 15px;
+         color: #fff;
+    }
+</style>
 
-<?php
 
 
 

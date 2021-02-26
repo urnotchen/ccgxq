@@ -2,8 +2,11 @@
 
 namespace backend\modules\project\controllers;
 
+use backend\modules\project\models\FrontUser;
+use backend\modules\project\models\FrontUserUser;
+use backend\modules\project\models\User;
 use Yii;
-use common\models\Deal;
+use backend\modules\project\models\Deal;
 use backend\modules\project\models\search\DealSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -28,7 +31,35 @@ class DealController extends Controller
             ],
         ];
     }
+    public function actionReply($id)
+    {
+        $model = Deal::findOneOrException(['id' => $id]);
 
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return  true;
+            }
+         else {
+            return $this->renderAjax('_reply', [
+                'model' => $model,
+                'status_kv' => Deal::enum('status')
+            ]);
+        }
+
+    }
+    public function actionReplySubmit()
+    {
+        $params = Yii::$app->request->post();
+        $params = $params['Deal'];
+        $model = Deal::findOne($params['id']);
+        if(Yii::$app->request->isPost){
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return  true;
+            }else{
+                return false;
+            }
+        }
+
+    }
     /**
      * Lists all Deal models.
      * @return mixed
@@ -39,6 +70,7 @@ class DealController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'user_kv' => FrontUser::getUserKv(),
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

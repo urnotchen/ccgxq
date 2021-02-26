@@ -105,6 +105,9 @@ class ApprovalController extends Controller
         $src_file =$_FILES["file"]["tmp_name"];
         $Ymd= date("Ymd");
         $dir = rtrim(Yii::getAlias('@webroot/uploads'))."/images/".$Ymd;
+        if(!$dir){
+            mkdir($dir,0777);
+        }
         $file_name = '/uploads/images/'.$Ymd.'/'.time().rand(1111,9999).$this->separator.$this->getExt($_FILES["file"]["name"]);
         $uploadfile = rtrim(Yii::getAlias('@webroot')).$file_name;
 

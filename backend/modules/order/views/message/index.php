@@ -7,30 +7,41 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\search\MessageSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Messages';
+$this->title = '留言咨询';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="message-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Message', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <?php \bluelive\adminlte\widgets\BoxWidget::begin(); ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+
 
             'id',
             'title',
             'content:ntext',
             'reply:ntext',
             'telephone:ntext',
-            // 'status',
-            // 'created_at',
+            [
+                'attribute' => 'status',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return $model::enum('status', $model->status);
+                },
+            ],
+            [
+                'attribute' => 'created_at',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return \Yii::$app->timeFormatter->formatYMD($model->created_at);
+                },
+            ],
             // 'created_by',
             // 'updated_at',
             // 'updated_by',
@@ -38,4 +49,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    <?php \bluelive\adminlte\widgets\BoxWidget::end(); ?>
 </div>

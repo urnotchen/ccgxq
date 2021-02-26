@@ -19,7 +19,7 @@ class DealSearch extends Deal
     {
         return [
             [['id', 'approval_id', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['file', 'reply'], 'safe'],
+            [['file_arr', 'reply'], 'safe'],
         ];
     }
 
@@ -68,7 +68,7 @@ class DealSearch extends Deal
             'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'file', $this->file])
+        $query->andFilterWhere(['like', 'file_arr', $this->file_arr])
             ->andFilterWhere(['like', 'reply', $this->reply]);
 
         return $dataProvider;

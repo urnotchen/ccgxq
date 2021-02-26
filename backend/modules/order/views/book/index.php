@@ -8,25 +8,23 @@ use yii\grid\GridView;
 /* @var $searchModel backend\modules\order\models\search\BookSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Books';
+$this->title = '在线预约';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="book-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php  echo $this->render('_search', ['model' => $searchModel  ,    'order_kv' => Order::getOrderKv(),
 ]); ?>
+    <?php \bluelive\adminlte\widgets\BoxWidget::begin(); ?>
 
-    <p>
-        <?= Html::a('Create Book', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
 
         'columns' => [
 
 
-            'id',
+            ['class' => 'yii\grid\SerialColumn'],
+
             [
                 'attribute' => 'order_id',
                 'format'=>'raw',
@@ -59,8 +57,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     return \Yii::$app->timeFormatter->formatHI($model->book_end_time);
                 },
             ],
+            [
+                'attribute' => 'created_by',
+                'format'=>'raw',
+                'value' => function($model) use ($user_kv){
+
+                    return $user_kv[$model->created_by];
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    <?php \bluelive\adminlte\widgets\BoxWidget::end(); ?>
+
 </div>

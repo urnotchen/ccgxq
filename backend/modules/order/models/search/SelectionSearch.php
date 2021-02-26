@@ -62,13 +62,9 @@ class SelectionSearch extends Selection
             'id' => $this->id,
             'department_id' => $this->department_id,
             'grade' => $this->grade,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
         ]);
+        $query->andWhere(['<>', 'advise', '']);
 
-        $query->andFilterWhere(['like', 'advise', $this->advise]);
 
         return $dataProvider;
     }
