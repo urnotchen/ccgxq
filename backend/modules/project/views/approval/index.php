@@ -26,7 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\SerialColumn'],
 
-            'project_id',
+            [
+                'attribute' => 'project_id',
+                'format'=>'raw',
+                'value' => function($model){
+
+                    return $model->project->name;
+                },
+            ],
             'name',
             'sequence',
             'agency',

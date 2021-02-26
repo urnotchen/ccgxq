@@ -51,7 +51,7 @@ echo '<div id="modal-content_reply"></div>';
                     $str = '';
                     $model->file_arr = unserialize($model->file_arr);
                     foreach ($model->file_arr as $file){
-                        $str .= Html::a($file,APP_DOMAIN_SCHEMA.APP_FRONT_BASE_DOMAIN.'/'.$file);
+                        $str .= Html::a('文件下载',APP_DOMAIN_SCHEMA.APP_FRONT_BASE_DOMAIN.'/'.$file).'<br/>';
                     }
                     return $str;
                 },

@@ -60,6 +60,7 @@ class SiteController extends \yii\web\Controller
      */
     public function actionIndex()
     {
+        return $this->redirect('/project/project-category/index');
         return $this->render('index');
     }
 

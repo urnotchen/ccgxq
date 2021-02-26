@@ -136,4 +136,9 @@ class Approval extends \yii\db\ActiveRecord
             ],
         ];
     }
+
+    public function getProject()
+    {
+        return $this->hasOne(Project::className(), ['id' => 'project_id']);
+    }
 }

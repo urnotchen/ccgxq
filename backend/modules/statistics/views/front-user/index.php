@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {password}',
+                'template' => '{password}',
                 'buttons' => [
                     'password' => function ($url, $model, $key) {
                         return Html::a('修改密码', $url);
