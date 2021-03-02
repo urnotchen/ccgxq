@@ -3,15 +3,7 @@ namespace frontend\models;
 
 class Message extends \common\models\Message{
 
-    public static function getEnumData()
-    {
-        return [
-            'status' => [
-                self::STATUS_NORMAL => '未回复',
-            ],
 
-        ];
-    }
     /*
      * 为个人空间提供数据
      *

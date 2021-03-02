@@ -1,3 +1,11 @@
+<?php
+
+\yii\bootstrap\Modal::begin([
+    'id' => 'shortcut',
+]);
+echo '<div id="shortcut_content" style="width: 100% !important"></div>';
+\yii\bootstrap\Modal::end();
+?>
 <section class="content">
 
     <div class="row">
@@ -40,9 +48,17 @@
                         {$message["status"]}
                     </span>
                     
+                    <hr>"; if($message['reply']) echo"
+                    <strong><i class=\"fa fa-fw fa-bar-chart-o margin-r-5\"></i> 回复内容</strong>
+                    
+                   
+                   <span  style='float: right'  class=text-muted>
+                        <a class='more' rel={$message["reply"]}>点击查看</a>
+                    </span>
+                    
                     <hr>
-          
-                </div>";}?>
+          ";
+                echo "</div>";}?>
 
             </div>
         </div>
@@ -53,3 +69,17 @@
     <!-- /.row -->
 
 </section>
+
+
+
+<?php
+$this->registerJs( <<<JS
+$(".more").on('click',function(){
+
+    $("#shortcut_content").text($(this).attr('rel'));
+    $("#shortcut").modal();
+    return false;
+});
+JS
+);
+?>
